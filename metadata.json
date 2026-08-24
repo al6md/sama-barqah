@@ -1,0 +1,6 @@
+{
+  "name": "سما البارقة للسفر والسياحة - Sama Al Barqah",
+  "description": "منصة حجوزات سياحية متكاملة لشركة سما البارقة للسفر والسياحة مع لوحة تحكم متقدمة لإدارة الرحلات والحجوزات والإحصائيات.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

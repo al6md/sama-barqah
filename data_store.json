@@ -1,0 +1,534 @@
+{
+  "trips": [
+    {
+      "id": "trip-1",
+      "title": "رحلة السليمانية — جبل أزمر وبحيرة دوكان وشلال أحمد آوا",
+      "slug": "sulaymaniyah",
+      "destination": "السليمانية",
+      "price": 100000,
+      "originalPrice": 125000,
+      "currency": "د.ع",
+      "startDate": "2026-09-05",
+      "endDate": "2026-09-08",
+      "duration": "4 أيام / 3 ليالي",
+      "maxSeats": 35,
+      "bookedSeats": 14,
+      "mainImage": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "اكتشف جمال السليمانية وعروس كردستان، استمتع بأجواء جبل أزمر الخلابة، جولة القوارب في بحيرة دوكان، وزيارة شلالات أحمد آوا وأسواق السليمانية التراثية بـ 100 ألف د.ع فقط.",
+      "overview": "برنامج سياحي متكامل ومخصص للعوائل والشباب، إقامة فاخرة في فندق 4 نجوم، باصات VIP مكيفة، جولات سياحية • حجز فنادق • حجز تذاكر مع كادر إرشادي سياحي محترف طيلة أيام الرحلة.",
+      "dailyProgram": [
+        {
+          "day": 1,
+          "title": "الانطلاق من كربلاء واستلام الغرف في السليمانية",
+          "description": "التجمع صباحاً في كربلاء (نهاية شارع الإسكان - محلات الملعب القديم) والانطلاق بأحدث باصات الـ VIP، التوقف للاستراحة، الوصول إلى السليمانية واستلام الغرف الفندقية، وجولة مسائية في جبل جويزه والتمتع بإطلالة المدينة الساحرة.",
+          "activities": [
+            "الانطلاق الصباحي من كربلاء",
+            "استلام الغرف الفندقية",
+            "إطلالة جبل جويزه والتقاط الصور",
+            "عشاء ترحيبي"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "جولة بحيرة دوكان والأنشطة المائية وسد دوكان",
+          "description": "إفطار صباحي بوفيه مفتوح، التوجه إلى مصيف وبحيرة دوكان، جولة بالقوارب السريعة، استراحة في الكافيهات المطلة على البحيرة، وزيارة سد دوكان الشهير.",
+          "activities": [
+            "بوفيه إفطار فاخر",
+            "جولة القوارب في بحيرة دوكان",
+            "وقت حر للغداء في المطاعم النهرية",
+            "زيارة سد دوكان"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "شلال أحمد آوا ومتنزه سرجنار والأسواق التراثية",
+          "description": "زيارة طبيعة أحمد آوا الساحرة ومياهها العذبة، قضاء أوقات بين الطبيعة الجبلية الخضراء، ثم العودة عصراً للتسوق في أسواق السليمانية الشعبية وشارع سالم وسيتي سنتر مول.",
+          "activities": [
+            "زيارة شلالات أحمد آوا",
+            "جلسات جبلية طبيعية",
+            "تسوق في شارع سالم وسوق السليمانية",
+            "سهرة عائلية مسائية"
+          ]
+        },
+        {
+          "day": 4,
+          "title": "جبل أزمر والتسوق والعودة بسلامة الله إلى كربلاء",
+          "description": "تسجيل الخروج من الفندق، الصعود إلى قمة جبل أزمر للاستمتاع بالهواء النقي والمناظر البانورامية، زيارة مصنع الحلويات الكردية الشهيرة لشراء الهدايا، ثم بدء رحلة العودة إلى كربلاء.",
+          "activities": [
+            "إطلالة جبل أزمر",
+            "شراء الحلويات والمنتجات التراثية",
+            "رحلة العودة المريحة إلى كربلاء"
+          ]
+        }
+      ],
+      "includedServices": [
+        "جولات سياحية كاملة ومرافقة طوال أيام الرحلة",
+        "حجز فنادق 4 نجوم مع الإفطار الصباحي اليومي",
+        "حجز تذاكر دخول المعالم والمواقع السياحية المذكورة",
+        "النقل بباصات VIP سياحية حديثة ومكيفة طيلة الرحلة",
+        "مرشد سياحي مرافق ومحترف طوال البرنامج",
+        "مياه معدنية وضيافة مستمرة طوال الطريق"
+      ],
+      "excludedServices": [
+        "وجبات الغداء والعشاء غير المذكورة في البرنامج",
+        "المصاريف والمشتريات الشخصية الإضافية"
+      ],
+      "departureInfo": "الانطلاق من كربلاء — نهاية شارع الإسكان — محلات الملعب القديم.",
+      "visitedSpots": [
+        "جبل أزمر",
+        "بحيرة دوكان",
+        "سد دوكان",
+        "شلال أحمد آوا",
+        "متنزه سرجنار",
+        "شارع سالم ومركز المدينة"
+      ],
+      "status": "active",
+      "isFeatured": true,
+      "isOffer": true,
+      "offerBadge": "سعر مميز: 100 ألف 🔥",
+      "isSeed": true,
+      "createdAt": "2026-08-01T10:00:00Z",
+      "updatedAt": "2026-08-24T12:00:00Z"
+    },
+    {
+      "id": "trip-2",
+      "title": "رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك",
+      "slug": "duhok",
+      "destination": "دهوك",
+      "price": 70000,
+      "originalPrice": 90000,
+      "currency": "د.ع",
+      "startDate": "2026-09-12",
+      "endDate": "2026-09-15",
+      "duration": "3 أيام / ليلتين",
+      "maxSeats": 35,
+      "bookedSeats": 17,
+      "mainImage": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "عش روعة الطبيعة الجبلية في دهوك، وجسر دلال التاريخي في زاخو، وجمال سد دهوك ومصيف زاويته الخلاب وشلال كلي علي بك بسعر خاص 70 ألف د.ع.",
+      "overview": "رحلة استثنائية تشمل جولات سياحية • حجز فنادق • حجز تذاكر، بباصات VIP مريحة مع مرشد سياحي مرافق وأجواء عائلية راقية.",
+      "dailyProgram": [
+        {
+          "day": 1,
+          "title": "الانطلاق من كربلاء والوصول إلى دهوك والإقامة الفندقية",
+          "description": "الانطلاق فجراً من كربلاء (نهاية شارع الإسكان)، الوصول بعد الظهر واستلام الغرف في فندق دهوك، جولة مسائية في كورنيش دهوك وبازار المدينة التراثي.",
+          "activities": [
+            "الانطلاق من كربلاء",
+            "الوصول واستلام الغرف",
+            "كورنيش دهوك",
+            "جولة في الأسواق الشعبية"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "زيارة زاخو وجسر دلال التاريخي وسد دهوك ومصيف زاويته",
+          "description": "يوم سياحي متكامل في مدينة زاخو، زيارة الجسر العباسي التاريخي المطل على نهر الخابور، ثم التوجه إلى سد دهوك والتلفريك ومصيف زاويته بين غابات الصنوبر.",
+          "activities": [
+            "جسر دلال الأثري",
+            "نهر الخابور",
+            "سد دهوك والتلفريك",
+            "مصيف زاويته وغابات الصنوبر"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "شلال كلي علي بك ومضيق رواندز والعودة إلى كربلاء",
+          "description": "زيارة الشلال الأيقوني كلي علي بك والتقاط أجمل الصور التذكارية وسط الطبيعة الخلابة قبل التوجه في رحلة العودة إلى كربلاء.",
+          "activities": [
+            "شلال كلي علي بك",
+            "مضيق راوندوز الطبيعي",
+            "رحلة العودة بسلامة الله إلى كربلاء"
+          ]
+        }
+      ],
+      "includedServices": [
+        "جولات سياحية كاملة في دهوك وزاخو والمصايف",
+        "حجز فنادق راقية وسط المدينة مع الإفطار",
+        "حجز تذاكر الدخول للمزارات والمواقع السياحية",
+        "نقل سياحي VIP مكيف وحديث من كربلاء طيلة أيام الرحلة",
+        "مرشد سياحي مرافق يتحدث العربية والكردية"
+      ],
+      "excludedServices": [
+        "الوجبات الإضافية",
+        "المشتريات الخاصة"
+      ],
+      "departureInfo": "الانطلاق من كربلاء — نهاية شارع الإسكان — محلات الملعب القديم.",
+      "visitedSpots": [
+        "جسر دلال زاخو",
+        "سد دهوك",
+        "تلفريك دهوك",
+        "مصيف زاويته",
+        "شلال كلي علي بك"
+      ],
+      "status": "active",
+      "isFeatured": true,
+      "isOffer": true,
+      "offerBadge": "سعر مميز: 70 ألف 🌟",
+      "isSeed": true,
+      "createdAt": "2026-08-05T10:00:00Z",
+      "updatedAt": "2026-08-24T12:00:00Z"
+    },
+    {
+      "id": "trip-3",
+      "title": "رحلة أربيل — قلعة أربيل ومصيف شقلاوة وجبل سفين",
+      "slug": "erbil",
+      "destination": "أربيل",
+      "price": 75000,
+      "originalPrice": 95000,
+      "currency": "د.ع",
+      "startDate": "2026-09-18",
+      "endDate": "2026-09-20",
+      "duration": "3 أيام / ليلتين",
+      "maxSeats": 35,
+      "bookedSeats": 18,
+      "mainImage": "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+      "images": [
+        "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+        "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "description": "استكشف عاصمة إقليم كردستان أربيل، قلعة أربيل التاريخية، أسواق القيصرية، وصعود جبل سفين ومصيف شقلاوة وصلاح الدين بسعر مميز 75 ألف د.ع.",
+      "overview": "قضاء أوقات ساحرة بين عبق التاريخ والطبيعة الخضراء، نوفر لك: جولات سياحية • حجز فنادق • حجز تذاكر مع أرقى الخدمات الفندقية والباصات الحديثة.",
+      "dailyProgram": [
+        {
+          "day": 1,
+          "title": "الانطلاق من كربلاء والوصول إلى أربيل وقلعة أربيل وسوق القيصرية",
+          "description": "الانطلاق صباحاً من كربلاء، الوصول إلى أربيل واستلام الغرف، زيارة قلعة أربيل الأثرية المدرجة على لائحة اليونسكو، جولة في سوق القيصرية والتمتع بشاي القيصرية المشهور.",
+          "activities": [
+            "الانطلاق من كربلاء",
+            "استلام الغرف الفندقية",
+            "زيارة قلعة أربيل والمتحف",
+            "سوق القيصرية التراثي"
+          ]
+        },
+        {
+          "day": 2,
+          "title": "مصيف شقلاوة وجبل سفين ومصيف صلاح الدين",
+          "description": "التوجه صباحاً إلى مصيف صلاح الدين والهواء النقي، ثم النزول إلى بلدة شقلاوة الجميلة الواقعة أسفل جبل سفين، تذوق المكسرات والحلويات وزيارة العيون الطبيعية.",
+          "activities": [
+            "مصيف صلاح الدين",
+            "مصيف شقلاوة وأسواقه المميزة",
+            "جبل سفين",
+            "سهرة فاميلي مول بأربيل"
+          ]
+        },
+        {
+          "day": 3,
+          "title": "متنزه سامي عبد الرحمن والعودة إلى كربلاء",
+          "description": "جولة صباحية في أكبر متنزه في العراق (متنزه سامي عبد الرحمن)، وقت للتسوق وشراء الهدايا، ثم الانطلاق برحلة العودة إلى كربلاء.",
+          "activities": [
+            "متنزه سامي عبد الرحمن",
+            "شراء الهدايا التراثية",
+            "رحلة العودة بسلامة الله إلى كربلاء"
+          ]
+        }
+      ],
+      "includedServices": [
+        "جولات سياحية كاملة في أربيل وشقلاوة وصلاح الدين",
+        "حجز فنادق 4 نجوم راقية في أربيل مع الإفطار",
+        "حجز تذاكر دخول المعالم السياحية والقلعة",
+        "باصات VIP سياحية مريحة ومكيفة من كربلاء",
+        "مرشد سياحي محترف ومرافق"
+      ],
+      "excludedServices": [
+        "المصاريف الخاصة",
+        "وجبات الغداء والعشاء"
+      ],
+      "departureInfo": "الانطلاق من كربلاء — نهاية شارع الإسكان — محلات الملعب القديم.",
+      "visitedSpots": [
+        "قلعة أربيل",
+        "سوق القيصرية",
+        "مصيف شقلاوة",
+        "مصيف صلاح الدين",
+        "جبل سفين",
+        "فاميلي مول"
+      ],
+      "status": "active",
+      "isFeatured": true,
+      "isOffer": true,
+      "offerBadge": "سعر مميز: 75 ألف ✈️",
+      "isSeed": true,
+      "createdAt": "2026-08-10T10:00:00Z",
+      "updatedAt": "2026-08-24T12:00:00Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "SB-2026-0004",
+      "tripId": "trip-2",
+      "tripTitle": "رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك",
+      "destination": "دهوك",
+      "tripDate": "2026-09-12",
+      "customerName": "ali majid",
+      "customerPhone": "07725724548",
+      "customerEmail": "alimaged1020@gmail.com",
+      "travelerCount": 1,
+      "pricePerPerson": 70000,
+      "totalPrice": 70000,
+      "currency": "د.ع",
+      "preferredContactMethod": "whatsapp",
+      "status": "قيد المراجعة",
+      "statusHistory": [
+        {
+          "status": "جديد",
+          "changedAt": "2026-08-24T14:53:50.905Z",
+          "note": "تم إنشاء طلب الحجز بنجاح عبر المنصة"
+        },
+        {
+          "status": "قيد المراجعة",
+          "changedAt": "2026-08-24T15:03:51.447Z",
+          "note": "تم تغيير الحالة من \"جديد\" إلى \"قيد المراجعة\"",
+          "changedBy": "مدير النظام"
+        }
+      ],
+      "createdAt": "2026-08-24T14:53:50.905Z",
+      "updatedAt": "2026-08-24T15:03:51.447Z"
+    },
+    {
+      "id": "SB-2026-0001",
+      "tripId": "trip-1",
+      "tripTitle": "رحلة السليمانية — جبل أزمر وبحيرة دوكان وأحمد آوا",
+      "destination": "السليمانية",
+      "tripDate": "2026-09-05",
+      "customerName": "حيدر الكربلائي",
+      "customerPhone": "07782528287",
+      "customerEmail": "haider@example.com",
+      "travelerCount": 3,
+      "pricePerPerson": 100000,
+      "totalPrice": 300000,
+      "currency": "د.ع",
+      "preferredContactMethod": "whatsapp",
+      "notes": "نرجو توفير مقاعد متجاورة في مقدمة الباص من كربلاء.",
+      "status": "مؤكد",
+      "statusHistory": [
+        {
+          "status": "جديد",
+          "changedAt": "2026-08-20T11:15:00Z",
+          "note": "تم استلام طلب الحجز من الموقع"
+        },
+        {
+          "status": "تم التواصل مع العميل",
+          "changedAt": "2026-08-20T12:00:00Z",
+          "note": "تم التواصل عبر الواتساب وتأكيد المقاعد"
+        },
+        {
+          "status": "مؤكد",
+          "changedAt": "2026-08-20T14:30:00Z",
+          "note": "تم تثبيت الحجز رسمياً"
+        }
+      ],
+      "createdAt": "2026-08-20T11:15:00Z",
+      "updatedAt": "2026-08-20T14:30:00Z"
+    },
+    {
+      "id": "SB-2026-0002",
+      "tripId": "trip-2",
+      "tripTitle": "رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك",
+      "destination": "دهوك",
+      "tripDate": "2026-09-12",
+      "customerName": "زينب الموسوي",
+      "customerPhone": "07782528287",
+      "customerEmail": "zainab@example.com",
+      "travelerCount": 2,
+      "pricePerPerson": 70000,
+      "totalPrice": 140000,
+      "currency": "د.ع",
+      "preferredContactMethod": "whatsapp",
+      "notes": "حجز لشخصين في فندق دهوك.",
+      "status": "جديد",
+      "statusHistory": [
+        {
+          "status": "جديد",
+          "changedAt": "2026-08-23T18:40:00Z",
+          "note": "طلب حجز جديد بانتظار التواصل"
+        }
+      ],
+      "createdAt": "2026-08-23T18:40:00Z",
+      "updatedAt": "2026-08-23T18:40:00Z"
+    },
+    {
+      "id": "SB-2026-0003",
+      "tripId": "trip-3",
+      "tripTitle": "رحلة أربيل — قلعة أربيل ومصيف شقلاوة وجبل سفين",
+      "destination": "أربيل",
+      "tripDate": "2026-09-18",
+      "customerName": "علي الحسيني",
+      "customerPhone": "07782528287",
+      "customerEmail": "ali@example.com",
+      "travelerCount": 4,
+      "pricePerPerson": 75000,
+      "totalPrice": 300000,
+      "currency": "د.ع",
+      "preferredContactMethod": "phone",
+      "notes": "رحلة عائلية من كربلاء.",
+      "status": "مؤكد",
+      "statusHistory": [
+        {
+          "status": "جديد",
+          "changedAt": "2026-08-22T09:10:00Z",
+          "note": "طلب حجز من الموقع"
+        },
+        {
+          "status": "مؤكد",
+          "changedAt": "2026-08-22T10:00:00Z",
+          "note": "تم تأكيد الحجز"
+        }
+      ],
+      "createdAt": "2026-08-22T09:10:00Z",
+      "updatedAt": "2026-08-22T10:00:00Z"
+    }
+  ],
+  "contactMessages": [
+    {
+      "id": "msg-1",
+      "name": "حسين علي",
+      "phone": "07782528287",
+      "email": "hussein@example.com",
+      "subject": "استفسار عن رحلة السليمانية القادمة",
+      "message": "السلام عليكم، كم مقعد متبقي لرحلة السليمانية المنطلقة من كربلاء شارع الإسكان؟ شكراً لكم.",
+      "status": "جديد",
+      "createdAt": "2026-08-23T14:20:00Z"
+    }
+  ],
+  "siteSettings": {
+    "companyName": "شركة سما البارقة للسفر والسياحة",
+    "companyNameEn": "Sama Al Barqah Travel & Tourism",
+    "tagline": "سافر معنا… نحو تجربة لا تُنسى ✨",
+    "logoText": "سما البارقة",
+    "phone": "07782528287",
+    "whatsapp": "9647782528287",
+    "whatsappNumber": "07782528287",
+    "email": "info@samabarqah.iq",
+    "address": "كربلاء — نهاية شارع الإسكان — محلات الملعب القديم",
+    "heroTitle": "اكتشف جمال كردستان معنا",
+    "heroSubtitle": "استمتع برحلة مليئة بالطبيعة الخلابة، الأجواء الساحرة، والمعالم التي تستحق أن تُرى! 🌄✨",
+    "heroBadge": "سافر معنا… نحو تجربة لا تُنسى ✨",
+    "facebookUrl": "https://facebook.com",
+    "instagramUrl": "https://instagram.com",
+    "telegramUrl": "https://t.me",
+    "tiktokUrl": "https://tiktok.com",
+    "bookingEmailReceiver": "bookings@samabarqah.iq",
+    "currencySymbol": "د.ع"
+  },
+  "analytics": {
+    "totalVisits": 155,
+    "pageViews": 439,
+    "dailyVisits": {
+      "2026-08-24": 49,
+      "2026-08-23": 56,
+      "2026-08-22": 50
+    },
+    "pageStats": {
+      "/": 236,
+      "/trips": 116,
+      "/offers": 48,
+      "/about": 25,
+      "/contact": 14
+    },
+    "tripViews": {
+      "sulaymaniyah": 98,
+      "duhok": 54,
+      "erbil": 68
+    },
+    "deviceStats": {
+      "mobile": 98,
+      "desktop": 49,
+      "tablet": 8
+    },
+    "recentLogs": [
+      {
+        "page": "/",
+        "referrer": "https://ais-dev-yxfxprn7c6bgusijzbficr-962525784528.europe-west2.run.app/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:44:41.263Z"
+      },
+      {
+        "page": "/trips",
+        "referrer": "https://ais-dev-yxfxprn7c6bgusijzbficr-962525784528.europe-west2.run.app/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:43:14.337Z"
+      },
+      {
+        "page": "/",
+        "referrer": "https://aistudio.google.com/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:41:04.812Z"
+      },
+      {
+        "page": "/",
+        "referrer": "https://aistudio.google.com/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:39:05.545Z"
+      },
+      {
+        "page": "/",
+        "referrer": "https://aistudio.google.com/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:34:23.658Z"
+      },
+      {
+        "page": "/",
+        "referrer": "https://aistudio.google.com/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:30:55.535Z"
+      },
+      {
+        "page": "/",
+        "referrer": "https://aistudio.google.com/",
+        "device": "desktop",
+        "timestamp": "2026-08-24T14:11:51.273Z"
+      },
+      {
+        "page": "/",
+        "referrer": "Google Search",
+        "device": "mobile",
+        "timestamp": "2026-08-24T12:30:00Z"
+      },
+      {
+        "page": "/trips/sulaymaniyah",
+        "tripSlug": "sulaymaniyah",
+        "referrer": "Direct",
+        "device": "mobile",
+        "timestamp": "2026-08-24T12:45:00Z"
+      },
+      {
+        "page": "/trips",
+        "referrer": "Instagram",
+        "device": "desktop",
+        "timestamp": "2026-08-24T13:00:00Z"
+      }
+    ]
+  },
+  "adminCredentials": {
+    "username": "admin",
+    "email": "admin@samabarqah.com",
+    "passwordHash": "admin123456",
+    "name": "مدير النظام - سما البارقة"
+  },
+  "notifications": [
+    {
+      "id": "notif-1787583230905-b03ds",
+      "type": "new_booking",
+      "title": "حجز جديد: ali majid",
+      "message": "قام العميل ali majid بحجز 1 مقاعد لرحلة رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك (المبلغ: 70,000 د.ع)",
+      "bookingId": "SB-2026-0004",
+      "customerName": "ali majid",
+      "tripTitle": "رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك",
+      "travelerCount": 1,
+      "totalPrice": 70000,
+      "currency": "د.ع",
+      "isRead": false,
+      "createdAt": "2026-08-24T14:53:50.964Z"
+    }
+  ]
+}
