@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Booking, Trip, BookingStatus } from '@/lib/db';
 import {
@@ -16,7 +17,12 @@ import {
   ArrowUpRight,
   Sparkles,
   Phone,
-  RefreshCw
+  RefreshCw,
+  Plus,
+  DollarSign,
+  Briefcase,
+  ChevronRight,
+  Layers
 } from 'lucide-react';
 import {
   AreaChart,
@@ -36,59 +42,40 @@ export default function AdminDashboardPage() {
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchData = async () => {
-    try {
-      const [anRes, bkRes, trRes] = await Promise.all([
-        fetch('/api/analytics'),
-        fetch('/api/bookings'),
-        fetch('/api/trips?all=true')
-      ]);
-
-      const [anData, bkData, trData] = await Promise.all([
-        anRes.json(),
-        bkRes.json(),
-        trRes.json()
-      ]);
-
-      if (anData.success) setAnalytics(anData.analytics);
-      if (bkData.success) setBookings(bkData.bookings);
-      if (trData.success) setTrips(trData.trips);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    let isMounted = true;
-    const load = async () => {
+    let ignore = false;
+    async function loadAll() {
       try {
         const [anRes, bkRes, trRes] = await Promise.all([
           fetch('/api/analytics'),
           fetch('/api/bookings'),
           fetch('/api/trips?all=true')
         ]);
+
         const [anData, bkData, trData] = await Promise.all([
           anRes.json(),
           bkRes.json(),
           trRes.json()
         ]);
-        if (isMounted) {
+
+        if (!ignore) {
           if (anData.success) setAnalytics(anData.analytics);
-          if (bkData.success) setBookings(bkData.bookings);
-          if (trData.success) setTrips(trData.trips);
-          setLoading(false);
+          if (bkData.success) setBookings(bkData.bookings || []);
+          if (trData.success) setTrips(trData.trips || []);
         }
       } catch (e) {
-        if (isMounted) setLoading(false);
+        console.error(e);
+      } finally {
+        if (!ignore) setLoading(false);
       }
-    };
-    load();
+    }
+    loadAll();
     return () => {
-      isMounted = false;
+      ignore = true;
     };
-  }, []);
+  }, [refreshKey]);
 
   const totalBookings = bookings.length;
   const newBookings = bookings.filter((b) => b.status === 'جديد').length;
@@ -96,6 +83,10 @@ export default function AdminDashboardPage() {
   const totalRevenue = bookings
     .filter((b) => b.status !== 'ملغي')
     .reduce((acc, b) => acc + (b.totalPrice || 0), 0);
+
+  const totalCapacity = trips.reduce((acc, t) => acc + (t.maxSeats || 0), 0);
+  const totalBookedSeats = trips.reduce((acc, t) => acc + (t.bookedSeats || 0), 0);
+  const occupancyPercentage = totalCapacity > 0 ? Math.round((totalBookedSeats / totalCapacity) * 100) : 0;
 
   const handleStatusChange = async (bookingId: string, newStatus: BookingStatus) => {
     try {
@@ -136,38 +127,54 @@ export default function AdminDashboardPage() {
 
   return (
     <AdminLayout>
-      <div className="space-y-8">
-        {/* Header with Title & Refresh */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="space-y-8 pb-12">
+        {/* Top Executive Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-950 p-6 rounded-3xl border border-slate-800/80 shadow-xl">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white">
-              لوحة التحكم والإحصائيات
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">
+                منصة الإدارة الذكية
+              </span>
+              <span className="text-xs text-slate-500">شركة سما البارقة للسياحة</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black text-white mt-1.5">
+              مرحباً بك في لوحة تحكم الإدارة
             </h1>
             <p className="text-xs text-slate-400 mt-1">
-              متابعة الحجوزات، الزوار، وأداء الرحلات السياحية لحظة بلحظة.
+              متابعة الحجوزات الواردة، حركة الزيارات، وإدارة الرحلات السياحية بصورة فورية.
             </p>
           </div>
 
-          <button
-            onClick={() => {
-              setLoading(true);
-              fetchData();
-            }}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-colors self-start cursor-pointer"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-            <span>تحديث البيانات</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2.5 self-start sm:self-auto">
+            <button
+              onClick={() => {
+                setLoading(true);
+                setRefreshKey((prev) => prev + 1);
+              }}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 transition-colors cursor-pointer"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+              <span>تحديث البيانات</span>
+            </button>
+
+            <Link
+              href="/admin/trips/new"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 transition-all active:scale-95 cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>إضافة رحلة جديدة</span>
+            </Link>
+          </div>
         </div>
 
         {/* 4 Primary KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Card 1: New Bookings */}
-          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-2 relative overflow-hidden">
+          {/* KPI 1: New Bookings */}
+          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-2 shadow-lg relative overflow-hidden group hover:border-amber-400/50 transition-colors">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-400">الحجوزات الجديدة</span>
-              <div className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
-                <CalendarCheck className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                <CalendarCheck className="w-5 h-5" />
               </div>
             </div>
             <div className="text-3xl font-black text-white">{newBookings}</div>
@@ -176,59 +183,59 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Card 2: Confirmed Bookings */}
-          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-2">
+          {/* KPI 2: Total Revenue */}
+          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-2 shadow-lg relative overflow-hidden group hover:border-emerald-400/50 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-400">الحجوزات المؤكدة</span>
-              <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                <CheckCircle className="w-4 h-4" />
+              <span className="text-xs font-bold text-slate-400">إجمالي قيمة الحجوزات</span>
+              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                <DollarSign className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-3xl font-black text-white">{confirmedBookings}</div>
+            <div className="text-2xl sm:text-3xl font-black text-emerald-400 truncate">
+              {totalRevenue.toLocaleString()} <span className="text-xs text-emerald-300 font-normal">د.ع</span>
+            </div>
             <div className="text-[11px] text-slate-400">
               من إجمالي {totalBookings} حجز مسجل
             </div>
           </div>
 
-          {/* Card 3: Today's Visitors */}
-          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-2">
+          {/* KPI 3: Occupancy & Seats */}
+          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-2 shadow-lg relative overflow-hidden group hover:border-sky-400/50 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-400">زوار الموقع اليوم</span>
-              <div className="w-8 h-8 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
-                <Eye className="w-4 h-4" />
+              <span className="text-xs font-bold text-slate-400">نسبة إشغال المقاعد</span>
+              <div className="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center">
+                <Users className="w-5 h-5" />
               </div>
             </div>
-            <div className="text-3xl font-black text-white">
-              {analytics?.todayVisitors || 27}
-            </div>
+            <div className="text-3xl font-black text-white">{occupancyPercentage}%</div>
             <div className="text-[11px] text-sky-400">
-              إجمالي الزيارات: {analytics?.totalVisits || 148}
+              محجوز {totalBookedSeats} من أصل {totalCapacity} مقعد
             </div>
           </div>
 
-          {/* Card 4: Total Trips */}
-          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800 space-y-2">
+          {/* KPI 4: Active Trips */}
+          <div className="p-5 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-2 shadow-lg relative overflow-hidden group hover:border-indigo-400/50 transition-colors">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-400">الرحلات النشطة</span>
-              <div className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
-                <Compass className="w-4 h-4" />
+              <span className="text-xs font-bold text-slate-400">البرامج السياحية النشطة</span>
+              <div className="w-9 h-9 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
+                <Compass className="w-5 h-5" />
               </div>
             </div>
             <div className="text-3xl font-black text-white">{trips.length}</div>
             <div className="text-[11px] text-indigo-400">
-              {trips.filter((t) => t.isOffer).length} عروض خاصة
+              {trips.filter((t) => t.isOffer).length} عروض خاصة ومخفضة
             </div>
           </div>
         </div>
 
-        {/* Charts Section (7 Days Bookings & Visitors) */}
+        {/* Visual Charts (Bookings & Visitors analytics) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Chart 1: Last 7 Days Bookings */}
-          <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4">
+          {/* Chart 1: Bookings per day */}
+          <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-4 shadow-xl">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-white">الحجوزات خلال آخر 7 أيام</h3>
-                <span className="text-[11px] text-slate-400">حركة الطلبات اليومية</span>
+                <h3 className="text-sm font-bold text-white">حركة الحجوزات اليومية</h3>
+                <span className="text-[11px] text-slate-400">آخر 7 أيام</span>
               </div>
               <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                 مباشر
@@ -262,12 +269,12 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          {/* Chart 2: Last 7 Days Visitors */}
-          <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4">
+          {/* Chart 2: Visitors */}
+          <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-4 shadow-xl">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-white">زوار الموقع خلال آخر 7 أيام</h3>
-                <span className="text-[11px] text-slate-400">حركة الزيارات اليومية</span>
+                <h3 className="text-sm font-bold text-white">زوار الموقع العام</h3>
+                <span className="text-[11px] text-slate-400">آخر 7 أيام</span>
               </div>
               <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">
                 مباشر
@@ -316,22 +323,26 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Recent Bookings Table with Quick Actions */}
-        <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between">
+        {/* Recent Bookings Quick Table */}
+        <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800/80 space-y-4 shadow-xl">
+          <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
             <div>
-              <h3 className="text-base font-bold text-white">أحدث طلبات الحجز</h3>
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <CalendarCheck className="w-5 h-5 text-amber-400" />
+                <span>أحدث طلبات الحجز السياحية</span>
+              </h3>
               <span className="text-[11px] text-slate-400">
                 متابعة الحجوزات والتواصل الفوري مع العملاء عبر الواتساب
               </span>
             </div>
 
-            <a
+            <Link
               href="/admin/bookings"
-              className="text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors"
+              className="text-xs font-bold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1"
             >
-              عرض كافة الحجوزات ({bookings.length}) ←
-            </a>
+              <span>عرض كافة الحجوزات ({bookings.length})</span>
+              <ChevronRight className="w-4 h-4" />
+            </Link>
           </div>
 
           <div className="overflow-x-auto">
@@ -376,7 +387,7 @@ export default function AdminDashboardPage() {
                       <td className="py-3.5 px-4 font-bold text-slate-200">
                         {booking.travelerCount}
                       </td>
-                      <td className="py-3.5 px-4 font-bold text-amber-400">
+                      <td className="py-3.5 px-4 font-bold text-amber-400 whitespace-nowrap">
                         {booking.totalPrice.toLocaleString()} {booking.currency}
                       </td>
                       <td className="py-3.5 px-4">
@@ -401,7 +412,7 @@ export default function AdminDashboardPage() {
                           href={waUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm transition-colors"
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow-sm transition-colors cursor-pointer"
                           title="فتح محادثة واتساب مع العميل"
                         >
                           <MessageSquare className="w-3.5 h-3.5" />

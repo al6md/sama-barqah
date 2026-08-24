@@ -108,7 +108,7 @@
       "endDate": "2026-09-15",
       "duration": "3 أيام / ليلتين",
       "maxSeats": 35,
-      "bookedSeats": 17,
+      "bookedSeats": 16,
       "mainImage": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
       "images": [
         "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=80",
@@ -264,37 +264,6 @@
   ],
   "bookings": [
     {
-      "id": "SB-2026-0004",
-      "tripId": "trip-2",
-      "tripTitle": "رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك",
-      "destination": "دهوك",
-      "tripDate": "2026-09-12",
-      "customerName": "ali majid",
-      "customerPhone": "07725724548",
-      "customerEmail": "alimaged1020@gmail.com",
-      "travelerCount": 1,
-      "pricePerPerson": 70000,
-      "totalPrice": 70000,
-      "currency": "د.ع",
-      "preferredContactMethod": "whatsapp",
-      "status": "قيد المراجعة",
-      "statusHistory": [
-        {
-          "status": "جديد",
-          "changedAt": "2026-08-24T14:53:50.905Z",
-          "note": "تم إنشاء طلب الحجز بنجاح عبر المنصة"
-        },
-        {
-          "status": "قيد المراجعة",
-          "changedAt": "2026-08-24T15:03:51.447Z",
-          "note": "تم تغيير الحالة من \"جديد\" إلى \"قيد المراجعة\"",
-          "changedBy": "مدير النظام"
-        }
-      ],
-      "createdAt": "2026-08-24T14:53:50.905Z",
-      "updatedAt": "2026-08-24T15:03:51.447Z"
-    },
-    {
       "id": "SB-2026-0001",
       "tripId": "trip-1",
       "tripTitle": "رحلة السليمانية — جبل أزمر وبحيرة دوكان وأحمد آوا",
@@ -421,16 +390,16 @@
     "currencySymbol": "د.ع"
   },
   "analytics": {
-    "totalVisits": 155,
-    "pageViews": 439,
+    "totalVisits": 148,
+    "pageViews": 432,
     "dailyVisits": {
-      "2026-08-24": 49,
+      "2026-08-24": 42,
       "2026-08-23": 56,
       "2026-08-22": 50
     },
     "pageStats": {
-      "/": 236,
-      "/trips": 116,
+      "/": 230,
+      "/trips": 115,
       "/offers": 48,
       "/about": 25,
       "/contact": 14
@@ -442,52 +411,10 @@
     },
     "deviceStats": {
       "mobile": 98,
-      "desktop": 49,
+      "desktop": 42,
       "tablet": 8
     },
     "recentLogs": [
-      {
-        "page": "/",
-        "referrer": "https://ais-dev-yxfxprn7c6bgusijzbficr-962525784528.europe-west2.run.app/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:44:41.263Z"
-      },
-      {
-        "page": "/trips",
-        "referrer": "https://ais-dev-yxfxprn7c6bgusijzbficr-962525784528.europe-west2.run.app/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:43:14.337Z"
-      },
-      {
-        "page": "/",
-        "referrer": "https://aistudio.google.com/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:41:04.812Z"
-      },
-      {
-        "page": "/",
-        "referrer": "https://aistudio.google.com/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:39:05.545Z"
-      },
-      {
-        "page": "/",
-        "referrer": "https://aistudio.google.com/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:34:23.658Z"
-      },
-      {
-        "page": "/",
-        "referrer": "https://aistudio.google.com/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:30:55.535Z"
-      },
-      {
-        "page": "/",
-        "referrer": "https://aistudio.google.com/",
-        "device": "desktop",
-        "timestamp": "2026-08-24T14:11:51.273Z"
-      },
       {
         "page": "/",
         "referrer": "Google Search",
@@ -514,21 +441,5 @@
     "email": "admin@samabarqah.com",
     "passwordHash": "admin123456",
     "name": "مدير النظام - سما البارقة"
-  },
-  "notifications": [
-    {
-      "id": "notif-1787583230905-b03ds",
-      "type": "new_booking",
-      "title": "حجز جديد: ali majid",
-      "message": "قام العميل ali majid بحجز 1 مقاعد لرحلة رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك (المبلغ: 70,000 د.ع)",
-      "bookingId": "SB-2026-0004",
-      "customerName": "ali majid",
-      "tripTitle": "رحلة دهوك — زاخو وجسر دلال وسد دهوك وشلال كلي علي بك",
-      "travelerCount": 1,
-      "totalPrice": 70000,
-      "currency": "د.ع",
-      "isRead": false,
-      "createdAt": "2026-08-24T14:53:50.964Z"
-    }
-  ]
+  }
 }
