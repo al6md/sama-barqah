@@ -99,18 +99,18 @@ export default function AdminTripsPage() {
     <AdminLayout>
       <div className="space-y-6 pb-12">
         {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-950 p-6 rounded-3xl border border-slate-800/80 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#FFD95A] p-6 rounded-3xl border-[3px] border-[#1D2D2E] shadow-[5px_5px_0px_#1D2D2E]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">
+              <span className="px-3 py-1 rounded-full text-xs font-black bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]">
                 إدارة المحتوى السياحي
               </span>
-              <span className="text-xs text-slate-500">إجمالي {trips.length} برنامج سياحي</span>
+              <span className="text-xs font-black text-[#1D2D2E]">إجمالي {trips.length} برنامج سياحي</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-white mt-1.5">
+            <h1 className="text-xl sm:text-2xl font-black text-[#1D2D2E] mt-2">
               البرامج والرحلات السياحية
             </h1>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs font-bold text-[#1D2D2E]/80 mt-0.5">
               إنشاء البرامج السياحية، إضافة الصور وتعديل الأسعار والمقاعد المتاحة.
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function AdminTripsPage() {
           <Link
             id="btn-add-trip-page"
             href="/admin/trips/new"
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 active:scale-95 transition-all cursor-pointer self-start sm:self-auto"
+            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-[#FF7E47] hover:bg-[#ff6c2f] text-white border-2 border-[#1D2D2E] font-black text-xs shadow-[3px_3px_0px_#1D2D2E] active:translate-y-0.5 transition-all cursor-pointer self-start sm:self-auto"
           >
             <Plus className="w-4 h-4" />
             <span>إضافة رحلة جديدة</span>
@@ -133,15 +133,15 @@ export default function AdminTripsPage() {
               placeholder="ابحث عن رحلة بالاسم، المدينة، أو الكلمات المفتاحية..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pr-11 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder:text-slate-600"
+              className="w-full px-4 py-3 pr-11 rounded-2xl bg-white border-[3px] border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] focus:outline-none focus:ring-2 focus:ring-[#FF7E47] placeholder:text-[#1D2D2E]/50"
             />
-            <Search className="w-4 h-4 text-slate-500 absolute right-4 top-3.5" />
+            <Search className="w-4 h-4 text-[#1D2D2E]/60 absolute right-4 top-3.5" />
           </div>
 
           <select
             value={filterDestination}
             onChange={(e) => setFilterDestination(e.target.value)}
-            className="px-4 py-3 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+            className="px-4 py-3 rounded-2xl bg-white border-[3px] border-[#1D2D2E] text-xs font-black text-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] focus:outline-none focus:ring-2 focus:ring-[#FF7E47] cursor-pointer"
           >
             <option value="ALL">جميع الوجهات ({trips.length})</option>
             {uniqueDestinations.map((dest) => (
@@ -154,24 +154,24 @@ export default function AdminTripsPage() {
 
         {/* Trips Grid */}
         {loading ? (
-          <div className="p-16 text-center text-xs text-slate-400 flex flex-col items-center justify-center gap-3">
-            <div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+          <div className="p-16 text-center text-xs font-bold text-[#1D2D2E] flex flex-col items-center justify-center gap-3">
+            <div className="w-10 h-10 border-4 border-[#FF7E47] border-t-transparent rounded-full animate-spin"></div>
             <span>جاري تحميل قائمة الرحلات...</span>
           </div>
         ) : filteredTrips.length === 0 ? (
-          <div className="p-12 text-center bg-slate-950 rounded-3xl border border-slate-800 space-y-3">
-            <Compass className="w-10 h-10 text-slate-600 mx-auto" />
-            <p className="text-sm font-bold text-slate-300">لا توجد رحلات مطابقة لبحثك</p>
+          <div className="p-12 text-center bg-white rounded-3xl border-[3px] border-[#1D2D2E] space-y-3 shadow-[5px_5px_0px_#1D2D2E]">
+            <Compass className="w-10 h-10 text-[#FF7E47] mx-auto" />
+            <p className="text-sm font-black text-[#1D2D2E]">لا توجد رحلات مطابقة لبحثك</p>
             <Link
               href="/admin/trips/new"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#FFD95A] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] text-[#1D2D2E] font-black text-xs"
             >
               <Plus className="w-4 h-4" />
               <span>إضافة رحلة جديدة الآن</span>
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredTrips.map((trip) => {
               const imageCount = (trip.images?.length || 0) + (trip.mainImage ? 1 : 0);
               const occupancy = trip.maxSeats > 0 ? Math.round(((trip.bookedSeats || 0) / trip.maxSeats) * 100) : 0;
@@ -179,27 +179,27 @@ export default function AdminTripsPage() {
               return (
                 <div
                   key={trip.id}
-                  className="bg-slate-950 border border-slate-800/80 rounded-3xl overflow-hidden flex flex-col justify-between shadow-xl hover:border-amber-400/50 transition-all group"
+                  className="bg-white border-[3px] border-[#1D2D2E] rounded-3xl overflow-hidden flex flex-col justify-between shadow-[5px_5px_0px_#1D2D2E] hover:translate-x-0.5 hover:translate-y-0.5 transition-all group"
                 >
                   <div>
                     {/* Thumbnail Cover */}
-                    <div className="relative aspect-video w-full bg-slate-900 overflow-hidden">
+                    <div className="relative aspect-video w-full bg-[#FDFFF5] overflow-hidden border-b-[3px] border-[#1D2D2E]">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={trip.mainImage || 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=600'}
                         alt={trip.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/40"></div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30"></div>
 
                       {/* Top Badges */}
                       <div className="absolute top-3 right-3 flex flex-wrap gap-1.5">
-                        <span className="px-2.5 py-1 rounded-xl bg-slate-950/80 backdrop-blur-md text-[10px] font-bold text-amber-300 border border-amber-400/30 flex items-center gap-1">
-                          <MapPin className="w-3 h-3 text-amber-400" />
+                        <span className="px-2.5 py-1 rounded-xl bg-white text-[11px] font-black text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-[#FF7E47]" />
                           <span>{trip.destination}</span>
                         </span>
                         {trip.isOffer && (
-                          <span className="px-2.5 py-1 rounded-xl bg-rose-600/90 text-white text-[10px] font-black shadow-md">
+                          <span className="px-2.5 py-1 rounded-xl bg-[#FF7E47] text-white text-[11px] font-black border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]">
                             {trip.offerBadge || 'عرض خاص'}
                           </span>
                         )}
@@ -207,18 +207,18 @@ export default function AdminTripsPage() {
 
                       {/* Gallery count & Status */}
                       <div className="absolute bottom-3 right-3 left-3 flex items-center justify-between text-[11px]">
-                        <span className="px-2 py-0.5 rounded-lg bg-slate-950/80 text-slate-300 flex items-center gap-1 font-bold">
-                          <ImageIcon className="w-3 h-3 text-amber-400" />
+                        <span className="px-2 py-0.5 rounded-lg bg-white/90 text-[#1D2D2E] border border-[#1D2D2E] flex items-center gap-1 font-black">
+                          <ImageIcon className="w-3 h-3 text-[#FF7E47]" />
                           <span>{imageCount} صور</span>
                         </span>
 
                         <button
                           type="button"
                           onClick={() => toggleStatus(trip)}
-                          className={`px-2.5 py-0.5 rounded-lg font-bold transition-colors cursor-pointer text-[10px] ${
+                          className={`px-2.5 py-0.5 rounded-lg font-black transition-colors cursor-pointer text-[10px] border border-[#1D2D2E] ${
                             trip.isActive
-                              ? 'bg-emerald-500/90 text-slate-950'
-                              : 'bg-slate-800 text-slate-400'
+                              ? 'bg-[#A5F3CF] text-[#1D2D2E]'
+                              : 'bg-gray-200 text-gray-700'
                           }`}
                         >
                           {trip.isActive ? '✓ نشطة بالموقع' : 'مخفية'}
@@ -228,42 +228,42 @@ export default function AdminTripsPage() {
 
                     {/* Body */}
                     <div className="p-5 space-y-3">
-                      <h3 className="text-sm font-bold text-white line-clamp-1 group-hover:text-amber-400 transition-colors">
+                      <h3 className="text-base font-black text-[#1D2D2E] line-clamp-1 group-hover:text-[#FF7E47] transition-colors">
                         {trip.title}
                       </h3>
-                      <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                      <p className="text-xs font-bold text-[#1D2D2E]/70 line-clamp-2 leading-relaxed">
                         {trip.description}
                       </p>
 
-                      <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80 text-xs">
+                      <div className="grid grid-cols-2 gap-2 pt-3 border-t-2 border-[#1D2D2E]/10 text-xs">
                         <div>
-                          <span className="text-[10px] text-slate-500 block">السعر للفرد:</span>
-                          <span className="font-black text-amber-400">
+                          <span className="text-[10px] text-gray-500 font-bold block">السعر للفرد:</span>
+                          <span className="font-black text-[#FF7E47] font-mono text-sm">
                             {trip.price.toLocaleString()} {trip.currency}
                           </span>
                         </div>
                         <div>
-                          <span className="text-[10px] text-slate-500 block">المدة:</span>
-                          <span className="font-bold text-slate-200">{trip.duration}</span>
+                          <span className="text-[10px] text-gray-500 font-bold block">المدة:</span>
+                          <span className="font-black text-[#1D2D2E]">{trip.duration}</span>
                         </div>
                       </div>
 
                       {/* Seat Occupancy Progress Bar */}
-                      <div className="space-y-1 pt-1">
-                        <div className="flex justify-between text-[10px] font-bold text-slate-400">
+                      <div className="space-y-1.5 pt-1">
+                        <div className="flex justify-between text-[11px] font-black text-[#1D2D2E]/80">
                           <span>المقاعد المحجوزة</span>
-                          <span className="text-white">
+                          <span className="font-mono text-[#1D2D2E]">
                             {trip.bookedSeats || 0} / {trip.maxSeats} ({occupancy}%)
                           </span>
                         </div>
-                        <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden">
+                        <div className="w-full h-2.5 bg-gray-100 border border-[#1D2D2E] rounded-full overflow-hidden">
                           <div
                             className={`h-full rounded-full ${
                               occupancy >= 90
                                 ? 'bg-rose-500'
                                 : occupancy >= 60
-                                ? 'bg-amber-400'
-                                : 'bg-emerald-500'
+                                ? 'bg-[#FFD95A]'
+                                : 'bg-[#A5F3CF]'
                             }`}
                             style={{ width: `${Math.min(occupancy, 100)}%` }}
                           ></div>
@@ -273,38 +273,38 @@ export default function AdminTripsPage() {
                   </div>
 
                   {/* Actions Footer */}
-                  <div className="p-4 bg-slate-900/60 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                  <div className="p-4 bg-[#FDFFF5] border-t-2 border-[#1D2D2E] flex items-center justify-between gap-2">
                     <Link
                       href={`/trips/${trip.slug || trip.id}`}
                       target="_blank"
-                      className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1 transition-colors"
+                      className="p-2 rounded-xl bg-white hover:bg-[#FFD95A] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] text-xs font-bold flex items-center gap-1 transition-all"
                       title="معاينة في الموقع"
                     >
-                      <Eye className="w-3.5 h-3.5" />
+                      <Eye className="w-4 h-4" />
                     </Link>
 
                     <div className="flex items-center gap-2">
                       <Link
                         href={`/admin/trips/${trip.id}/edit`}
-                        className="px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+                        className="px-3.5 py-1.5 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] font-black text-xs flex items-center gap-1.5 transition-all"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                         <span>تعديل والصور</span>
                       </Link>
 
                       {deleteConfirmId === trip.id ? (
-                        <div className="flex items-center gap-1 bg-rose-950 p-1 rounded-xl border border-rose-800 animate-in fade-in">
+                        <div className="flex items-center gap-1 bg-rose-100 p-1 rounded-xl border-2 border-rose-600 animate-in fade-in">
                           <button
                             type="button"
                             onClick={() => handleDelete(trip.id)}
-                            className="px-2 py-1 bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-black rounded-lg cursor-pointer"
+                            className="px-2 py-1 bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-black rounded-lg cursor-pointer"
                           >
                             تأكيد الحذف
                           </button>
                           <button
                             type="button"
                             onClick={() => setDeleteConfirmId(null)}
-                            className="px-2 py-1 text-slate-400 text-[10px] hover:text-white cursor-pointer"
+                            className="px-2 py-1 text-gray-700 text-[10px] font-bold hover:text-black cursor-pointer"
                           >
                             إلغاء
                           </button>
@@ -313,7 +313,7 @@ export default function AdminTripsPage() {
                         <button
                           type="button"
                           onClick={() => setDeleteConfirmId(trip.id)}
-                          className="p-2 rounded-xl bg-rose-950/40 text-rose-400 hover:bg-rose-950 hover:text-rose-300 text-xs transition-colors cursor-pointer"
+                          className="p-2 rounded-xl bg-rose-50 text-rose-700 border-2 border-rose-300 hover:bg-rose-100 text-xs transition-colors cursor-pointer"
                           title="حذف الرحلة"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

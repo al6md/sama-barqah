@@ -89,32 +89,32 @@ export default function AdminLoginPage() {
 
   if (checkingInitial) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
+      <div className="min-h-screen bg-[#FDFFF5] flex items-center justify-center text-[#1D2D2E]">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-3 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto shadow-lg shadow-amber-400/20"></div>
-          <p className="text-xs text-slate-400 font-medium">جاري التحقق من أذونات الدخول المشفرة...</p>
+          <div className="w-12 h-12 border-4 border-[#1D2D2E] border-t-[#FF7E47] rounded-full animate-spin mx-auto"></div>
+          <p className="text-xs text-[#1D2D2E] font-black">جاري التحقق من أذونات الدخول المشفرة...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 selection:bg-amber-400 selection:text-slate-950 relative overflow-hidden">
-      {/* Subtle Background Glow Elements */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="min-h-screen bg-[#FDFFF5] flex items-center justify-center p-4 selection:bg-[#FFD95A] selection:text-[#1D2D2E] relative overflow-hidden">
+      {/* Background Decorative Graphic Shapes */}
+      <div className="absolute -top-12 -left-12 w-48 h-48 bg-[#FFD95A]/40 rounded-full border-[3px] border-[#1D2D2E] pointer-events-none"></div>
+      <div className="absolute -bottom-16 -right-16 w-56 h-56 bg-[#4CC9FE]/30 rounded-3xl rotate-12 border-[3px] border-[#1D2D2E] pointer-events-none"></div>
 
       <div className="w-full max-w-md relative z-10 space-y-6">
         {/* Card Container */}
-        <div className="bg-slate-900/90 border border-slate-800 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-2xl space-y-8 animate-in zoom-in-95 duration-200">
+        <div className="bg-white border-[3px] border-[#1D2D2E] rounded-3xl p-8 sm:p-10 shadow-[6px_6px_0px_#1D2D2E] space-y-8 animate-in zoom-in-95 duration-200">
           {/* Header Brand */}
           <div className="text-center space-y-3">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center mx-auto shadow-xl shadow-amber-500/20">
+            <div className="w-16 h-16 rounded-2xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] flex items-center justify-center mx-auto shadow-[3px_3px_0px_#1D2D2E]">
               <Shield className="w-9 h-9" />
             </div>
             <div>
-              <h1 className="text-2xl font-black text-white tracking-tight">بوابة إدارة سما البارقة</h1>
-              <p className="text-xs text-slate-400 mt-1">
+              <h1 className="text-2xl font-black text-[#1D2D2E] tracking-tight">بوابة إدارة سما البارقة</h1>
+              <p className="text-xs font-bold text-[#1D2D2E]/70 mt-1">
                 نظام الإدارة المركزي للحجوزات، البرامج السياحية، والمبيعات
               </p>
             </div>
@@ -123,14 +123,14 @@ export default function AdminLoginPage() {
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             {errorMsg && (
-              <div className="p-3.5 rounded-2xl bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-center gap-2.5 animate-in fade-in">
-                <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+              <div className="p-3.5 rounded-2xl bg-rose-100 border-2 border-rose-600 text-rose-800 text-xs font-black flex items-center gap-2.5 animate-in fade-in">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">
                 اسم المستخدم أو البريد الإلكتروني
               </label>
               <div className="relative">
@@ -141,15 +141,15 @@ export default function AdminLoginPage() {
                   placeholder="admin"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-4 py-3 pr-11 rounded-2xl bg-slate-950 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all placeholder:text-slate-600"
+                  className="w-full px-4 py-3 pr-11 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-black text-[#1D2D2E] focus:outline-none focus:bg-white shadow-[2px_2px_0px_#1D2D2E] transition-all placeholder:text-gray-400"
                   dir="ltr"
                 />
-                <User className="w-4 h-4 text-slate-500 absolute right-4 top-3.5" />
+                <User className="w-4 h-4 text-[#1D2D2E] absolute right-4 top-3.5" />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">
                 كلمة المرور
               </label>
               <div className="relative">
@@ -160,14 +160,14 @@ export default function AdminLoginPage() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pr-11 pl-11 rounded-2xl bg-slate-950 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400 transition-all placeholder:text-slate-600"
+                  className="w-full px-4 py-3 pr-11 pl-11 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-black text-[#1D2D2E] focus:outline-none focus:bg-white shadow-[2px_2px_0px_#1D2D2E] transition-all placeholder:text-gray-400"
                   dir="ltr"
                 />
-                <Lock className="w-4 h-4 text-slate-500 absolute right-4 top-3.5" />
+                <Lock className="w-4 h-4 text-[#1D2D2E] absolute right-4 top-3.5" />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="p-1 text-slate-500 hover:text-slate-300 absolute left-3.5 top-3 cursor-pointer"
+                  className="p-1 text-[#1D2D2E] hover:text-[#FF7E47] absolute left-3.5 top-3 cursor-pointer"
                   title={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -179,7 +179,7 @@ export default function AdminLoginPage() {
               id="btn-admin-login-submit"
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 px-6 rounded-2xl text-xs font-black text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 shadow-xl shadow-amber-500/20 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+              className="w-full py-3.5 px-6 rounded-2xl text-xs font-black text-white bg-[#FF7E47] hover:bg-[#ff6c2f] border-2 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] active:translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
             >
               {loading ? (
                 <>
@@ -196,12 +196,12 @@ export default function AdminLoginPage() {
           </form>
 
           {/* Secure & Encrypted Footnote */}
-          <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-500">
+          <div className="pt-4 border-t-2 border-[#1D2D2E]/10 flex items-center justify-between text-[11px] font-bold text-[#1D2D2E]/70">
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>جلسة عمل آمنة ومشفرة</span>
             </span>
-            <Link href="/" className="hover:text-amber-400 transition-colors">
+            <Link href="/" className="hover:text-[#FF7E47] underline transition-colors">
               الموقع العام ↗
             </Link>
           </div>

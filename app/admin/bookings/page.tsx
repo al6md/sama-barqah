@@ -114,19 +114,19 @@ export default function AdminBookingsPage() {
   const getStatusBadge = (status: BookingStatus) => {
     switch (status) {
       case 'جديد':
-        return 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        return 'bg-[#FF7E47] text-white border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]';
       case 'قيد المراجعة':
-        return 'bg-sky-500/20 text-sky-300 border border-sky-500/30';
+        return 'bg-[#4CC9FE] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]';
       case 'تم التواصل مع العميل':
-        return 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30';
+        return 'bg-[#FFD95A] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]';
       case 'مؤكد':
-        return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        return 'bg-[#A5F3CF] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]';
       case 'مكتمل':
-        return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+        return 'bg-emerald-500 text-white border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]';
       case 'ملغي':
-        return 'bg-rose-500/20 text-rose-300 border border-rose-500/30';
+        return 'bg-rose-500 text-white border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]';
       default:
-        return 'bg-slate-800 text-slate-300';
+        return 'bg-gray-100 text-[#1D2D2E] border-2 border-[#1D2D2E]';
     }
   };
 
@@ -134,18 +134,18 @@ export default function AdminBookingsPage() {
     <AdminLayout>
       <div className="space-y-6 pb-12">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-950 p-6 rounded-3xl border border-slate-800/80 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#FFD95A] p-6 rounded-3xl border-[3px] border-[#1D2D2E] shadow-[5px_5px_0px_#1D2D2E]">
           <div>
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950">
+              <span className="px-3 py-1 rounded-full text-xs font-black bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]">
                 سجل الحجوزات والزبائن
               </span>
-              <span className="text-xs text-slate-500">إجمالي {bookings.length} حجز سياحي</span>
+              <span className="text-xs font-black text-[#1D2D2E]">إجمالي {bookings.length} حجز سياحي</span>
             </div>
-            <h1 className="text-xl sm:text-2xl font-black text-white mt-1.5">
+            <h1 className="text-xl sm:text-2xl font-black text-[#1D2D2E] mt-2">
               إدارة الحجوزات والطلبات
             </h1>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs font-bold text-[#1D2D2E]/80 mt-0.5">
               متابعة طلبات المسافرين، تغيير حالات الدفع والتأكيد، والتواصل الفوري عبر الواتساب.
             </p>
           </div>
@@ -153,9 +153,9 @@ export default function AdminBookingsPage() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={exportToCSV}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 transition-colors cursor-pointer"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-black text-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] active:translate-y-0.5 transition-all cursor-pointer"
             >
-              <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+              <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
               <span>تصدير إكسل (CSV)</span>
             </button>
           </div>
@@ -169,21 +169,21 @@ export default function AdminBookingsPage() {
               placeholder="ابحث برقم الحجز، اسم العميل، الهاتف، أو اسم الرحلة..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pr-11 rounded-2xl bg-slate-950 border border-slate-800 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder:text-slate-600"
+              className="w-full px-4 py-3 pr-11 rounded-2xl bg-white border-[3px] border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] focus:outline-none focus:ring-2 focus:ring-[#FF7E47] placeholder:text-[#1D2D2E]/50"
             />
-            <Search className="w-4 h-4 text-slate-500 absolute right-4 top-3.5" />
+            <Search className="w-4 h-4 text-[#1D2D2E]/60 absolute right-4 top-3.5" />
           </div>
 
           {/* Status Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 bg-slate-950 p-1.5 rounded-2xl border border-slate-800">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 bg-white p-1.5 rounded-2xl border-[3px] border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E]">
             {['ALL', 'جديد', 'قيد المراجعة', 'مؤكد', 'مكتمل', 'ملغي'].map((st) => (
               <button
                 key={st}
                 onClick={() => setStatusFilter(st)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors cursor-pointer border-2 ${
                   statusFilter === st
-                    ? 'bg-amber-400 text-slate-950 font-black'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-[#FFD95A] text-[#1D2D2E] border-[#1D2D2E] font-black shadow-[2px_2px_0px_#1D2D2E]'
+                    : 'border-transparent text-[#1D2D2E]/80 hover:text-[#1D2D2E]'
                 }`}
               >
                 {st === 'ALL' ? 'الكل' : st}
@@ -193,25 +193,25 @@ export default function AdminBookingsPage() {
         </div>
 
         {/* Summary Counter Bar */}
-        <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 flex flex-wrap items-center justify-between gap-4 text-xs">
+        <div className="bg-white p-4 rounded-2xl border-[3px] border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] flex flex-wrap items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-4">
-            <span className="text-slate-400">
-              النتائج المعروضة: <strong className="text-white">{filteredBookings.length}</strong> حجز
+            <span className="text-[#1D2D2E]/80 font-bold">
+              النتائج المعروضة: <strong className="text-[#1D2D2E] font-black font-mono">{filteredBookings.length}</strong> حجز
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-slate-400">إجمالي المبالغ المستحقة:</span>
-            <span className="text-sm font-black text-amber-400">
+            <span className="text-[#1D2D2E]/80 font-bold">إجمالي المبالغ المستحقة:</span>
+            <span className="text-sm font-black text-[#FF7E47] font-mono">
               {totalFilteredSum.toLocaleString()} د.ع
             </span>
           </div>
         </div>
 
         {/* Bookings Table */}
-        <div className="bg-slate-950 rounded-3xl border border-slate-800/80 overflow-hidden shadow-xl">
+        <div className="bg-white rounded-3xl border-[3px] border-[#1D2D2E] overflow-hidden shadow-[5px_5px_0px_#1D2D2E]">
           <div className="overflow-x-auto">
             <table className="w-full text-right text-xs">
-              <thead className="bg-slate-900 text-slate-400 uppercase tracking-wider text-[10px] border-b border-slate-800">
+              <thead className="bg-[#FDFFF5] text-[#1D2D2E] uppercase font-black tracking-wider text-[11px] border-b-2 border-[#1D2D2E]">
                 <tr>
                   <th className="py-3.5 px-4">رقم الحجز</th>
                   <th className="py-3.5 px-4">العميل</th>
@@ -223,10 +223,10 @@ export default function AdminBookingsPage() {
                   <th className="py-3.5 px-4 text-center">تواصل / تفاصيل</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-[#1D2D2E]/10 font-medium">
                 {filteredBookings.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="py-12 text-center text-slate-500">
+                    <td colSpan={8} className="py-12 text-center text-[#1D2D2E]/60 font-bold">
                       لا توجد حجوزات مطابقة
                     </td>
                   </tr>
@@ -242,42 +242,42 @@ export default function AdminBookingsPage() {
                     const waUrl = `https://wa.me/${formattedPhone}?text=${waMsg}`;
 
                     return (
-                      <tr key={b.id} className="hover:bg-slate-900/50 transition-colors">
-                        <td className="py-3.5 px-4 font-mono font-bold text-amber-400">
-                          {b.id}
+                      <tr key={b.id} className="hover:bg-[#FDFFF5]/80 transition-colors">
+                        <td className="py-3.5 px-4 font-mono font-black text-[#1D2D2E]">
+                          #{b.id}
                         </td>
                         <td className="py-3.5 px-4">
-                          <span className="font-bold text-white block">{b.customerName}</span>
-                          <span className="text-[10px] text-slate-500">
+                          <span className="font-black text-[#1D2D2E] block">{b.customerName}</span>
+                          <span className="text-[10px] text-gray-500 font-mono">
                             {new Date(b.createdAt).toLocaleDateString('ar-IQ')}
                           </span>
                         </td>
-                        <td className="py-3.5 px-4 font-mono text-slate-300" dir="ltr">
+                        <td className="py-3.5 px-4 font-mono text-[#1D2D2E]" dir="ltr">
                           {b.customerPhone}
                         </td>
-                        <td className="py-3.5 px-4 text-slate-200 max-w-[200px] truncate">
+                        <td className="py-3.5 px-4 text-[#1D2D2E] max-w-[200px] truncate font-bold">
                           {b.tripTitle}
                         </td>
-                        <td className="py-3.5 px-4 text-center font-bold text-slate-100">
+                        <td className="py-3.5 px-4 text-center font-black text-[#1D2D2E] font-mono">
                           {b.travelerCount}
                         </td>
-                        <td className="py-3.5 px-4 font-bold text-amber-400 whitespace-nowrap">
+                        <td className="py-3.5 px-4 font-black text-[#1D2D2E] font-mono whitespace-nowrap">
                           {b.totalPrice.toLocaleString()} {b.currency}
                         </td>
                         <td className="py-3.5 px-4">
                           <select
                             value={b.status}
                             onChange={(e) => handleStatusChange(b.id, e.target.value as BookingStatus)}
-                            className={`px-2.5 py-1 rounded-lg text-[11px] font-bold cursor-pointer focus:outline-none ${getStatusBadge(
+                            className={`px-3 py-1 rounded-lg text-xs font-black cursor-pointer focus:outline-none ${getStatusBadge(
                               b.status
                             )}`}
                           >
-                            <option value="جديد" className="bg-slate-900 text-white">جديد</option>
-                            <option value="قيد المراجعة" className="bg-slate-900 text-white">قيد المراجعة</option>
-                            <option value="تم التواصل مع العميل" className="bg-slate-900 text-white">تم التواصل مع العميل</option>
-                            <option value="مؤكد" className="bg-slate-900 text-white">مؤكد</option>
-                            <option value="مكتمل" className="bg-slate-900 text-white">مكتمل</option>
-                            <option value="ملغي" className="bg-slate-900 text-white">ملغي</option>
+                            <option value="جديد" className="bg-white text-[#1D2D2E]">جديد</option>
+                            <option value="قيد المراجعة" className="bg-white text-[#1D2D2E]">قيد المراجعة</option>
+                            <option value="تم التواصل مع العميل" className="bg-white text-[#1D2D2E]">تم التواصل مع العميل</option>
+                            <option value="مؤكد" className="bg-white text-[#1D2D2E]">مؤكد</option>
+                            <option value="مكتمل" className="bg-white text-[#1D2D2E]">مكتمل</option>
+                            <option value="ملغي" className="bg-white text-[#1D2D2E]">ملغي</option>
                           </select>
                         </td>
                         <td className="py-3.5 px-4">
@@ -286,7 +286,7 @@ export default function AdminBookingsPage() {
                               href={waUrl}
                               target="_blank"
                               rel="noreferrer"
-                              className="p-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors cursor-pointer"
+                              className="p-1.5 rounded-lg bg-[#25D366] hover:bg-[#20b858] text-white border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] transition-all cursor-pointer"
                               title="محادثة واتساب"
                             >
                               <MessageSquare className="w-3.5 h-3.5" />
@@ -294,7 +294,7 @@ export default function AdminBookingsPage() {
                             <button
                               type="button"
                               onClick={() => setSelectedBooking(b)}
-                              className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-[11px] cursor-pointer"
+                              className="px-2.5 py-1 rounded-lg bg-white hover:bg-[#FDFFF5] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] font-black text-[11px] cursor-pointer"
                             >
                               التفاصيل
                             </button>
@@ -312,74 +312,74 @@ export default function AdminBookingsPage() {
         {/* Booking Details / Voucher Print Modal */}
         {selectedBooking && (
           <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
             onClick={() => setSelectedBooking(null)}
           >
             <div
-              className="relative max-w-lg w-full rounded-3xl bg-slate-950 border border-slate-800 p-6 sm:p-8 space-y-6 shadow-2xl animate-in zoom-in-95"
+              className="relative max-w-lg w-full rounded-3xl bg-white border-[3px] border-[#1D2D2E] p-6 sm:p-8 space-y-6 shadow-[8px_8px_0px_#1D2D2E] animate-in zoom-in-95"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div className="flex items-center justify-between border-b-2 border-[#1D2D2E]/15 pb-4">
                 <div>
-                  <span className="text-[10px] font-black text-amber-400">سند تأكيد الحجز</span>
-                  <h3 className="text-lg font-black text-white">
+                  <span className="text-xs font-black text-[#FF7E47]">سند تأكيد الحجز</span>
+                  <h3 className="text-lg font-black text-[#1D2D2E]">
                     حجز رقم #{selectedBooking.id}
                   </h3>
                 </div>
                 <button
                   onClick={() => setSelectedBooking(null)}
-                  className="p-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white cursor-pointer"
+                  className="p-2 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-[#1D2D2E] hover:bg-[#FFD95A] shadow-[2px_2px_0px_#1D2D2E] cursor-pointer"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="space-y-3 text-xs">
-                <div className="flex justify-between p-3 rounded-xl bg-slate-900">
-                  <span className="text-slate-400">اسم العميل:</span>
-                  <strong className="text-white">{selectedBooking.customerName}</strong>
+                <div className="flex justify-between p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
+                  <span className="text-gray-600 font-bold">اسم العميل:</span>
+                  <strong className="text-[#1D2D2E] font-black">{selectedBooking.customerName}</strong>
                 </div>
 
-                <div className="flex justify-between p-3 rounded-xl bg-slate-900">
-                  <span className="text-slate-400">رقم الهاتف:</span>
-                  <strong className="text-amber-300 font-mono" dir="ltr">
+                <div className="flex justify-between p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
+                  <span className="text-gray-600 font-bold">رقم الهاتف:</span>
+                  <strong className="text-[#1D2D2E] font-mono font-black" dir="ltr">
                     {selectedBooking.customerPhone}
                   </strong>
                 </div>
 
-                <div className="flex justify-between p-3 rounded-xl bg-slate-900">
-                  <span className="text-slate-400">الرحلة السياحية:</span>
-                  <strong className="text-white text-left max-w-[250px] truncate">
+                <div className="flex justify-between p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
+                  <span className="text-gray-600 font-bold">الرحلة السياحية:</span>
+                  <strong className="text-[#1D2D2E] text-left max-w-[250px] truncate font-black">
                     {selectedBooking.tripTitle}
                   </strong>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 rounded-xl bg-slate-900">
-                    <span className="text-slate-400 block text-[10px]">عدد المسافرين:</span>
-                    <strong className="text-white text-base">{selectedBooking.travelerCount} أشخاص</strong>
+                  <div className="p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
+                    <span className="text-gray-600 block text-[10px] font-bold">عدد المسافرين:</span>
+                    <strong className="text-[#1D2D2E] text-base font-black font-mono">{selectedBooking.travelerCount} أشخاص</strong>
                   </div>
-                  <div className="p-3 rounded-xl bg-slate-900">
-                    <span className="text-slate-400 block text-[10px]">المبلغ الإجمالي:</span>
-                    <strong className="text-amber-400 text-base">
+                  <div className="p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
+                    <span className="text-gray-600 block text-[10px] font-bold">المبلغ الإجمالي:</span>
+                    <strong className="text-[#FF7E47] text-base font-black font-mono">
                       {selectedBooking.totalPrice.toLocaleString()} {selectedBooking.currency}
                     </strong>
                   </div>
                 </div>
 
                 {selectedBooking.notes && (
-                  <div className="p-3 rounded-xl bg-slate-900 space-y-1">
-                    <span className="text-slate-400 block text-[10px]">ملاحظات العميل:</span>
-                    <p className="text-slate-200">{selectedBooking.notes}</p>
+                  <div className="p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] space-y-1">
+                    <span className="text-gray-600 block text-[10px] font-bold">ملاحظات العميل:</span>
+                    <p className="text-[#1D2D2E] font-bold">{selectedBooking.notes}</p>
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-2 pt-2 border-t-2 border-[#1D2D2E]/15">
                 <button
                   type="button"
                   onClick={() => window.print()}
-                  className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-300 font-bold text-xs flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-white hover:bg-[#FDFFF5] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] font-black text-xs flex items-center gap-1.5 cursor-pointer"
                 >
                   <Printer className="w-4 h-4" />
                   <span>طباعة السند</span>
@@ -387,7 +387,7 @@ export default function AdminBookingsPage() {
                 <button
                   type="button"
                   onClick={() => setSelectedBooking(null)}
-                  className="px-5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs cursor-pointer"
                 >
                   إغلاق
                 </button>

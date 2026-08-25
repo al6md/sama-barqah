@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -45,7 +45,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const isFirstLoad = useRef<boolean>(true);
 
   // Play subtle chime on new booking
-  const playChime = () => {
+  const playChime = useCallback(() => {
     if (!soundEnabled) return;
     try {
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -63,9 +63,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     } catch (e) {
       // audio restrictions
     }
-  };
+  }, [soundEnabled]);
 
-  const fetchNotifications = async () => {
+  const fetchNotifications = useCallback(async () => {
     try {
       const savedToken = typeof window !== 'undefined' ? localStorage.getItem('sama_admin_token') : null;
       const res = await fetch('/api/admin/notifications', {
@@ -91,7 +91,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         isFirstLoad.current = false;
       }
     } catch (e) {}
-  };
+  }, [playChime]);
 
   useEffect(() => {
     let isMounted = true;
@@ -134,18 +134,20 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         }
       });
 
-    // Real-time notification polling every 6 seconds
-    const interval = setInterval(() => {
-      if (authenticated) {
+    // Real-time notification polling only when authenticated and tab is active
+    let interval: NodeJS.Timeout | null = null;
+    if (authenticated && savedToken) {
+      interval = setInterval(() => {
+        if (typeof document !== 'undefined' && document.hidden) return;
         fetchNotifications();
-      }
-    }, 6000);
+      }, 20000);
+    }
 
     return () => {
       isMounted = false;
-      clearInterval(interval);
+      if (interval) clearInterval(interval);
     };
-  }, [pathname, router, authenticated]);
+  }, [pathname, router, authenticated, fetchNotifications]);
 
   const handleMarkAllRead = async () => {
     try {
@@ -185,10 +187,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-white">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-3 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto shadow-lg shadow-amber-400/20"></div>
-          <p className="text-xs text-slate-400 font-medium">جاري التحقق من صلاحيات المدير...</p>
+      <div className="min-h-screen bg-[#FDFFF5] flex items-center justify-center text-[#1D2D2E]">
+        <div className="text-center space-y-4 bg-white border-[3px] border-[#1D2D2E] p-8 rounded-3xl shadow-[6px_6px_0px_#1D2D2E]">
+          <div className="w-12 h-12 border-4 border-[#FF7E47] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-sm font-bold text-[#1D2D2E]">جاري التحقق من صلاحيات المدير...</p>
         </div>
       </div>
     );
@@ -218,33 +220,33 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col lg:flex-row text-slate-100 font-sans relative selection:bg-amber-400 selection:text-slate-950">
+    <div className="min-h-screen bg-[#FDFFF5] flex flex-col lg:flex-row text-[#1D2D2E] font-sans relative selection:bg-[#4CC9FE] selection:text-white">
       {/* Live Floating Booking Toast Alert */}
       {latestToast && (
         <div
           id="admin-live-toast"
-          className="fixed top-5 left-5 z-50 max-w-sm w-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 p-4 rounded-2xl shadow-2xl border-2 border-slate-950 flex items-start gap-3 animate-in slide-in-from-top duration-300"
+          className="fixed top-5 left-5 z-50 max-w-sm w-full bg-[#FFD95A] text-[#1D2D2E] p-4 rounded-2xl shadow-[6px_6px_0px_#1D2D2E] border-[3px] border-[#1D2D2E] flex items-start gap-3 animate-in slide-in-from-top duration-300"
         >
-          <div className="w-9 h-9 rounded-xl bg-slate-950 text-amber-400 flex items-center justify-center shrink-0 mt-0.5 shadow-md">
-            <Bell className="w-4 h-4 animate-bounce" />
+          <div className="w-10 h-10 rounded-xl bg-white border-2 border-[#1D2D2E] text-[#FF7E47] flex items-center justify-center shrink-0 mt-0.5 shadow-[2px_2px_0px_#1D2D2E]">
+            <Bell className="w-5 h-5 animate-bounce" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
-              <span className="font-black text-xs uppercase tracking-wider">🔔 حجز سياحي جديد!</span>
+              <span className="font-black text-xs uppercase tracking-wider bg-white px-2 py-0.5 rounded-md border border-[#1D2D2E]">حجز سياحي جديد!</span>
               <button
                 onClick={() => setLatestToast(null)}
-                className="p-1 text-slate-950 hover:bg-slate-900/10 rounded-lg cursor-pointer"
+                className="p-1 text-[#1D2D2E] hover:bg-black/10 rounded-lg cursor-pointer transition-colors"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-xs font-bold mt-1 text-slate-950 leading-relaxed">
+            <p className="text-xs font-bold mt-1.5 text-[#1D2D2E] leading-relaxed">
               {latestToast.message}
             </p>
             <Link
               href="/admin/bookings"
               onClick={() => setLatestToast(null)}
-              className="inline-block mt-2 text-[11px] font-black underline hover:text-slate-800"
+              className="inline-block mt-2 text-xs font-black underline hover:text-[#FF7E47]"
             >
               عرض وتأكيد الحجز الآن ↗
             </Link>
@@ -255,19 +257,19 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {/* Sidebar Desktop */}
       <aside
         id="admin-sidebar"
-        className="hidden lg:flex w-72 bg-slate-950 border-l border-slate-800/80 flex-col justify-between shrink-0 p-6 z-20 sticky top-0 h-screen"
+        className="hidden lg:flex w-72 bg-white border-l-[3px] border-[#1D2D2E] flex-col justify-between shrink-0 p-6 z-20 sticky top-0 h-screen shadow-[4px_0px_0px_#1D2D2E]"
       >
         <div className="space-y-6">
           {/* Admin Brand & Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
+          <div className="flex items-center justify-between pb-4 border-b-2 border-[#1D2D2E]/15">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center font-black shadow-lg shadow-amber-500/20">
-                <Shield className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-2xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] flex items-center justify-center font-black shadow-[3px_3px_0px_#1D2D2E]">
+                <Shield className="w-6 h-6 text-[#1D2D2E]" />
               </div>
               <div>
-                <span className="text-sm font-black text-white block">سما البارقة</span>
-                <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span className="text-sm font-black text-[#1D2D2E] block">سما البارقة</span>
+                <span className="text-[10px] text-[#FF7E47] font-black uppercase tracking-wider flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-[#10B981] border border-[#1D2D2E]"></span>
                   لوحة الإدارة
                 </span>
               </div>
@@ -278,26 +280,26 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               <button
                 type="button"
                 onClick={() => setSoundEnabled(!soundEnabled)}
-                className={`p-2 rounded-xl border text-xs transition-colors cursor-pointer ${
+                className={`p-2 rounded-xl border-2 border-[#1D2D2E] text-xs transition-transform active:translate-y-0.5 cursor-pointer ${
                   soundEnabled
-                    ? 'bg-slate-900 border-slate-800 text-amber-400 hover:border-amber-400'
-                    : 'bg-slate-900 border-slate-800 text-slate-500 hover:text-slate-300'
+                    ? 'bg-[#A5F3CF] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]'
+                    : 'bg-[#F3F4F6] text-gray-400'
                 }`}
                 title={soundEnabled ? 'صوت التنبيهات مفعّل' : 'صوت التنبيهات مكتوم'}
               >
-                {soundEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
 
               <div className="relative">
                 <button
                   id="btn-admin-notifications-toggle"
                   onClick={() => setNotificationsOpen(!notificationsOpen)}
-                  className="relative p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-amber-400 transition-colors cursor-pointer"
+                  className="relative p-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] hover:bg-[#FFD95A] transition-colors cursor-pointer"
                   title="الإشعارات"
                 >
-                  <Bell className="w-3.5 h-3.5" />
+                  <Bell className="w-4 h-4" />
                   {unreadNotifsCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white font-black text-[9px] flex items-center justify-center border-2 border-slate-950 animate-pulse">
+                    <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#FF7E47] text-white font-black text-[10px] flex items-center justify-center border-2 border-[#1D2D2E]">
                       {unreadNotifsCount}
                     </span>
                   )}
@@ -305,49 +307,49 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
                 {/* Dropdown */}
                 {notificationsOpen && (
-                  <div className="absolute left-0 top-12 w-80 bg-slate-950 border border-slate-800 rounded-2xl shadow-2xl p-4 z-50 text-xs animate-in zoom-in-95">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                      <span className="font-bold text-white flex items-center gap-1.5">
-                        <Bell className="w-3.5 h-3.5 text-amber-400" />
+                  <div className="absolute left-0 top-12 w-80 bg-white border-[3px] border-[#1D2D2E] rounded-2xl shadow-[6px_6px_0px_#1D2D2E] p-4 z-50 text-xs animate-in zoom-in-95">
+                    <div className="flex items-center justify-between pb-3 border-b-2 border-[#1D2D2E]/15">
+                      <span className="font-black text-[#1D2D2E] flex items-center gap-1.5">
+                        <Bell className="w-4 h-4 text-[#FF7E47]" />
                         الإشعارات الواردة
                       </span>
                       {unreadNotifsCount > 0 && (
                         <button
                           onClick={handleMarkAllRead}
-                          className="text-[11px] font-bold text-amber-400 hover:underline cursor-pointer"
+                          className="text-[11px] font-bold text-[#FF7E47] hover:underline cursor-pointer"
                         >
                           تعليم الكل كمقروء
                         </button>
                       )}
                     </div>
 
-                    <div className="max-h-72 overflow-y-auto divide-y divide-slate-800/60 my-2">
+                    <div className="max-h-72 overflow-y-auto divide-y divide-[#1D2D2E]/10 my-2">
                       {notifications.length === 0 ? (
-                        <p className="py-6 text-center text-slate-500">لا توجد إشعارات جديدة</p>
+                        <p className="py-6 text-center text-gray-500 font-bold">لا توجد إشعارات جديدة</p>
                       ) : (
                         notifications.slice(0, 8).map((n) => (
                           <div
                             key={n.id}
                             className={`p-2.5 rounded-xl transition-colors ${
-                              !n.isRead ? 'bg-amber-400/10 text-slate-200' : 'text-slate-400 hover:bg-slate-900'
+                              !n.isRead ? 'bg-[#FFD95A]/30 border border-[#1D2D2E]/20 text-[#1D2D2E]' : 'text-gray-600 hover:bg-gray-50'
                             }`}
                           >
                             <div className="flex items-center justify-between">
-                              <span className="font-bold text-slate-100">{n.title}</span>
+                              <span className="font-bold text-[#1D2D2E]">{n.title}</span>
                               {!n.isRead && (
-                                <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                                <span className="w-2.5 h-2.5 rounded-full bg-[#FF7E47] border border-[#1D2D2E]"></span>
                               )}
                             </div>
-                            <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+                            <p className="text-[11px] text-[#1D2D2E]/80 mt-1 leading-relaxed">
                               {n.message}
                             </p>
-                            <div className="flex items-center justify-between mt-2 text-[10px] text-slate-500">
+                            <div className="flex items-center justify-between mt-2 text-[10px] text-gray-500 font-mono">
                               <span>{new Date(n.createdAt).toLocaleTimeString('ar-IQ')}</span>
                               {n.bookingId && (
                                 <Link
                                   href="/admin/bookings"
                                   onClick={() => setNotificationsOpen(false)}
-                                  className="text-amber-400 font-bold hover:underline"
+                                  className="text-[#FF7E47] font-bold hover:underline"
                                 >
                                   عرض الحجز #{n.bookingId}
                                 </Link>
@@ -366,14 +368,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           {/* Quick Action Button */}
           <Link
             href="/admin/trips/new"
-            className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-850 border border-amber-400/30 text-amber-300 hover:text-amber-200 text-xs font-bold transition-all shadow-sm group"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#FF7E47] hover:bg-[#ff6b2f] text-white border-2 border-[#1D2D2E] text-xs font-black transition-all shadow-[3px_3px_0px_#1D2D2E] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[1px_1px_0px_#1D2D2E] group"
           >
-            <PlusCircle className="w-4 h-4 text-amber-400 group-hover:rotate-90 transition-transform" />
+            <PlusCircle className="w-4 h-4 group-hover:rotate-90 transition-transform" />
             <span>إضافة رحلة جديدة</span>
           </Link>
 
           {/* Navigation Links */}
-          <nav className="space-y-1.5">
+          <nav className="space-y-2">
             {menuItems.map((item) => {
               const active = isCurrent(item.href);
               const Icon = item.icon;
@@ -382,10 +384,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   key={item.href}
                   id={`admin-nav-${item.href.replace('/admin', '') || 'dash'}`}
                   href={item.href}
-                  className={`flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-bold transition-all ${
+                  className={`flex items-center justify-between px-4 py-3 rounded-2xl text-xs font-bold transition-all border-2 ${
                     active
-                      ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-500/20 font-black'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-900/80'
+                      ? 'bg-[#FFD95A] text-[#1D2D2E] border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black'
+                      : 'bg-white/60 hover:bg-white text-[#1D2D2E] border-transparent hover:border-[#1D2D2E]/20 hover:shadow-[2px_2px_0px_#1D2D2E]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -394,8 +396,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   </div>
                   {item.badge !== undefined && (
                     <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-black ${
-                        active ? 'bg-slate-950 text-amber-300' : 'bg-amber-500 text-slate-950 animate-pulse'
+                      className={`px-2 py-0.5 rounded-full text-[10px] font-black border border-[#1D2D2E] ${
+                        active ? 'bg-white text-[#1D2D2E]' : 'bg-[#FF7E47] text-white'
                       }`}
                     >
                       {item.badge}
@@ -408,31 +410,31 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Bottom Session Info & Actions */}
-        <div className="space-y-3 pt-6 border-t border-slate-800/80">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 font-bold text-xs">
+        <div className="space-y-3 pt-6 border-t-2 border-[#1D2D2E]/15">
+          <div className="flex items-center gap-3 p-2 bg-[#FDFFF5] rounded-xl border-2 border-[#1D2D2E]">
+            <div className="w-8 h-8 rounded-lg bg-[#A5F3CF] border-2 border-[#1D2D2E] flex items-center justify-center text-[#1D2D2E] font-bold text-xs">
               <UserCheck className="w-4 h-4" />
             </div>
             <div className="min-w-0">
-              <span className="text-xs font-bold text-white block truncate">مدير المنظومة</span>
-              <span className="text-[10px] text-slate-500 block truncate">جلسة نشطة 2026</span>
+              <span className="text-xs font-black text-[#1D2D2E] block truncate">مدير المنظومة</span>
+              <span className="text-[10px] text-gray-500 font-bold block truncate">جلسة نشطة 2026</span>
             </div>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Link
               href="/"
               target="_blank"
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-[#1D2D2E] bg-white border border-[#1D2D2E]/20 hover:border-[#1D2D2E] hover:shadow-[2px_2px_0px_#1D2D2E] transition-all"
             >
-              <ExternalLink className="w-3.5 h-3.5 text-slate-500" />
+              <ExternalLink className="w-3.5 h-3.5 text-[#FF7E47]" />
               <span>معاينة الموقع العام</span>
             </Link>
 
             <button
               id="admin-logout-btn"
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 transition-colors cursor-pointer"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-black text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-300 transition-colors cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>تسجيل الخروج</span>
@@ -442,26 +444,26 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       </aside>
 
       {/* Mobile Topbar */}
-      <div className="lg:hidden bg-slate-950 p-4 border-b border-slate-800 flex items-center justify-between sticky top-0 z-30">
+      <div className="lg:hidden bg-white p-4 border-b-[3px] border-[#1D2D2E] flex items-center justify-between sticky top-0 z-30 shadow-[0px_3px_0px_#1D2D2E]">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center font-bold shadow-md">
+          <div className="w-9 h-9 rounded-xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] flex items-center justify-center font-bold shadow-[2px_2px_0px_#1D2D2E]">
             <Shield className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-black text-white block">إدارة سما البارقة</span>
-            <span className="text-[10px] text-amber-400">نظام الإدارة الشامل</span>
+            <span className="text-xs font-black text-[#1D2D2E] block">إدارة سما البارقة</span>
+            <span className="text-[10px] text-[#FF7E47] font-bold">لوحة التحكم المركزية</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {unreadNotifsCount > 0 && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-rose-500 text-white">
+            <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#FF7E47] text-white border border-[#1D2D2E]">
               {unreadNotifsCount} جديد
             </span>
           )}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 cursor-pointer"
+            className="p-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -470,7 +472,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-slate-950 border-b border-slate-800 p-4 space-y-2 z-30 animate-in slide-in-from-top">
+        <div className="lg:hidden bg-white border-b-[3px] border-[#1D2D2E] p-4 space-y-2 z-30 animate-in slide-in-from-top shadow-[0px_4px_0px_#1D2D2E]">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const active = isCurrent(item.href);
@@ -479,8 +481,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                 key={item.href}
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-bold ${
-                  active ? 'bg-amber-400 text-slate-950 font-black' : 'text-slate-300 hover:bg-slate-900'
+                className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-bold border-2 ${
+                  active ? 'bg-[#FFD95A] text-[#1D2D2E] border-[#1D2D2E] font-black shadow-[2px_2px_0px_#1D2D2E]' : 'bg-[#FDFFF5] border-transparent text-[#1D2D2E]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -488,18 +490,18 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   <span>{item.name}</span>
                 </div>
                 {item.badge !== undefined && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-rose-600 text-white font-bold">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] bg-[#FF7E47] text-white font-bold border border-[#1D2D2E]">
                     {item.badge}
                   </span>
                 )}
               </Link>
             );
           })}
-          <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-xs">
-            <Link href="/" target="_blank" className="text-slate-400 p-2 font-bold">
+          <div className="pt-2 border-t border-[#1D2D2E]/20 flex justify-between items-center text-xs">
+            <Link href="/" target="_blank" className="text-[#1D2D2E] font-black p-2">
               معاينة الموقع العام ↗
             </Link>
-            <button onClick={handleLogout} className="text-rose-400 p-2 font-bold cursor-pointer">
+            <button onClick={handleLogout} className="text-rose-600 font-bold p-2 cursor-pointer">
               تسجيل الخروج
             </button>
           </div>

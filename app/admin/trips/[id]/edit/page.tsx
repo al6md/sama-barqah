@@ -189,8 +189,8 @@ export default function AdminEditTripPage() {
   if (loading) {
     return (
       <AdminLayout>
-        <div className="p-16 text-center text-xs text-slate-400 flex flex-col items-center justify-center gap-3">
-          <div className="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin"></div>
+        <div className="p-16 text-center text-xs font-black text-[#1D2D2E] flex flex-col items-center justify-center gap-3">
+          <div className="w-8 h-8 border-4 border-[#1D2D2E] border-t-[#FF7E47] rounded-full animate-spin"></div>
           <span>جاري تحميل بيانات الرحلة...</span>
         </div>
       </AdminLayout>
@@ -201,20 +201,20 @@ export default function AdminEditTripPage() {
     <AdminLayout>
       <form onSubmit={handleSubmit} className="space-y-8 max-w-5xl mx-auto pb-16">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6 sticky top-0 bg-slate-900/90 backdrop-blur-md z-10 pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[3px] border-[#1D2D2E] pb-6 sticky top-0 bg-[#FDFFF5]/95 backdrop-blur-md z-10 pt-2">
           <div className="flex items-center gap-3">
             <a
               href="/admin/trips"
-              className="p-2.5 rounded-2xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+              className="p-2.5 rounded-2xl bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] hover:bg-[#FFD95A] shadow-[2px_2px_0px_#1D2D2E] transition-all"
               title="رجوع للرحلات"
             >
               <ArrowRight className="w-5 h-5" />
             </a>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-black text-[#1D2D2E] flex items-center gap-2">
                 <span>تعديل الرحلة: {title}</span>
               </h1>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs font-bold text-[#1D2D2E]/70 mt-0.5">
                 تحديث الأسعار، المقاعد، الصور، وجدول الرحلة اليومي.
               </p>
             </div>
@@ -223,7 +223,7 @@ export default function AdminEditTripPage() {
           <div className="flex items-center gap-2.5">
             <a
               href="/admin/trips"
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-white border-2 border-[#1D2D2E] hover:bg-gray-100 text-[#1D2D2E] font-black text-xs shadow-[2px_2px_0px_#1D2D2E] transition-all"
             >
               إلغاء
             </a>
@@ -231,7 +231,7 @@ export default function AdminEditTripPage() {
               id="btn-save-edit-trip"
               type="submit"
               disabled={submitting}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#FF7E47] hover:bg-[#ff6c2f] text-white border-2 border-[#1D2D2E] font-black text-xs shadow-[3px_3px_0px_#1D2D2E] active:translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -249,34 +249,34 @@ export default function AdminEditTripPage() {
         </div>
 
         {errorMsg && (
-          <div className="p-4 rounded-2xl bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+          <div className="p-4 rounded-2xl bg-rose-100 border-2 border-rose-600 text-rose-800 text-xs font-black flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
 
         {/* Basic Info */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl">
-          <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2 border-b border-slate-800/80 pb-4">
-            <Compass className="w-4 h-4" />
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-6 shadow-[5px_5px_0px_#1D2D2E]">
+          <h3 className="text-base font-black text-[#1D2D2E] flex items-center gap-2 border-b-2 border-[#1D2D2E]/15 pb-4">
+            <Compass className="w-5 h-5 text-[#FF7E47]" />
             <span>البيانات الأساسية للرحلة</span>
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">عنوان الرحلة</label>
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">عنوان الرحلة</label>
               <input
                 type="text"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <MapPin className="w-4 h-4 text-[#FF7E47]" />
                 <span>الوجهة السياحية</span>
               </label>
               <input
@@ -284,13 +284,13 @@ export default function AdminEditTripPage() {
                 required
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <DollarSign className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <DollarSign className="w-4 h-4 text-[#FF7E47]" />
                 <span>سعر التذكرة للفرد (د.ع)</span>
               </label>
               <input
@@ -300,89 +300,89 @@ export default function AdminEditTripPage() {
                 step={5000}
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-black text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-black text-[#FF7E47] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Clock className="w-4 h-4 text-[#FF7E47]" />
                 <span>المدة</span>
               </label>
               <input
                 type="text"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Calendar className="w-4 h-4 text-[#FF7E47]" />
                 <span>تاريخ الانطلاق</span>
               </label>
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Calendar className="w-4 h-4 text-[#FF7E47]" />
                 <span>تاريخ العودة</span>
               </label>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">المقاعد الكلية</label>
+                <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">المقاعد الكلية</label>
                 <input
                   type="number"
                   min={1}
                   value={maxSeats}
                   onChange={(e) => setMaxSeats(Number(e.target.value))}
-                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white font-bold"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-black"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">المحجوزة حالياً</label>
+                <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">المحجوزة حالياً</label>
                 <input
                   type="number"
                   min={0}
                   max={maxSeats}
                   value={bookedSeats}
                   onChange={(e) => setBookedSeats(Number(e.target.value))}
-                  className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-amber-400 font-black"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#FF7E47] font-black"
                 />
               </div>
             </div>
 
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">الوصف المختصر</label>
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">الوصف المختصر</label>
               <textarea
                 rows={2}
                 required
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white resize-none"
               />
             </div>
           </div>
         </div>
 
         {/* Media & Images Section */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 shadow-xl">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] shadow-[5px_5px_0px_#1D2D2E]">
           <TripImageManager
             mainImage={mainImage}
             galleryImages={galleryImages}
@@ -392,29 +392,29 @@ export default function AdminEditTripPage() {
         </div>
 
         {/* Departure & Logistics */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl">
-          <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2 border-b border-slate-800/80 pb-4">
-            <Info className="w-4 h-4" />
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-6 shadow-[5px_5px_0px_#1D2D2E]">
+          <h3 className="text-base font-black text-[#1D2D2E] flex items-center gap-2 border-b-2 border-[#1D2D2E]/15 pb-4">
+            <Info className="w-5 h-5 text-[#FF7E47]" />
             <span>نقطة التجمع والخدمات</span>
           </h3>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1.5">
+            <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">
               نقطة وموعد التجمع
             </label>
             <input
               type="text"
               value={departureInfo}
               onChange={(e) => setDepartureInfo(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:bg-white"
             />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
             {/* Included */}
-            <div className="space-y-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4" />
+            <div className="space-y-3 bg-[#FDFFF5] p-4 rounded-2xl border-2 border-[#1D2D2E]">
+              <span className="text-xs font-black text-emerald-800 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-emerald-600" />
                 <span>الخدمات المشمولة:</span>
               </span>
 
@@ -430,12 +430,12 @@ export default function AdminEditTripPage() {
                       handleAddIncludedService();
                     }
                   }}
-                  className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="flex-1 px-3 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E]"
                 />
                 <button
                   type="button"
                   onClick={handleAddIncludedService}
-                  className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl bg-[#A5F3CF] hover:bg-[#86efac] text-[#1D2D2E] border-2 border-[#1D2D2E] font-black text-xs shadow-[2px_2px_0px_#1D2D2E] cursor-pointer"
                 >
                   إضافة
                 </button>
@@ -445,15 +445,15 @@ export default function AdminEditTripPage() {
                 {includedServices.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2 rounded-xl bg-slate-950 text-xs text-slate-200 border border-slate-800"
+                    className="flex items-center justify-between p-2 rounded-xl bg-white text-xs font-bold text-[#1D2D2E] border-2 border-[#1D2D2E]"
                   >
                     <span>✓ {item}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveIncludedService(idx)}
-                      className="text-rose-400 hover:text-rose-300 p-1"
+                      className="text-rose-600 hover:text-rose-800 p-1"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
@@ -461,9 +461,9 @@ export default function AdminEditTripPage() {
             </div>
 
             {/* Excluded */}
-            <div className="space-y-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-              <span className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
-                <AlertCircle className="w-4 h-4" />
+            <div className="space-y-3 bg-[#FDFFF5] p-4 rounded-2xl border-2 border-[#1D2D2E]">
+              <span className="text-xs font-black text-rose-800 flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4 text-rose-600" />
                 <span>الخدمات غير المشمولة:</span>
               </span>
 
@@ -479,12 +479,12 @@ export default function AdminEditTripPage() {
                       handleAddExcludedService();
                     }
                   }}
-                  className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="flex-1 px-3 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E]"
                 />
                 <button
                   type="button"
                   onClick={handleAddExcludedService}
-                  className="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl bg-rose-200 hover:bg-rose-300 text-rose-900 border-2 border-[#1D2D2E] font-black text-xs shadow-[2px_2px_0px_#1D2D2E] cursor-pointer"
                 >
                   إضافة
                 </button>
@@ -494,15 +494,15 @@ export default function AdminEditTripPage() {
                 {excludedServices.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2 rounded-xl bg-slate-950 text-xs text-slate-200 border border-slate-800"
+                    className="flex items-center justify-between p-2 rounded-xl bg-white text-xs font-bold text-[#1D2D2E] border-2 border-[#1D2D2E]"
                   >
                     <span>✗ {item}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveExcludedService(idx)}
-                      className="text-rose-400 hover:text-rose-300 p-1"
+                      className="text-rose-600 hover:text-rose-800 p-1"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 ))}
@@ -512,15 +512,15 @@ export default function AdminEditTripPage() {
         </div>
 
         {/* Daily Program */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-            <h3 className="text-sm font-bold text-amber-400">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-6 shadow-[5px_5px_0px_#1D2D2E]">
+          <div className="flex items-center justify-between border-b-2 border-[#1D2D2E]/15 pb-4">
+            <h3 className="text-base font-black text-[#1D2D2E]">
               البرنامج السياحي اليومي ({dailyProgram.length} أيام)
             </h3>
             <button
               type="button"
               onClick={handleAddDay}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-amber-300 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-xs font-black text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>إضافة يوم</span>
@@ -531,15 +531,15 @@ export default function AdminEditTripPage() {
             {dailyProgram.map((prog, index) => (
               <div
                 key={index}
-                className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3"
+                className="p-5 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] space-y-3"
               >
                 <div className="flex justify-between items-center">
-                  <span className="text-xs font-black text-amber-400">اليوم {prog.day}</span>
+                  <span className="text-xs font-black text-[#FF7E47]">اليوم {prog.day}</span>
                   {dailyProgram.length > 1 && (
                     <button
                       type="button"
                       onClick={() => handleRemoveDay(index)}
-                      className="text-xs text-rose-400 hover:text-rose-300 font-bold"
+                      className="text-xs text-rose-600 hover:text-rose-800 font-black cursor-pointer"
                     >
                       حذف اليوم
                     </button>
@@ -553,7 +553,7 @@ export default function AdminEditTripPage() {
                     up[index].title = e.target.value;
                     setDailyProgram(up);
                   }}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E]"
                 />
                 <textarea
                   rows={2}
@@ -563,7 +563,7 @@ export default function AdminEditTripPage() {
                     up[index].description = e.target.value;
                     setDailyProgram(up);
                   }}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white resize-none"
+                  className="w-full px-3.5 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] resize-none"
                 />
               </div>
             ))}
@@ -571,35 +571,35 @@ export default function AdminEditTripPage() {
         </div>
 
         {/* Status toggles */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-4 shadow-xl">
-          <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] grid grid-cols-1 sm:grid-cols-3 gap-4 shadow-[5px_5px_0px_#1D2D2E]">
+          <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] cursor-pointer">
             <input
               type="checkbox"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="w-4 h-4 rounded text-amber-500"
+              className="w-5 h-5 rounded text-[#FF7E47] accent-[#FF7E47]"
             />
-            <span className="text-xs font-bold text-white">رحلة نشطة ومتاحة</span>
+            <span className="text-xs font-black text-[#1D2D2E]">رحلة نشطة ومتاحة</span>
           </label>
 
-          <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer">
+          <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] cursor-pointer">
             <input
               type="checkbox"
               checked={isFeatured}
               onChange={(e) => setIsFeatured(e.target.checked)}
-              className="w-4 h-4 rounded text-amber-500"
+              className="w-5 h-5 rounded text-[#FF7E47] accent-[#FF7E47]"
             />
-            <span className="text-xs font-bold text-white">رحلة مميزة في الرئيسية</span>
+            <span className="text-xs font-black text-[#1D2D2E]">رحلة مميزة في الرئيسية</span>
           </label>
 
-          <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer">
+          <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] cursor-pointer">
             <input
               type="checkbox"
               checked={isOffer}
               onChange={(e) => setIsOffer(e.target.checked)}
-              className="w-4 h-4 rounded text-amber-500"
+              className="w-5 h-5 rounded text-[#FF7E47] accent-[#FF7E47]"
             />
-            <span className="text-xs font-bold text-white">عرض خاص مع خصم</span>
+            <span className="text-xs font-black text-[#1D2D2E]">عرض خاص مع خصم</span>
           </label>
         </div>
 
@@ -607,14 +607,14 @@ export default function AdminEditTripPage() {
         <div className="flex items-center justify-end gap-3 pt-4">
           <a
             href="/admin/trips"
-            className="px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors"
+            className="px-6 py-3 rounded-2xl bg-white border-2 border-[#1D2D2E] hover:bg-gray-100 text-[#1D2D2E] text-xs font-black shadow-[2px_2px_0px_#1D2D2E] transition-all"
           >
             إلغاء
           </a>
           <button
             type="submit"
             disabled={submitting}
-            className="px-8 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-xl shadow-amber-500/20 active:scale-98 transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
+            className="px-8 py-3 rounded-2xl bg-[#FF7E47] hover:bg-[#ff6c2f] text-white border-2 border-[#1D2D2E] font-black text-xs shadow-[4px_4px_0px_#1D2D2E] active:translate-y-0.5 transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
           >
             {submitting ? 'جاري الحفظ...' : 'حفظ التعديلات'}
           </button>

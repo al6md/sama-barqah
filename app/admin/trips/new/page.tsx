@@ -190,23 +190,23 @@ export default function AdminNewTripPage() {
     <AdminLayout>
       <form onSubmit={handleSubmit} className="space-y-8 max-w-5xl mx-auto pb-16">
         {/* Top Sticky Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6 sticky top-0 bg-slate-900/90 backdrop-blur-md z-10 pt-2">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b-[3px] border-[#1D2D2E] pb-6 sticky top-0 bg-[#FDFFF5]/95 backdrop-blur-md z-10 pt-2">
           <div className="flex items-center gap-3">
             <a
               href="/admin/trips"
-              className="p-2.5 rounded-2xl bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
+              className="p-2.5 rounded-2xl bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] hover:bg-[#FFD95A] shadow-[2px_2px_0px_#1D2D2E] transition-all"
               title="رجوع للرحلات"
             >
               <ArrowRight className="w-5 h-5" />
             </a>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-black text-[#1D2D2E] flex items-center gap-2">
                 <span>إضافة رحلة سياحية جديدة</span>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                <span className="px-3 py-1 rounded-full text-xs font-black bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]">
                   مسودة جديدة
                 </span>
               </h1>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs font-bold text-[#1D2D2E]/80 mt-0.5">
                 أدخل تفاصيل البرنامج، الصور، الأسعار، والمقاعد المتاحة للجمهور.
               </p>
             </div>
@@ -215,7 +215,7 @@ export default function AdminNewTripPage() {
           <div className="flex items-center gap-2.5">
             <a
               href="/admin/trips"
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-white hover:bg-[#FDFFF5] border-2 border-[#1D2D2E] text-[#1D2D2E] font-black text-xs shadow-[2px_2px_0px_#1D2D2E] transition-all"
             >
               إلغاء
             </a>
@@ -223,7 +223,7 @@ export default function AdminNewTripPage() {
               id="btn-save-new-trip"
               type="submit"
               disabled={submitting}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-lg shadow-amber-500/20 active:scale-98 transition-all cursor-pointer disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#FF7E47] hover:bg-[#ff6c2f] text-white border-2 border-[#1D2D2E] font-black text-xs shadow-[3px_3px_0px_#1D2D2E] active:translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
             >
               {submitting ? (
                 <>
@@ -241,26 +241,26 @@ export default function AdminNewTripPage() {
         </div>
 
         {errorMsg && (
-          <div className="p-4 rounded-2xl bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-center gap-2 animate-in fade-in">
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+          <div className="p-4 rounded-2xl bg-rose-100 border-2 border-rose-600 text-rose-800 text-xs font-black flex items-center gap-2 animate-in fade-in">
+            <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
             <span>{errorMsg}</span>
           </div>
         )}
 
         {/* Section 1: Basic Trip Details */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-            <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2">
-              <Compass className="w-4 h-4" />
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-6 shadow-[5px_5px_0px_#1D2D2E]">
+          <div className="flex items-center justify-between border-b-2 border-[#1D2D2E]/15 pb-4">
+            <h3 className="text-base font-black text-[#1D2D2E] flex items-center gap-2">
+              <Compass className="w-5 h-5 text-[#FF7E47]" />
               <span>المعلومات الأساسية للرحلة</span>
             </h3>
-            <span className="text-[11px] text-slate-500">* الحقول المطلوبة</span>
+            <span className="text-xs font-bold text-gray-500">* الحقول المطلوبة</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                عنوان الرحلة التجاري <span className="text-rose-400">*</span>
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">
+                عنوان الرحلة التجاري <span className="text-rose-600">*</span>
               </label>
               <input
                 type="text"
@@ -268,13 +268,13 @@ export default function AdminNewTripPage() {
                 placeholder="مثال: رحلة شلالات السليمانية ودوكان VIP - فنادق 5 نجوم"
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder:text-slate-600"
+                className="w-full px-4 py-3 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:ring-2 focus:ring-[#FF7E47] placeholder:text-gray-400"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <MapPin className="w-3.5 h-3.5 text-[#FF7E47]" />
                 <span>الوجهة السياحية (المدينة / الإقليم) *</span>
               </label>
               <input
@@ -283,13 +283,13 @@ export default function AdminNewTripPage() {
                 placeholder="أربيل، السليمانية، دهوك، البصرة..."
                 value={destination}
                 onChange={(e) => setDestination(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <DollarSign className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <DollarSign className="w-3.5 h-3.5 text-[#FF7E47]" />
                 <span>سعر الفرد الواحد (د.ع) *</span>
               </label>
               <input
@@ -299,13 +299,13 @@ export default function AdminNewTripPage() {
                 step={5000}
                 value={price}
                 onChange={(e) => setPrice(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-black text-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs font-black text-[#FF7E47] font-mono focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-[#FF7E47]" />
                 <span>مدة الرحلة</span>
               </label>
               <input
@@ -313,13 +313,13 @@ export default function AdminNewTripPage() {
                 placeholder="4 أيام / 3 ليالي"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-bold focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5 text-[#FF7E47]" />
                 <span>تاريخ الانطلاق *</span>
               </label>
               <input
@@ -327,13 +327,13 @@ export default function AdminNewTripPage() {
                 required
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-bold focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5 text-[#FF7E47]" />
                 <span>تاريخ العودة *</span>
               </label>
               <input
@@ -341,13 +341,13 @@ export default function AdminNewTripPage() {
                 required
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-bold focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center gap-1">
-                <Users className="w-3.5 h-3.5 text-amber-400" />
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5 flex items-center gap-1">
+                <Users className="w-3.5 h-3.5 text-[#FF7E47]" />
                 <span>إجمالي سعة مقاعد الباص *</span>
               </label>
               <input
@@ -357,12 +357,12 @@ export default function AdminNewTripPage() {
                 required
                 value={maxSeats}
                 onChange={(e) => setMaxSeats(Number(e.target.value))}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white font-bold focus:outline-none focus:ring-2 focus:ring-amber-400"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-mono font-black focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
               />
             </div>
 
             <div className="sm:col-span-2 lg:col-span-3">
-              <label className="block text-xs font-bold text-slate-300 mb-1.5">
+              <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">
                 نبذة تسويقية مختصرة (تظهر في كروت الواجهة الرئيسية) *
               </label>
               <textarea
@@ -371,14 +371,14 @@ export default function AdminNewTripPage() {
                 placeholder="استمتع بأجمل العطلات مع باقات سما البارقة السياحية..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400 resize-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-bold focus:outline-none focus:ring-2 focus:ring-[#FF7E47] resize-none"
               />
             </div>
           </div>
         </div>
 
         {/* Section 2: Interactive Image Manager (File Upload / URL / Presets) */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 shadow-xl">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] shadow-[5px_5px_0px_#1D2D2E]">
           <TripImageManager
             mainImage={mainImage}
             galleryImages={galleryImages}
@@ -388,14 +388,14 @@ export default function AdminNewTripPage() {
         </div>
 
         {/* Section 3: Departure & Logistics */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl">
-          <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2 border-b border-slate-800/80 pb-4">
-            <Info className="w-4 h-4" />
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-6 shadow-[5px_5px_0px_#1D2D2E]">
+          <h3 className="text-base font-black text-[#1D2D2E] flex items-center gap-2 border-b-2 border-[#1D2D2E]/15 pb-4">
+            <Info className="w-5 h-5 text-[#FF7E47]" />
             <span>نقطة التجمع وتفاصيل الانطلاق</span>
           </h3>
 
           <div>
-            <label className="block text-xs font-bold text-slate-300 mb-1.5">
+            <label className="block text-xs font-black text-[#1D2D2E] mb-1.5">
               مكان وموعد التجمع والانطلاق
             </label>
             <input
@@ -403,16 +403,16 @@ export default function AdminNewTripPage() {
               placeholder="مثال: التجمع في ساحة الفردوس - بغداد الساعة 6:00 صباحاً"
               value={departureInfo}
               onChange={(e) => setDepartureInfo(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="w-full px-4 py-2.5 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-xs text-[#1D2D2E] font-bold focus:outline-none focus:ring-2 focus:ring-[#FF7E47]"
             />
           </div>
 
           {/* Included / Excluded services */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
             {/* Included */}
-            <div className="space-y-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
-                <CheckCircle className="w-4 h-4" />
+            <div className="space-y-3 bg-[#FDFFF5] p-4 rounded-2xl border-2 border-[#1D2D2E]">
+              <span className="text-xs font-black text-emerald-800 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4 text-emerald-600" />
                 <span>الخدمات المشمولة في البرنامج:</span>
               </span>
 
@@ -428,12 +428,12 @@ export default function AdminNewTripPage() {
                       handleAddIncludedService();
                     }
                   }}
-                  className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="flex-1 px-3 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E]"
                 />
                 <button
                   type="button"
                   onClick={handleAddIncludedService}
-                  className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-[#A5F3CF] hover:bg-[#86efac] border-2 border-[#1D2D2E] text-[#1D2D2E] font-black text-xs cursor-pointer shadow-[2px_2px_0px_#1D2D2E]"
                 >
                   إضافة
                 </button>
@@ -443,13 +443,13 @@ export default function AdminNewTripPage() {
                 {includedServices.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2 rounded-xl bg-slate-950 text-xs text-slate-200 border border-slate-800"
+                    className="flex items-center justify-between p-2 rounded-xl bg-white text-xs font-bold text-[#1D2D2E] border border-[#1D2D2E]"
                   >
                     <span>✓ {item}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveIncludedService(idx)}
-                      className="text-rose-400 hover:text-rose-300 p-1"
+                      className="text-rose-600 hover:text-rose-700 p-1 cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -459,9 +459,9 @@ export default function AdminNewTripPage() {
             </div>
 
             {/* Excluded */}
-            <div className="space-y-3 bg-slate-900/50 p-4 rounded-2xl border border-slate-800">
-              <span className="text-xs font-bold text-rose-400 flex items-center gap-1.5">
-                <AlertCircle className="w-4 h-4" />
+            <div className="space-y-3 bg-[#FDFFF5] p-4 rounded-2xl border-2 border-[#1D2D2E]">
+              <span className="text-xs font-black text-rose-800 flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4 text-rose-600" />
                 <span>الخدمات غير المشمولة:</span>
               </span>
 
@@ -477,12 +477,12 @@ export default function AdminNewTripPage() {
                       handleAddExcludedService();
                     }
                   }}
-                  className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  className="flex-1 px-3 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E]"
                 />
                 <button
                   type="button"
                   onClick={handleAddExcludedService}
-                  className="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-rose-200 hover:bg-rose-300 border-2 border-[#1D2D2E] text-rose-900 font-black text-xs cursor-pointer shadow-[2px_2px_0px_#1D2D2E]"
                 >
                   إضافة
                 </button>
@@ -492,13 +492,13 @@ export default function AdminNewTripPage() {
                 {excludedServices.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-2 rounded-xl bg-slate-950 text-xs text-slate-200 border border-slate-800"
+                    className="flex items-center justify-between p-2 rounded-xl bg-white text-xs font-bold text-[#1D2D2E] border border-[#1D2D2E]"
                   >
                     <span>✗ {item}</span>
                     <button
                       type="button"
                       onClick={() => handleRemoveExcludedService(idx)}
-                      className="text-rose-400 hover:text-rose-300 p-1"
+                      className="text-rose-600 hover:text-rose-700 p-1 cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -510,20 +510,20 @@ export default function AdminNewTripPage() {
         </div>
 
         {/* Section 4: Daily Itinerary */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-6 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-6 shadow-[5px_5px_0px_#1D2D2E]">
+          <div className="flex items-center justify-between border-b-2 border-[#1D2D2E]/15 pb-4">
             <div>
-              <h3 className="text-sm font-bold text-amber-400">
+              <h3 className="text-base font-black text-[#1D2D2E]">
                 البرنامج السياحي اليومي للرحلة ({dailyProgram.length} أيام)
               </h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-xs font-bold text-[#1D2D2E]/70 mt-0.5">
                 خط سير الرحلة وجدول الأنشطة اليومية بالتفصيل
               </p>
             </div>
             <button
               type="button"
               onClick={handleAddDay}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-amber-300 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-xs font-black text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>إضافة يوم جديد</span>
@@ -534,20 +534,20 @@ export default function AdminNewTripPage() {
             {dailyProgram.map((prog, index) => (
               <div
                 key={index}
-                className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 relative group"
+                className="p-5 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] space-y-3 relative group"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center text-xs font-black">
+                    <span className="w-7 h-7 rounded-lg bg-[#FF7E47] border border-[#1D2D2E] text-white flex items-center justify-center text-xs font-black">
                       {prog.day}
                     </span>
-                    <span className="text-xs font-bold text-white">اليوم {prog.day}</span>
+                    <span className="text-sm font-black text-[#1D2D2E]">اليوم {prog.day}</span>
                   </div>
                   {dailyProgram.length > 1 && (
                     <button
                       type="button"
                       onClick={() => handleRemoveDay(index)}
-                      className="text-rose-400 hover:text-rose-300 text-xs font-bold flex items-center gap-1 cursor-pointer"
+                      className="text-rose-600 hover:text-rose-700 text-xs font-black flex items-center gap-1 cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                       <span>حذف اليوم</span>
@@ -556,7 +556,7 @@ export default function AdminNewTripPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                  <label className="block text-xs font-bold text-[#1D2D2E] mb-1">
                     عنوان نشاط اليوم
                   </label>
                   <input
@@ -568,12 +568,12 @@ export default function AdminNewTripPage() {
                       up[index].title = e.target.value;
                       setDailyProgram(up);
                     }}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:border-[#FF7E47]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                  <label className="block text-xs font-bold text-[#1D2D2E] mb-1">
                     تفاصيل ومحطات اليوم
                   </label>
                   <textarea
@@ -585,7 +585,7 @@ export default function AdminNewTripPage() {
                       up[index].description = e.target.value;
                       setDailyProgram(up);
                     }}
-                    className="w-full px-3.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400 resize-none"
+                    className="w-full px-3.5 py-2 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-bold text-[#1D2D2E] focus:outline-none focus:border-[#FF7E47] resize-none"
                   />
                 </div>
               </div>
@@ -594,48 +594,48 @@ export default function AdminNewTripPage() {
         </div>
 
         {/* Section 5: Badges & Display Options */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-slate-950 border border-slate-800 space-y-4 shadow-xl">
-          <h3 className="text-sm font-bold text-amber-400 border-b border-slate-800/80 pb-4">
+        <div className="p-6 sm:p-8 rounded-3xl bg-white border-[3px] border-[#1D2D2E] space-y-4 shadow-[5px_5px_0px_#1D2D2E]">
+          <h3 className="text-base font-black text-[#1D2D2E] border-b-2 border-[#1D2D2E]/15 pb-4">
             خيارات العرض والترويج
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+            <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] cursor-pointer hover:bg-[#FFD95A]/20 transition-colors">
               <input
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="w-4 h-4 rounded text-amber-500 focus:ring-amber-400"
+                className="w-4 h-4 rounded text-[#FF7E47] focus:ring-[#FF7E47]"
               />
               <div>
-                <span className="text-xs font-bold text-white block">رحلة نشطة ومتاحة</span>
-                <span className="text-[10px] text-slate-400">تظهر في الموقع العام ويمكن الحجز فيها</span>
+                <span className="text-xs font-black text-[#1D2D2E] block">رحلة نشطة ومتاحة</span>
+                <span className="text-[10px] font-bold text-[#1D2D2E]/70">تظهر في الموقع العام ويمكن الحجز فيها</span>
               </div>
             </label>
 
-            <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+            <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] cursor-pointer hover:bg-[#FFD95A]/20 transition-colors">
               <input
                 type="checkbox"
                 checked={isFeatured}
                 onChange={(e) => setIsFeatured(e.target.checked)}
-                className="w-4 h-4 rounded text-amber-500 focus:ring-amber-400"
+                className="w-4 h-4 rounded text-[#FF7E47] focus:ring-[#FF7E47]"
               />
               <div>
-                <span className="text-xs font-bold text-white block">رحلة مميزة (Featured)</span>
-                <span className="text-[10px] text-slate-400">تظهر في صدارة الصفحة الرئيسية</span>
+                <span className="text-xs font-black text-[#1D2D2E] block">رحلة مميزة (Featured)</span>
+                <span className="text-[10px] font-bold text-[#1D2D2E]/70">تظهر في صدارة الصفحة الرئيسية</span>
               </div>
             </label>
 
-            <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-slate-900 border border-slate-800 cursor-pointer hover:border-slate-700 transition-colors">
+            <label className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] cursor-pointer hover:bg-[#FFD95A]/20 transition-colors">
               <input
                 type="checkbox"
                 checked={isOffer}
                 onChange={(e) => setIsOffer(e.target.checked)}
-                className="w-4 h-4 rounded text-amber-500 focus:ring-amber-400"
+                className="w-4 h-4 rounded text-[#FF7E47] focus:ring-[#FF7E47]"
               />
               <div>
-                <span className="text-xs font-bold text-white block">عرض خاص / خصم</span>
-                <span className="text-[10px] text-slate-400">تظهر في قسم العروض مع شارة الخصم</span>
+                <span className="text-xs font-black text-[#1D2D2E] block">عرض خاص / خصم</span>
+                <span className="text-[10px] font-bold text-[#1D2D2E]/70">تظهر في قسم العروض مع شارة الخصم</span>
               </div>
             </label>
           </div>
@@ -645,7 +645,7 @@ export default function AdminNewTripPage() {
         <div className="flex items-center justify-end gap-3 pt-4">
           <a
             href="/admin/trips"
-            className="px-6 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-colors"
+            className="px-6 py-3 rounded-2xl bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] text-xs font-black shadow-[2px_2px_0px_#1D2D2E] hover:bg-[#FDFFF5] transition-all"
           >
             إلغاء
           </a>
@@ -653,7 +653,7 @@ export default function AdminNewTripPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="px-8 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-xl shadow-amber-500/20 active:scale-98 transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
+            className="px-8 py-3 rounded-2xl bg-[#FF7E47] hover:bg-[#ff6c2f] text-white border-2 border-[#1D2D2E] font-black text-xs shadow-[3px_3px_0px_#1D2D2E] active:scale-98 transition-all cursor-pointer disabled:opacity-50 flex items-center gap-2"
           >
             {submitting ? (
               <>

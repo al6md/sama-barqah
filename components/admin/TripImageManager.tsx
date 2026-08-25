@@ -194,26 +194,26 @@ export function TripImageManager({
   return (
     <div className="space-y-6">
       {/* Header & Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#1D2D2E]/20 pb-4">
         <div>
-          <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2">
-            <ImageIcon className="w-4 h-4" />
+          <h3 className="text-base font-black text-[#1D2D2E] flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-[#FF7E47]" />
             <span>إدارة صور ومعرض الرحلة</span>
           </h3>
-          <p className="text-[11px] text-slate-400 mt-0.5">
+          <p className="text-xs font-bold text-[#1D2D2E]/70 mt-0.5">
             يمكنك رفع ملف صورة من جهازك، إدراج رابط ويب مباشر، أو الاختيار من الصور السياحية الجاهزة.
           </p>
         </div>
 
         {/* Mode Selector Tabs */}
-        <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 self-start">
+        <div className="flex items-center gap-1.5 bg-[#FDFFF5] p-1.5 rounded-2xl border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] self-start">
           <button
             type="button"
             onClick={() => setActiveTab('upload')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer border-2 ${
               activeTab === 'upload'
-                ? 'bg-amber-400 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#FFD95A] text-[#1D2D2E] border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]'
+                : 'border-transparent text-[#1D2D2E]/70 hover:text-[#1D2D2E]'
             }`}
           >
             <Upload className="w-3.5 h-3.5" />
@@ -223,10 +223,10 @@ export function TripImageManager({
           <button
             type="button"
             onClick={() => setActiveTab('url')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer border-2 ${
               activeTab === 'url'
-                ? 'bg-amber-400 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#FFD95A] text-[#1D2D2E] border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]'
+                : 'border-transparent text-[#1D2D2E]/70 hover:text-[#1D2D2E]'
             }`}
           >
             <LinkIcon className="w-3.5 h-3.5" />
@@ -236,10 +236,10 @@ export function TripImageManager({
           <button
             type="button"
             onClick={() => setActiveTab('presets')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer border-2 ${
               activeTab === 'presets'
-                ? 'bg-amber-400 text-slate-950 shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-[#FFD95A] text-[#1D2D2E] border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]'
+                : 'border-transparent text-[#1D2D2E]/70 hover:text-[#1D2D2E]'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
@@ -249,8 +249,8 @@ export function TripImageManager({
       </div>
 
       {errorMsg && (
-        <div className="p-3 rounded-xl bg-rose-950/80 border border-rose-800 text-rose-200 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+        <div className="p-3 rounded-xl bg-rose-100 border-2 border-rose-600 text-rose-800 text-xs font-black flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
@@ -265,10 +265,10 @@ export function TripImageManager({
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-2xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
+          className={`border-[3px] border-dashed rounded-3xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
             isDragging
-              ? 'border-amber-400 bg-amber-400/10 scale-[0.99]'
-              : 'border-slate-700 bg-slate-900/50 hover:border-amber-400/60 hover:bg-slate-900'
+              ? 'border-[#FF7E47] bg-[#FFD95A]/30 scale-[0.99]'
+              : 'border-[#1D2D2E] bg-[#FDFFF5] hover:bg-[#FFD95A]/20 shadow-[3px_3px_0px_#1D2D2E]'
           }`}
         >
           <input
@@ -279,13 +279,13 @@ export function TripImageManager({
             onChange={handleFileInputChange}
             className="hidden"
           />
-          <div className="w-12 h-12 rounded-2xl bg-amber-400/10 text-amber-400 flex items-center justify-center mx-auto mb-3">
+          <div className="w-12 h-12 rounded-2xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] flex items-center justify-center mx-auto mb-3">
             <Upload className="w-6 h-6" />
           </div>
-          <div className="font-bold text-white text-xs sm:text-sm">
+          <div className="font-black text-[#1D2D2E] text-xs sm:text-sm">
             انقر لاختيار ملف صورة من جهازك، أو اسحب الصورة وأفلتها هنا
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">
+          <p className="text-xs font-bold text-[#1D2D2E]/70 mt-1">
             يدعم صيغ JPG, PNG, WEBP بدقة عالية (يمكنك اختيار أكثر من صورة معاً)
           </p>
         </div>
@@ -293,7 +293,7 @@ export function TripImageManager({
 
       {/* Tab 2: Direct Web Link */}
       {activeTab === 'url' && (
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+        <div className="p-4 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] space-y-3">
           <div className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
               <input
@@ -301,30 +301,30 @@ export function TripImageManager({
                 placeholder="https://images.unsplash.com/photo-..."
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs font-mono text-white focus:ring-2 focus:ring-amber-400 placeholder:text-slate-600"
+                className="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-[#1D2D2E] text-xs font-mono text-[#1D2D2E] focus:ring-2 focus:ring-[#FF7E47] placeholder:text-gray-400 font-bold"
                 dir="ltr"
               />
-              <LinkIcon className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+              <LinkIcon className="w-4 h-4 text-[#1D2D2E]/60 absolute left-3 top-3" />
             </div>
 
             <button
               type="button"
               onClick={handleAddUrl}
-              className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+              className="px-5 py-2.5 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] font-black text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
             >
               <Plus className="w-4 h-4" />
               <span>إضافة الصورة</span>
             </button>
           </div>
 
-          <div className="flex items-center gap-4 text-xs text-slate-300">
+          <div className="flex items-center gap-4 text-xs font-black text-[#1D2D2E]">
             <label className="flex items-center gap-2 cursor-pointer">
               <input
                 type="radio"
                 name="urlType"
                 checked={urlAsMain}
                 onChange={() => setUrlAsMain(true)}
-                className="text-amber-400 focus:ring-amber-400"
+                className="text-[#FF7E47] focus:ring-[#FF7E47]"
               />
               <span>تعيين كصورة غلاف رئيسية</span>
             </label>
@@ -335,7 +335,7 @@ export function TripImageManager({
                 name="urlType"
                 checked={!urlAsMain}
                 onChange={() => setUrlAsMain(false)}
-                className="text-amber-400 focus:ring-amber-400"
+                className="text-[#FF7E47] focus:ring-[#FF7E47]"
               />
               <span>إضافة إلى معرض الصور الإضافية</span>
             </label>
@@ -346,7 +346,7 @@ export function TripImageManager({
       {/* Tab 3: Presets Library */}
       {activeTab === 'presets' && (
         <div className="space-y-2">
-          <p className="text-[11px] text-slate-400 font-bold">
+          <p className="text-xs font-black text-[#1D2D2E]">
             انقر على أي صورة لإضافتها مباشرة للرحلة:
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 max-h-56 overflow-y-auto p-1">
@@ -358,7 +358,7 @@ export function TripImageManager({
                   type="button"
                   onClick={() => handleSelectPreset(preset.url)}
                   className={`group relative rounded-xl overflow-hidden border-2 aspect-video text-right transition-all cursor-pointer ${
-                    isSelected ? 'border-amber-400 ring-2 ring-amber-400/40' : 'border-slate-800 hover:border-slate-600'
+                    isSelected ? 'border-[#FF7E47] ring-2 ring-[#FF7E47] shadow-[2px_2px_0px_#1D2D2E]' : 'border-[#1D2D2E] hover:scale-102'
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -373,7 +373,7 @@ export function TripImageManager({
                     </span>
                   </div>
                   {isSelected && (
-                    <span className="absolute top-1 left-1 w-5 h-5 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center text-[10px] font-black shadow-md">
+                    <span className="absolute top-1 left-1 w-5 h-5 rounded-full bg-[#FFD95A] border border-[#1D2D2E] text-[#1D2D2E] flex items-center justify-center text-[10px] font-black shadow-md">
                       ✓
                     </span>
                   )}
@@ -389,40 +389,40 @@ export function TripImageManager({
         {/* Main Cover Image Display */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span className="text-xs font-black text-[#1D2D2E] flex items-center gap-1.5">
+              <Star className="w-4 h-4 text-[#FF7E47] fill-[#FF7E47]" />
               <span>صورة الغلاف الرئيسية (Main Cover):</span>
             </span>
             {mainImage && (
               <button
                 type="button"
                 onClick={handleRemoveMainImage}
-                className="text-[11px] text-rose-400 hover:text-rose-300 font-bold flex items-center gap-1 cursor-pointer"
+                className="text-xs text-rose-600 hover:text-rose-700 font-black flex items-center gap-1 cursor-pointer"
               >
-                <Trash2 className="w-3 h-3" />
+                <Trash2 className="w-3.5 h-3.5" />
                 <span>حذف الصورة الرئيسية</span>
               </button>
             )}
           </div>
 
           {mainImage ? (
-            <div className="relative rounded-2xl overflow-hidden border-2 border-amber-400/80 bg-slate-900 max-h-72 aspect-video sm:aspect-[21/9] group shadow-xl">
+            <div className="relative rounded-3xl overflow-hidden border-[3px] border-[#1D2D2E] bg-white max-h-72 aspect-video sm:aspect-[21/9] group shadow-[4px_4px_0px_#1D2D2E]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={mainImage}
                 alt="Main Trip Cover"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-slate-950/85 backdrop-blur-md border border-amber-400 text-amber-300 text-[11px] font-black flex items-center gap-1.5 shadow-lg">
-                <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+              <div className="absolute top-3 right-3 px-3 py-1 rounded-xl bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] text-xs font-black flex items-center gap-1.5 shadow-[2px_2px_0px_#1D2D2E]">
+                <Star className="w-3.5 h-3.5 fill-[#FF7E47] text-[#FF7E47]" />
                 <span>الصورة الرئيسية للبطاقة والموقع</span>
               </div>
 
-              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                 <button
                   type="button"
                   onClick={() => setPreviewModalImg(mainImage)}
-                  className="p-2.5 rounded-xl bg-slate-900/90 text-white hover:bg-slate-900 transition-all font-bold text-xs flex items-center gap-1.5 shadow-lg cursor-pointer"
+                  className="p-2.5 rounded-xl bg-white text-[#1D2D2E] border-2 border-[#1D2D2E] hover:bg-[#FFD95A] transition-all font-black text-xs flex items-center gap-1.5 shadow-[2px_2px_0px_#1D2D2E] cursor-pointer"
                 >
                   <Eye className="w-4 h-4" />
                   <span>معاينة مكبرة</span>
@@ -430,10 +430,10 @@ export function TripImageManager({
               </div>
             </div>
           ) : (
-            <div className="p-8 rounded-2xl border-2 border-dashed border-slate-800 bg-slate-950 text-center space-y-1">
-              <ImageIcon className="w-8 h-8 text-slate-600 mx-auto" />
-              <p className="text-xs text-slate-400 font-bold">لم يتم تحديد صورة رئيسية للرحلة بعد</p>
-              <p className="text-[10px] text-slate-500">اختر صورة عبر رفع ملف أو رابط أو من المكتبة الجاهزة أعلاه</p>
+            <div className="p-8 rounded-3xl border-[3px] border-dashed border-[#1D2D2E] bg-[#FDFFF5] text-center space-y-1">
+              <ImageIcon className="w-8 h-8 text-gray-400 mx-auto" />
+              <p className="text-xs text-[#1D2D2E] font-black">لم يتم تحديد صورة رئيسية للرحلة بعد</p>
+              <p className="text-[11px] text-gray-600 font-bold">اختر صورة عبر رفع ملف أو رابط أو من المكتبة الجاهزة أعلاه</p>
             </div>
           )}
         </div>
@@ -441,8 +441,8 @@ export function TripImageManager({
         {/* Gallery Images List */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-slate-400" />
+            <span className="text-xs font-black text-[#1D2D2E] flex items-center gap-1.5">
+              <Layers className="w-4 h-4 text-[#1D2D2E]" />
               <span>معرض الصور الإضافية للرحلة ({galleryImages.length} صور):</span>
             </span>
           </div>
@@ -452,7 +452,7 @@ export function TripImageManager({
               {galleryImages.map((imgUrl, index) => (
                 <div
                   key={index}
-                  className="group relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 aspect-video shadow-md hover:border-amber-400/50 transition-all"
+                  className="group relative rounded-2xl overflow-hidden border-2 border-[#1D2D2E] bg-white aspect-video shadow-[3px_3px_0px_#1D2D2E] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -462,12 +462,12 @@ export function TripImageManager({
                   />
 
                   {/* Overlay Controls on Hover */}
-                  <div className="absolute inset-0 bg-slate-950/70 opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-between">
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-2 flex flex-col justify-between">
                     <div className="flex justify-end gap-1">
                       <button
                         type="button"
                         onClick={() => setPreviewModalImg(imgUrl)}
-                        className="p-1 rounded-lg bg-slate-800 text-white hover:bg-slate-700 cursor-pointer"
+                        className="p-1 rounded-lg bg-white border border-[#1D2D2E] text-[#1D2D2E] hover:bg-[#FFD95A] cursor-pointer"
                         title="معاينة"
                       >
                         <Eye className="w-3 h-3" />
@@ -475,7 +475,7 @@ export function TripImageManager({
                       <button
                         type="button"
                         onClick={() => handleRemoveGalleryImage(index)}
-                        className="p-1 rounded-lg bg-rose-600 text-white hover:bg-rose-500 cursor-pointer"
+                        className="p-1 rounded-lg bg-rose-600 text-white hover:bg-rose-700 cursor-pointer"
                         title="حذف الصورة"
                       >
                         <Trash2 className="w-3 h-3" />
@@ -485,7 +485,7 @@ export function TripImageManager({
                     <button
                       type="button"
                       onClick={() => handleSetAsMain(imgUrl)}
-                      className="w-full py-1 px-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[10px] flex items-center justify-center gap-1 cursor-pointer transition-colors shadow-sm"
+                      className="w-full py-1 px-2 rounded-lg bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border border-[#1D2D2E] font-black text-[10px] flex items-center justify-center gap-1 cursor-pointer transition-colors shadow-sm"
                     >
                       <Star className="w-2.5 h-2.5" />
                       <span>تعيين كرئيسية</span>
@@ -495,7 +495,7 @@ export function TripImageManager({
               ))}
             </div>
           ) : (
-            <p className="text-[11px] text-slate-500 bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+            <p className="text-xs text-gray-600 font-bold bg-[#FDFFF5] p-3 rounded-2xl border-2 border-[#1D2D2E]">
               لا توجد صور إضافية في المعرض. يمكنك رفع أو إضافة صور ليتصفحها العميل في تفاصيل الرحلة.
             </p>
           )}
@@ -505,16 +505,16 @@ export function TripImageManager({
       {/* Fullscreen Preview Modal */}
       {previewModalImg && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs"
           onClick={() => setPreviewModalImg(null)}
         >
           <div
-            className="relative max-w-4xl max-h-[85vh] w-full rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 p-2 shadow-2xl animate-in zoom-in-95"
+            className="relative max-w-4xl max-h-[85vh] w-full rounded-3xl overflow-hidden bg-white border-[3px] border-[#1D2D2E] p-2 shadow-[8px_8px_0px_#1D2D2E] animate-in zoom-in-95"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setPreviewModalImg(null)}
-              className="absolute top-4 left-4 z-10 p-2 rounded-full bg-slate-950/80 text-white hover:bg-slate-900 cursor-pointer shadow-lg"
+              className="absolute top-4 left-4 z-10 p-2 rounded-full bg-white border-2 border-[#1D2D2E] text-[#1D2D2E] hover:bg-[#FFD95A] cursor-pointer shadow-[2px_2px_0px_#1D2D2E]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -522,7 +522,7 @@ export function TripImageManager({
             <img
               src={previewModalImg}
               alt="Preview Full"
-              className="w-full h-auto max-h-[80vh] object-contain rounded-xl mx-auto"
+              className="w-full h-auto max-h-[80vh] object-contain rounded-2xl mx-auto"
             />
           </div>
         </div>
