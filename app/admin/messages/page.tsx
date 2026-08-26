@@ -11,13 +11,14 @@ export default function AdminMessagesPage() {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch('/api/contact');
-      const data = await res.json();
-      if (data.success) {
+      const res = await fetch('/api/contact').catch(() => null);
+      if (!res || !res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setMessages(data.messages);
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     } finally {
       setLoading(false);
     }
@@ -27,13 +28,17 @@ export default function AdminMessagesPage() {
     let isMounted = true;
     const load = async () => {
       try {
-        const res = await fetch('/api/contact');
-        const data = await res.json();
-        if (isMounted && data.success) {
+        const res = await fetch('/api/contact').catch(() => null);
+        if (!res || !res.ok) {
+          if (isMounted) setLoading(false);
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (isMounted && data?.success) {
           setMessages(data.messages);
           setLoading(false);
         }
-      } catch (e) {
+      } catch {
         if (isMounted) setLoading(false);
       }
     };
@@ -49,15 +54,16 @@ export default function AdminMessagesPage() {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, isRead: !currentRead })
-      });
-      const data = await res.json();
-      if (data.success) {
+      }).catch(() => null);
+      if (!res || !res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setMessages((prev) =>
           prev.map((m) => (m.id === id ? { ...m, isRead: !currentRead } : m))
         );
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     }
   };
 

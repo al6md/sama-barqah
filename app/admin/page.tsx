@@ -61,12 +61,12 @@ export default function AdminDashboardPage() {
         ]);
 
         if (!ignore) {
-          if (anData.success) setAnalytics(anData.analytics);
-          if (bkData.success) setBookings(bkData.bookings || []);
-          if (trData.success) setTrips(trData.trips || []);
+          if (anData?.success) setAnalytics(anData.analytics);
+          if (bkData?.success) setBookings(bkData.bookings || []);
+          if (trData?.success) setTrips(trData.trips || []);
         }
-      } catch (e) {
-        console.error(e);
+      } catch {
+        // Safe fallback
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -95,14 +95,14 @@ export default function AdminDashboardPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
       });
-      const data = await res.json();
-      if (data.success) {
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setBookings((prev) =>
           prev.map((b) => (b.id === bookingId ? { ...b, status: newStatus } : b))
         );
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     }
   };
 

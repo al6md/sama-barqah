@@ -35,13 +35,17 @@ export default function AdminTripsPage() {
     let ignore = false;
     async function loadTrips() {
       try {
-        const res = await fetch('/api/trips?all=true');
-        const data = await res.json();
-        if (!ignore && data.success) {
+        const res = await fetch('/api/trips?all=true').catch(() => null);
+        if (!res || !res.ok) {
+          if (!ignore) setLoading(false);
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (!ignore && data?.success) {
           setTrips(data.trips || []);
         }
-      } catch (e) {
-        console.error(e);
+      } catch {
+        // Safe fallback
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -54,14 +58,15 @@ export default function AdminTripsPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/trips/${id}`, { method: 'DELETE' });
-      const data = await res.json();
-      if (data.success) {
+      const res = await fetch(`/api/trips/${id}`, { method: 'DELETE' }).catch(() => null);
+      if (!res || !res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setTrips((prev) => prev.filter((t) => t.id !== id));
         setDeleteConfirmId(null);
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     }
   };
 
@@ -72,15 +77,16 @@ export default function AdminTripsPage() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isActive: updatedStatus })
-      });
-      const data = await res.json();
-      if (data.success) {
+      }).catch(() => null);
+      if (!res || !res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setTrips((prev) =>
           prev.map((t) => (t.id === trip.id ? { ...t, isActive: updatedStatus } : t))
         );
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     }
   };
 

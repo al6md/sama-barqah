@@ -51,10 +51,26 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
         headers['x-customer-token'] = storedToken;
       }
 
-      const res = await fetch('/api/auth/me', { headers });
-      const data = await res.json();
+      const res = await fetch('/api/auth/me', { headers }).catch(() => null);
+      if (!res || !res.ok) {
+        // Fallback to local storage if API is temporarily unavailable
+        if (typeof window !== 'undefined') {
+          const cached = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
+          if (cached) {
+            try {
+              const parsed = JSON.parse(cached);
+              setUser(parsed);
+            } catch {
+              setUser(null);
+            }
+          }
+        }
+        return;
+      }
 
-      if (data.success && data.user) {
+      const data = await res.json().catch(() => null);
+
+      if (data && data.success && data.user) {
         setUser(data.user);
         setUserBookings(data.bookings || []);
         if (typeof window !== 'undefined') {
@@ -68,7 +84,7 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
             try {
               const parsed = JSON.parse(cached);
               setUser(parsed);
-            } catch (e) {
+            } catch {
               setUser(null);
             }
           } else {
@@ -78,8 +94,8 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
           setUser(null);
         }
       }
-    } catch (e) {
-      console.error('Error checking user auth:', e);
+    } catch {
+      // Graceful silent fallback
     } finally {
       setLoading(false);
     }
@@ -96,12 +112,30 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
           headers['x-customer-token'] = storedToken;
         }
 
-        const res = await fetch('/api/auth/me', { headers });
-        const data = await res.json();
-
+        const res = await fetch('/api/auth/me', { headers }).catch(() => null);
         if (!isMounted) return;
 
-        if (data.success && data.user) {
+        if (!res || !res.ok) {
+          if (typeof window !== 'undefined') {
+            const cached = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
+            if (cached) {
+              try {
+                const parsed = JSON.parse(cached);
+                setUser(parsed);
+              } catch {
+                setUser(null);
+              }
+            } else {
+              setUser(null);
+            }
+          }
+          return;
+        }
+
+        const data = await res.json().catch(() => null);
+        if (!isMounted) return;
+
+        if (data && data.success && data.user) {
           setUser(data.user);
           setUserBookings(data.bookings || []);
           if (typeof window !== 'undefined') {
@@ -114,7 +148,7 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
               try {
                 const parsed = JSON.parse(cached);
                 setUser(parsed);
-              } catch (e) {
+              } catch {
                 setUser(null);
               }
             } else {
@@ -124,8 +158,8 @@ export function UserAuthProvider({ children }: { children: React.ReactNode }) {
             setUser(null);
           }
         }
-      } catch (e) {
-        console.error('Error checking user auth:', e);
+      } catch {
+        // Fallback gracefully without console error
       } finally {
         if (isMounted) setLoading(false);
       }

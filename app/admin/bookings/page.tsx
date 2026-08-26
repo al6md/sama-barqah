@@ -34,13 +34,17 @@ export default function AdminBookingsPage() {
     let ignore = false;
     async function loadData() {
       try {
-        const res = await fetch('/api/bookings');
-        const data = await res.json();
-        if (!ignore && data.success) {
+        const res = await fetch('/api/bookings').catch(() => null);
+        if (!res || !res.ok) {
+          if (!ignore) setLoading(false);
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (!ignore && data?.success) {
           setBookings(data.bookings || []);
         }
-      } catch (e) {
-        console.error(e);
+      } catch {
+        // Safe fallback
       } finally {
         if (!ignore) setLoading(false);
       }
@@ -57,9 +61,10 @@ export default function AdminBookingsPage() {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
-      });
-      const data = await res.json();
-      if (data.success) {
+      }).catch(() => null);
+      if (!res || !res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setBookings((prev) =>
           prev.map((b) => (b.id === bookingId ? { ...b, status: newStatus } : b))
         );
@@ -67,8 +72,8 @@ export default function AdminBookingsPage() {
           setSelectedBooking({ ...selectedBooking, status: newStatus });
         }
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     }
   };
 

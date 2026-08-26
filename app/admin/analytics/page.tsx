@@ -32,13 +32,14 @@ export default function AdminAnalyticsPage() {
 
   const fetchAnalytics = async () => {
     try {
-      const res = await fetch('/api/analytics');
-      const data = await res.json();
-      if (data.success) {
+      const res = await fetch('/api/analytics').catch(() => null);
+      if (!res || !res.ok) return;
+      const data = await res.json().catch(() => null);
+      if (data?.success) {
         setAnalytics(data.analytics);
       }
-    } catch (e) {
-      console.error(e);
+    } catch {
+      // Safe fallback
     } finally {
       setLoading(false);
     }
@@ -48,13 +49,17 @@ export default function AdminAnalyticsPage() {
     let isMounted = true;
     const load = async () => {
       try {
-        const res = await fetch('/api/analytics');
-        const data = await res.json();
-        if (isMounted && data.success) {
+        const res = await fetch('/api/analytics').catch(() => null);
+        if (!res || !res.ok) {
+          if (isMounted) setLoading(false);
+          return;
+        }
+        const data = await res.json().catch(() => null);
+        if (isMounted && data?.success) {
           setAnalytics(data.analytics);
           setLoading(false);
         }
-      } catch (e) {
+      } catch {
         if (isMounted) setLoading(false);
       }
     };
