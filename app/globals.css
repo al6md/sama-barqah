@@ -76,20 +76,26 @@
     margin: 8mm 10mm;
   }
 
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
   html, body {
     background: #ffffff !important;
-    color: #111827 !important;
+    color: #1D2D2E !important;
     font-size: 11pt !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
+    min-height: 100% !important;
     height: auto !important;
     overflow: visible !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
   }
 
-  /* Hide all interactive non-print elements */
+  /* Hide navigation, sidebars, interactive controls, toolbars, and backdrops */
   .no-print,
   nav,
   aside,
@@ -98,28 +104,50 @@
   button,
   .admin-sidebar,
   #admin-sidebar,
-  .modal-backdrop-bg {
+  .floating-contact,
+  #floating-whatsapp {
     display: none !important;
+    visibility: hidden !important;
   }
 
-  /* Reset container constraints when printing */
+  /* Reset all modal fixed and overflow restrictions so print engine can lay out the voucher */
   .modal-backdrop,
+  .modal-backdrop-bg,
   main,
   div {
+    position: static !important;
     overflow: visible !important;
     max-height: none !important;
     height: auto !important;
-  }
-
-  #printable-voucher {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    background: transparent !important;
     border: none !important;
     box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    inset: auto !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+    transform: none !important;
+  }
+
+  /* Target and render the printable voucher container flawlessly on A4 */
+  #printable-voucher {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 16px 20px !important;
+    background: #ffffff !important;
+    border: 2px solid #1D2D2E !important;
+    border-radius: 12px !important;
     page-break-after: avoid !important;
     page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  #printable-voucher * {
+    visibility: visible !important;
   }
 }

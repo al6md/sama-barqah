@@ -1,9 +1,24 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { Booking } from '@/lib/db';
 import { SamaLogo } from '@/components/SamaLogo';
-import { Printer, X, User, MapPin, ShieldCheck, CheckCircle, FileText, Phone, Mail, Calendar, Sparkles } from 'lucide-react';
+import {
+  Printer,
+  X,
+  User,
+  MapPin,
+  ShieldCheck,
+  FileText,
+  Phone,
+  Mail,
+  Calendar,
+  CheckCircle2,
+  ExternalLink,
+  Award,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
 
 interface BookingVoucherModalProps {
   booking: Booking;
@@ -11,8 +26,6 @@ interface BookingVoucherModalProps {
 }
 
 export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalProps) {
-  const voucherRef = useRef<HTMLDivElement>(null);
-
   const formattedDate = new Date(booking.createdAt).toLocaleDateString('ar-IQ', {
     year: 'numeric',
     month: 'long',
@@ -27,533 +40,329 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
     day: '2-digit',
   });
 
-  // Dedicated fail-safe print mechanism via an isolated print iframe
+  // Direct and failsafe printing that works on both Laptops (Edge/Chrome/Firefox) and Mobile
   const handlePrint = () => {
-    try {
-      const existingFrame = document.getElementById('sama-print-frame');
-      if (existingFrame) {
-        existingFrame.remove();
-      }
+    window.print();
+  };
 
-      const iframe = document.createElement('iframe');
-      iframe.id = 'sama-print-frame';
-      iframe.style.position = 'fixed';
-      iframe.style.right = '0';
-      iframe.style.bottom = '0';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = 'none';
-      document.body.appendChild(iframe);
+  // Alternative print window generator for users who want a standalone tab or saving as PDF
+  const handleOpenPrintWindow = () => {
+    const printWindow = window.open('', '_blank', 'width=900,height=1100');
+    if (!printWindow) {
+      window.print();
+      return;
+    }
 
-      const frameDoc = iframe.contentWindow?.document || iframe.contentDocument;
-      if (!frameDoc) {
-        window.print();
-        return;
-      }
-
-      const voucherHTML = `
-        <!DOCTYPE html>
-        <html dir="rtl" lang="ar">
-        <head>
-          <meta charset="UTF-8">
-          <title>سند تأكيد حجز رسمي - ${booking.id}</title>
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-          <style>
-            @page {
-              size: A4 portrait;
-              margin: 10mm 12mm;
-            }
-            * {
-              box-sizing: border-box;
-              margin: 0;
-              padding: 0;
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
-            }
-            body {
-              font-family: 'IBM Plex Sans Arabic', 'Cairo', Tahoma, sans-serif;
-              color: #1D2D2E;
-              background: #ffffff;
-              font-size: 13px;
-              line-height: 1.5;
-              padding: 0;
-            }
-            .voucher-container {
-              width: 100%;
-              max-width: 780px;
-              margin: 0 auto;
-              border: 2px solid #1D2D2E;
-              border-radius: 16px;
-              padding: 24px 28px;
-              background: #ffffff;
-              position: relative;
-            }
-            /* Watermark */
-            .watermark {
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(-25deg);
-              font-size: 80px;
-              font-weight: 900;
-              color: rgba(29, 45, 46, 0.03);
-              pointer-events: none;
-              white-space: nowrap;
-              z-index: 0;
-              text-transform: uppercase;
-            }
-            .header {
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              border-bottom: 2px solid #1D2D2E;
-              padding-bottom: 16px;
-              margin-bottom: 18px;
-              position: relative;
-              z-index: 1;
-            }
-            .header-right h1 {
-              font-size: 20px;
-              font-weight: 900;
-              color: #1D2D2E;
-              margin-bottom: 2px;
-            }
-            .header-right .sub {
-              font-size: 11px;
-              font-weight: 700;
-              color: #FF7E47;
-              letter-spacing: 1px;
-              font-family: monospace;
-            }
-            .header-right .meta-info {
-              font-size: 11px;
-              color: #555;
-              margin-top: 4px;
-              font-weight: 600;
-            }
-            .header-left {
-              text-align: left;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-            }
-            .logo-circle {
-              width: 60px;
-              height: 60px;
-              background: #FFD95A;
-              border: 2px solid #1D2D2E;
-              border-radius: 14px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-weight: 900;
-              font-size: 22px;
-              color: #1D2D2E;
-            }
-            .doc-type-badge {
-              font-size: 9px;
-              font-weight: 800;
-              color: #1D2D2E;
-              margin-top: 4px;
-              background: #A5F3CF;
-              border: 1px solid #1D2D2E;
-              padding: 2px 8px;
-              border-radius: 10px;
-            }
-            /* Serial & Status Bar */
-            .meta-bar {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              background: #FDFFF5;
-              border: 2px solid #1D2D2E;
-              border-radius: 12px;
-              padding: 10px 16px;
-              margin-bottom: 16px;
-              position: relative;
-              z-index: 1;
-            }
-            .meta-item {
-              display: flex;
-              flex-direction: column;
-            }
-            .meta-item .label {
-              font-size: 10px;
-              color: #666;
-              font-weight: 600;
-            }
-            .meta-item .value {
-              font-size: 14px;
-              font-weight: 800;
-              color: #1D2D2E;
-            }
-            .meta-item .value.code {
-              font-family: monospace;
-              font-size: 16px;
-              color: #1D2D2E;
-            }
-            .status-tag {
-              display: inline-block;
-              font-size: 11px;
-              font-weight: 800;
-              padding: 3px 10px;
-              border-radius: 20px;
-              border: 1px solid #059669;
-              background: #ECFDF5;
-              color: #065F46;
-            }
-            /* Content Grid */
-            .grid-2 {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 14px;
-              margin-bottom: 16px;
-              position: relative;
-              z-index: 1;
-            }
-            .card {
-              border: 1.5px solid #1D2D2E;
-              border-radius: 12px;
-              padding: 12px 14px;
-              background: #ffffff;
-            }
-            .card-title {
-              font-size: 12px;
-              font-weight: 800;
-              color: #FF7E47;
-              border-bottom: 1px solid #E5E7EB;
-              padding-bottom: 6px;
-              margin-bottom: 8px;
-              display: flex;
-              align-items: center;
-              gap: 6px;
-            }
-            .info-row {
-              display: flex;
-              justify-content: space-between;
-              font-size: 12px;
-              margin-bottom: 5px;
-            }
-            .info-row:last-child {
-              margin-bottom: 0;
-            }
-            .info-row .field {
-              color: #666;
-              font-weight: 600;
-            }
-            .info-row .data {
-              color: #1D2D2E;
-              font-weight: 700;
-            }
-            /* Financial Table */
-            .finance-box {
-              border: 2px solid #1D2D2E;
-              border-radius: 12px;
-              overflow: hidden;
-              margin-bottom: 16px;
-              position: relative;
-              z-index: 1;
-            }
-            .finance-header {
-              background: #1D2D2E;
-              color: #ffffff;
-              padding: 8px 16px;
-              font-size: 12px;
-              font-weight: 800;
-              display: flex;
-              justify-content: space-between;
-            }
-            .finance-body {
-              background: #FDFFF5;
-              padding: 12px 16px;
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            }
-            .finance-body .desc {
-              font-size: 12px;
-              color: #444;
-              font-weight: 600;
-            }
-            .finance-body .total {
-              font-size: 20px;
-              font-weight: 900;
-              color: #FF7E47;
-              font-family: 'Cairo', sans-serif;
-            }
-            /* Notes */
-            .notes-box {
-              background: #FFFBEB;
-              border: 1.5px solid #F59E0B;
-              border-radius: 10px;
-              padding: 10px 14px;
-              font-size: 11px;
-              margin-bottom: 14px;
-              position: relative;
-              z-index: 1;
-            }
-            .notes-box strong {
-              color: #92400E;
-              font-weight: 800;
-              display: block;
-              margin-bottom: 2px;
-            }
-            /* Terms */
-            .terms-box {
-              background: #F9FAFB;
-              border: 1px solid #E5E7EB;
-              border-radius: 10px;
-              padding: 10px 14px;
-              font-size: 10px;
-              color: #555;
-              margin-bottom: 16px;
-              position: relative;
-              z-index: 1;
-            }
-            .terms-box strong {
-              color: #1D2D2E;
-              font-weight: 800;
-              font-size: 11px;
-              display: block;
-              margin-bottom: 4px;
-            }
-            .terms-box ul {
-              padding-right: 16px;
-            }
-            .terms-box li {
-              margin-bottom: 2px;
-            }
-            /* Signatures & Seal */
-            .footer-grid {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 20px;
-              border-top: 2px solid #1D2D2E;
-              padding-top: 14px;
-              align-items: center;
-              position: relative;
-              z-index: 1;
-            }
-            .stamp-box {
-              display: flex;
-              align-items: center;
-              gap: 12px;
-            }
-            .seal-circle {
-              width: 72px;
-              height: 72px;
-              border: 2px dashed #FF7E47;
-              background: #FDFFF5;
-              border-radius: 50%;
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              justify-content: center;
-              text-align: center;
-              padding: 4px;
-            }
-            .seal-circle .seal-text {
-              font-size: 7.5px;
-              font-weight: 900;
-              color: #1D2D2E;
-              line-height: 1.1;
-            }
-            .seal-circle .seal-sub {
-              font-size: 6.5px;
-              font-weight: 800;
-              color: #FF7E47;
-            }
-            .sig-box {
-              text-align: left;
-              border-bottom: 1.5px solid #9CA3AF;
-              padding-bottom: 4px;
-            }
-            .sig-label {
-              font-size: 10px;
-              color: #666;
-              font-weight: 700;
-              margin-bottom: 18px;
-            }
-            .sig-name {
-              font-size: 12px;
-              font-weight: 800;
-              color: #1D2D2E;
-            }
-            .footer-note {
-              text-align: center;
-              font-size: 9px;
-              color: #888;
-              margin-top: 14px;
-              border-top: 1px solid #EEE;
-              padding-top: 6px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="voucher-container">
-            <div class="watermark">SAMA AL-BARQA</div>
-
-            <!-- Header -->
-            <div class="header">
-              <div class="header-right">
-                <h1>شركة سما البارقة للسياحة والسفر</h1>
-                <div class="sub">SAMA AL-BARQA FOR TRAVEL & TOURISM SERVICES</div>
-                <div class="meta-info">
-                  ترخيص سياحي معتمد • بغداد - أربيل - دهوك • هاتف: 07782528287
-                </div>
-              </div>
-              <div class="header-left">
-                <div class="logo-circle">سما</div>
-                <div class="doc-type-badge">وثيقة رسمية معتمدة</div>
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+      <head>
+        <meta charset="UTF-8">
+        <title>سند تأكيد حجز رسمي - ${booking.id}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <style>
+          @page {
+            size: A4 portrait;
+            margin: 8mm 10mm;
+          }
+          * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          body {
+            font-family: 'IBM Plex Sans Arabic', 'Cairo', Tahoma, sans-serif;
+            color: #1D2D2E;
+            background: #ffffff;
+            font-size: 13px;
+            line-height: 1.5;
+            padding: 16px;
+          }
+          .voucher-box {
+            max-width: 780px;
+            margin: 0 auto;
+            border: 2px solid #1D2D2E;
+            border-radius: 14px;
+            padding: 24px;
+            position: relative;
+            background: #ffffff;
+          }
+          .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #1D2D2E;
+            padding-bottom: 14px;
+            margin-bottom: 16px;
+          }
+          .header h1 {
+            font-size: 22px;
+            font-weight: 900;
+            color: #1D2D2E;
+          }
+          .header .en-sub {
+            font-size: 11px;
+            font-weight: 700;
+            color: #FF7E47;
+            letter-spacing: 0.5px;
+            font-family: monospace;
+          }
+          .header .gov-license {
+            font-size: 11px;
+            color: #4B5563;
+            font-weight: 600;
+            margin-top: 4px;
+          }
+          .meta-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FDFFF5;
+            border: 2px solid #1D2D2E;
+            border-radius: 10px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+          }
+          .meta-item .label {
+            font-size: 10px;
+            color: #6B7280;
+            font-weight: 600;
+            display: block;
+          }
+          .meta-item .value {
+            font-size: 14px;
+            font-weight: 800;
+            color: #1D2D2E;
+          }
+          .meta-item .value.code {
+            font-family: monospace;
+            font-size: 16px;
+          }
+          .badge-confirmed {
+            background: #ECFDF5;
+            border: 1px solid #10B981;
+            color: #065F46;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+          }
+          .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+          }
+          .card {
+            border: 1.5px solid #1D2D2E;
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: #ffffff;
+          }
+          .card-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #FF7E47;
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+          }
+          .row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+          }
+          .row .lbl { color: #6B7280; font-weight: 600; }
+          .row .val { color: #1D2D2E; font-weight: 700; }
+          .finance-box {
+            border: 2px solid #1D2D2E;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 16px;
+          }
+          .finance-head {
+            background: #1D2D2E;
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+          }
+          .finance-body {
+            background: #FDFFF5;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .finance-body .total {
+            font-size: 22px;
+            font-weight: 900;
+            color: #FF7E47;
+            font-family: 'Cairo', sans-serif;
+          }
+          .terms {
+            background: #F9FAFB;
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 10.5px;
+            color: #4B5563;
+            margin-bottom: 16px;
+          }
+          .terms strong {
+            color: #1D2D2E;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 4px;
+          }
+          .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            border-top: 2px solid #1D2D2E;
+            padding-top: 14px;
+            align-items: center;
+          }
+          .seal {
+            width: 70px;
+            height: 70px;
+            border: 2px dashed #FF7E47;
+            background: #FDFFF5;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4px;
+          }
+          .seal-t1 { font-size: 7.5px; font-weight: 900; color: #1D2D2E; line-height: 1.1; }
+          .seal-t2 { font-size: 6.5px; font-weight: 800; color: #FF7E47; }
+        </style>
+      </head>
+      <body>
+        <div class="voucher-box">
+          <div class="header">
+            <div>
+              <h1>شركة سما البارقة للسياحة والسفر</h1>
+              <div class="en-sub">SAMA AL-BARQA FOR TRAVEL & TOURISM SERVICES</div>
+              <div class="gov-license">
+                جمهورية العراق • ترخيص سياحي معتمد • بغداد - أربيل - دهوك • هاتف: 07782528287
               </div>
             </div>
-
-            <!-- Serial Bar -->
-            <div class="meta-bar">
-              <div class="meta-item">
-                <span class="label">الرقم المرجعي للسند</span>
-                <span class="value code">#${booking.id}</span>
-              </div>
-              <div class="meta-item">
-                <span class="label">تاريخ وساعة الإصدار</span>
-                <span class="value">${formattedDate}</span>
-              </div>
-              <div class="meta-item">
-                <span class="label">حالة الحجز</span>
-                <span class="status-tag">✓ حجز مؤكد ومعتمد</span>
-              </div>
-            </div>
-
-            <!-- Details 2-Column Grid -->
-            <div class="grid-2">
-              <!-- Customer Info -->
-              <div class="card">
-                <div class="card-title">👤 بيانات المسافر الرئيسي</div>
-                <div class="info-row">
-                  <span class="field">اسم العميل:</span>
-                  <span class="data">${booking.customerName}</span>
-                </div>
-                <div class="info-row">
-                  <span class="field">رقم الهاتف:</span>
-                  <span class="data" dir="ltr">${booking.customerPhone}</span>
-                </div>
-                ${
-                  booking.customerEmail
-                    ? `
-                  <div class="info-row">
-                    <span class="field">البريد الإلكتروني:</span>
-                    <span class="data">${booking.customerEmail}</span>
-                  </div>
-                `
-                    : ''
-                }
-                <div class="info-row">
-                  <span class="field">عدد المسافرين:</span>
-                  <span class="data">${booking.travelerCount} مسافرين</span>
-                </div>
-              </div>
-
-              <!-- Trip Info -->
-              <div class="card">
-                <div class="card-title">📍 تفاصيل الرحلة السياحية</div>
-                <div class="info-row">
-                  <span class="field">اسم البرنامج:</span>
-                  <span class="data">${booking.tripTitle}</span>
-                </div>
-                <div class="info-row">
-                  <span class="field">نوع النقل:</span>
-                  <span class="data">باصات سياحية VIP حديثة ومكيفة</span>
-                </div>
-                <div class="info-row">
-                  <span class="field">الإقامة والخدمات:</span>
-                  <span class="data">شامل الفنادق والجولات السياحية</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Financial Table -->
-            <div class="finance-box">
-              <div class="finance-header">
-                <span>البيان المالي والمحاسبي</span>
-                <span>الحساب الرسمي المعتمد</span>
-              </div>
-              <div class="finance-body">
-                <div class="desc">
-                  إجمالي المبلغ المستحق عن الحجز بالدينار العراقي (${booking.travelerCount} مقاعد سياحية)
-                </div>
-                <div class="total">
-                  ${booking.totalPrice.toLocaleString()} ${booking.currency}
-                </div>
-              </div>
-            </div>
-
-            ${
-              booking.notes
-                ? `
-              <div class="notes-box">
-                <strong>ملاحظات وطلبات خاصة:</strong>
-                <div>${booking.notes}</div>
-              </div>
-            `
-                : ''
-            }
-
-            <!-- Terms -->
-            <div class="terms-box">
-              <strong>تعليمات وشروط السفر المهمة:</strong>
-              <ul>
-                <li>يرجى التواجد في نقطة التجمع والانطلاق قبل موعد الرحلة بنصف ساعة على الأقل.</li>
-                <li>يجب إبراز هذا السند مع المستمسكات الثبوتية الأصلية (البطاقة الموحدة أو الجواز) عند الصعود.</li>
-                <li>تطبق شروط وضوابط شركة سما البارقة بخصوص تعديل أو إلغاء الحجوزات وفق المواعيد المحددة.</li>
-              </ul>
-            </div>
-
-            <!-- Signatures and Stamp -->
-            <div class="footer-grid">
-              <div class="stamp-box">
-                <div class="seal-circle">
-                  <div class="seal-text">شركة سما البارقة</div>
-                  <div class="seal-sub">قسم الحجوزات</div>
-                  <div class="seal-text">معتمد رسمياً ✓</div>
-                </div>
-                <div>
-                  <strong style="display:block; font-size:12px; color:#1D2D2E;">إدارة العمليات والحجوزات</strong>
-                  <span style="font-size:10px; color:#666;">شركة سما البارقة للسياحة والسفر</span>
-                </div>
-              </div>
-
-              <div class="sig-box">
-                <div class="sig-label">توقيع العميل / المستلم:</div>
-                <div class="sig-name">${booking.customerName}</div>
-              </div>
-            </div>
-
-            <div class="footer-note">
-              تم إصدار هذا السند إلكترونياً من خلال منظومة شركة سما البارقة للسياحة والسفر • بغداد - أربيل • هاتف: 07782528287
+            <div style="text-align:center;">
+              <div style="width:55px;height:55px;background:#FFD95A;border:2px solid #1D2D2E;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;">سما</div>
+              <div style="font-size:9px;font-weight:800;background:#A5F3CF;border:1px solid #1D2D2E;padding:2px 6px;border-radius:10px;margin-top:4px;">سند رسمي معتمد</div>
             </div>
           </div>
 
-          <script>
-            window.onload = function() {
-              setTimeout(function() {
-                window.focus();
-                window.print();
-              }, 250);
-            };
-          </script>
-        </body>
-        </html>
-      `;
+          <div class="meta-bar">
+            <div class="meta-item">
+              <span class="label">الرقم المرجعي للسند</span>
+              <span class="value code">#${booking.id}</span>
+            </div>
+            <div class="meta-item">
+              <span class="label">تاريخ وساعة الإصدار</span>
+              <span class="value">${formattedDate}</span>
+            </div>
+            <div class="meta-item">
+              <span class="label">حالة الحجز</span>
+              <span class="badge-confirmed">✓ حجز مؤكد ومعتمد</span>
+            </div>
+          </div>
 
-      frameDoc.open();
-      frameDoc.write(voucherHTML);
-      frameDoc.close();
-    } catch (e) {
-      console.error('Iframe print error, falling back to window.print', e);
-      window.print();
-    }
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">👤 بيانات المسافر الرئيسي</div>
+              <div class="row"><span class="lbl">اسم العميل:</span><span class="val">${booking.customerName}</span></div>
+              <div class="row"><span class="lbl">رقم الهاتف:</span><span class="val" dir="ltr">${booking.customerPhone}</span></div>
+              ${booking.customerEmail ? `<div class="row"><span class="lbl">البريد الإلكتروني:</span><span class="val">${booking.customerEmail}</span></div>` : ''}
+              <div class="row"><span class="lbl">عدد المسافرين:</span><span class="val">${booking.travelerCount} مسافرين</span></div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">📍 تفاصيل البرنامج والرحلة</div>
+              <div class="row"><span class="lbl">اسم الرحلة:</span><span class="val">${booking.tripTitle}</span></div>
+              <div class="row"><span class="lbl">وسيلة النقل:</span><span class="val">باصات سياحية VIP حديثة ومكيفة</span></div>
+              <div class="row"><span class="lbl">مستوى الخدمات:</span><span class="val">شامل الفنادق والجولات السياحية</span></div>
+            </div>
+          </div>
+
+          <div class="finance-box">
+            <div class="finance-head">
+              <span>البيان المالي والمحاسبي</span>
+              <span>الحساب المعتمد</span>
+            </div>
+            <div class="finance-body">
+              <div>إجمالي المبلغ المستحق عن الحجز (${booking.travelerCount} مقاعد سياحية):</div>
+              <div class="total">${booking.totalPrice.toLocaleString()} ${booking.currency}</div>
+            </div>
+          </div>
+
+          ${
+            booking.notes
+              ? `
+            <div style="background:#FFFBEB;border:1.5px solid #F59E0B;border-radius:10px;padding:10px 14px;font-size:11px;margin-bottom:14px;">
+              <strong style="color:#92400E;font-weight:800;display:block;margin-bottom:2px;">ملاحظات وطلبات خاصة:</strong>
+              <div>${booking.notes}</div>
+            </div>
+          `
+              : ''
+          }
+
+          <div class="terms">
+            <strong>تعليمات وضوابط السفر الرسمية:</strong>
+            <ul style="padding-right:16px;">
+              <li>يرجى التواجد في نقطة التجمع والانطلاق المحددة قبل موعد الرحلة بنصف ساعة على الأقل.</li>
+              <li>يجب إبراز هذا السند مع المستمسكات الثبوتية الأصلية (البطاقة الوطنية أو الجواز) عند الصعود.</li>
+              <li>تطبق شروط وضوابط شركة سما البارقة بخصوص تعديل أو إلغاء الحجوزات.</li>
+            </ul>
+          </div>
+
+          <div class="footer-grid">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="seal">
+                <div class="seal-t1">شركة سما البارقة</div>
+                <div class="seal-t2">قسم الحجوزات</div>
+                <div class="seal-t1">معتمد رسمياً ✓</div>
+              </div>
+              <div>
+                <strong style="font-size:12px;color:#1D2D2E;display:block;">إدارة العمليات والحجوزات</strong>
+                <span style="font-size:10px;color:#6B7280;">شركة سما البارقة للسياحة والسفر</span>
+              </div>
+            </div>
+
+            <div style="text-align:left;border-bottom:1.5px solid #9CA3AF;padding-bottom:4px;">
+              <div style="font-size:10px;color:#6B7280;font-weight:700;margin-bottom:16px;">توقيع العميل / المستلم:</div>
+              <div style="font-size:12px;font-weight:800;color:#1D2D2E;">${booking.customerName}</div>
+            </div>
+          </div>
+
+          <div style="text-align:center;font-size:9px;color:#9CA3AF;margin-top:12px;border-top:1px solid #E5E7EB;padding-top:6px;">
+            تم إصدار هذا السند إلكترونياً من خلال منظومة شركة سما البارقة للسياحة والسفر • بغداد - أربيل • هاتف: 07782528287
+          </div>
+        </div>
+        <script>
+          window.onload = function() {
+            setTimeout(function() {
+              window.print();
+            }, 300);
+          };
+        </script>
+      </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
   };
 
   const getStatusBadge = () => {
@@ -576,6 +385,7 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
 
   return (
     <div
+      id="sama-voucher-modal"
       className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-xs overflow-y-auto modal-backdrop"
       onClick={onClose}
     >
@@ -584,7 +394,7 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
         onClick={(e) => e.stopPropagation()}
       >
         {/* Screen Controls Header (Hidden on Print) */}
-        <div className="no-print flex items-center justify-between px-6 py-4 bg-[#FFD95A] border-b-3 border-[#1D2D2E] shrink-0">
+        <div className="no-print flex flex-wrap items-center justify-between gap-3 px-6 py-4 bg-[#FFD95A] border-b-3 border-[#1D2D2E] shrink-0">
           <div className="flex items-center gap-2">
             <span className="text-xs font-black bg-white text-[#1D2D2E] px-3 py-1 rounded-full border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] flex items-center gap-1.5">
               <FileText className="w-3.5 h-3.5 text-[#FF7E47]" />
@@ -600,10 +410,22 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
               onClick={handlePrint}
               type="button"
               className="px-4 py-2 rounded-xl bg-[#FF7E47] hover:bg-[#ff6c2f] text-white border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] hover:translate-x-0.5 hover:translate-y-0.5 transition-all text-xs font-black flex items-center gap-1.5 cursor-pointer"
+              title="طباعة مباشرة"
             >
               <Printer className="w-4 h-4" />
-              <span>طباعة السند الرسمي (A4) 🖨️</span>
+              <span>طباعة السند (A4) 🖨️</span>
             </button>
+
+            <button
+              onClick={handleOpenPrintWindow}
+              type="button"
+              className="px-3 py-2 rounded-xl bg-white hover:bg-[#FDFFF5] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] hover:translate-x-0.5 hover:translate-y-0.5 transition-all text-xs font-black flex items-center gap-1.5 cursor-pointer"
+              title="فتح في نافذة مستقلة للطباعة أو الحفظ كـ PDF"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-blue-600" />
+              <span className="hidden sm:inline">نافذة مستقلة / PDF</span>
+            </button>
+
             <button
               onClick={onClose}
               type="button"
@@ -619,7 +441,6 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
         <div className="overflow-y-auto p-4 sm:p-6 bg-gray-50 flex justify-center">
           {/* THE OFFICIAL VOUCHER ON-SCREEN PREVIEW */}
           <div
-            ref={voucherRef}
             id="printable-voucher"
             className="w-full max-w-[720px] bg-white border-2 border-[#1D2D2E] p-6 sm:p-8 rounded-2xl space-y-4 text-[#1D2D2E] shadow-sm relative"
             style={{ fontFamily: "'IBM Plex Sans Arabic', 'Cairo', sans-serif" }}
@@ -819,22 +640,28 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
         </div>
 
         {/* Screen Bottom Actions (Hidden on Print) */}
-        <div className="no-print flex items-center justify-end gap-3 px-6 py-3 bg-white border-t-2 border-[#1D2D2E]/15 shrink-0">
-          <button
-            onClick={onClose}
-            type="button"
-            className="px-5 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] text-xs font-black cursor-pointer"
-          >
-            إلغاء وإغلاق
-          </button>
-          <button
-            onClick={handlePrint}
-            type="button"
-            className="px-6 py-2 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] text-xs font-black flex items-center gap-2 cursor-pointer hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
-          >
-            <Printer className="w-4 h-4" />
-            <span>طباعة السند الرسمي 🖨️</span>
-          </button>
+        <div className="no-print flex items-center justify-between gap-3 px-6 py-3 bg-white border-t-2 border-[#1D2D2E]/15 shrink-0">
+          <div className="text-[11px] text-gray-500 hidden sm:block">
+            💡 نصيحة: يمكنك أيضاً الضغط على <kbd className="px-1.5 py-0.5 bg-gray-100 border border-gray-300 rounded text-[10px] font-mono">Ctrl + P</kbd> للطباعة المباشرة
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              type="button"
+              className="px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] text-xs font-black cursor-pointer"
+            >
+              إلغاء وإغلاق
+            </button>
+            <button
+              onClick={handlePrint}
+              type="button"
+              className="px-5 py-2 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] text-xs font-black flex items-center gap-2 cursor-pointer hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Printer className="w-4 h-4" />
+              <span>طباعة السند الرسمي 🖨️</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
