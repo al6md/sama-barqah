@@ -5,6 +5,7 @@ import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Booking, BookingStatus } from '@/lib/db';
 import { SamaLogo } from '@/components/SamaLogo';
 import { BookingVoucherModal } from '@/components/admin/BookingVoucherModal';
+import { getClientAdminHeaders } from '@/lib/clientAuth';
 import {
   CalendarCheck,
   Search,
@@ -34,7 +35,8 @@ export default function AdminBookingsPage() {
     let ignore = false;
     async function loadData() {
       try {
-        const res = await fetch('/api/bookings').catch(() => null);
+        const headers = getClientAdminHeaders();
+        const res = await fetch('/api/bookings', { headers }).catch(() => null);
         if (!res || !res.ok) {
           if (!ignore) setLoading(false);
           return;
@@ -57,9 +59,10 @@ export default function AdminBookingsPage() {
 
   const handleStatusChange = async (bookingId: string, newStatus: BookingStatus) => {
     try {
+      const headers = getClientAdminHeaders();
       const res = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ status: newStatus })
       }).catch(() => null);
       if (!res || !res.ok) return;

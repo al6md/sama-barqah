@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Trip } from '@/lib/db';
+import { getClientAdminHeaders } from '@/lib/clientAuth';
 import {
   Compass,
   Plus,
@@ -35,7 +36,8 @@ export default function AdminTripsPage() {
     let ignore = false;
     async function loadTrips() {
       try {
-        const res = await fetch('/api/trips?all=true').catch(() => null);
+        const headers = getClientAdminHeaders();
+        const res = await fetch('/api/trips?all=true', { headers }).catch(() => null);
         if (!res || !res.ok) {
           if (!ignore) setLoading(false);
           return;
@@ -58,7 +60,11 @@ export default function AdminTripsPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/trips/${id}`, { method: 'DELETE' }).catch(() => null);
+      const headers = getClientAdminHeaders();
+      const res = await fetch(`/api/trips/${id}`, {
+        method: 'DELETE',
+        headers
+      }).catch(() => null);
       if (!res || !res.ok) return;
       const data = await res.json().catch(() => null);
       if (data?.success) {
@@ -73,9 +79,10 @@ export default function AdminTripsPage() {
   const toggleStatus = async (trip: Trip) => {
     const updatedStatus = !trip.isActive;
     try {
+      const headers = getClientAdminHeaders();
       const res = await fetch(`/api/trips/${trip.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ isActive: updatedStatus })
       }).catch(() => null);
       if (!res || !res.ok) return;

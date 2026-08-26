@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { TripImageManager } from '@/components/admin/TripImageManager';
 import { Trip } from '@/lib/db';
+import { getClientAdminHeaders } from '@/lib/clientAuth';
 import {
   Compass,
   Plus,
@@ -142,27 +143,32 @@ export default function AdminEditTripPage() {
     setSubmitting(true);
 
     try {
-      const allImages = [mainImage, ...galleryImages.filter((img) => img.trim().length > 0 && img !== mainImage)];
+      const allImages = [
+        mainImage.trim(),
+        ...galleryImages.map((img) => img.trim()).filter((img) => img.length > 0 && img !== mainImage.trim())
+      ];
+
+      const headers = getClientAdminHeaders();
 
       const res = await fetch(`/api/trips/${id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
-          title,
-          slug,
-          destination,
-          description,
-          overview: overview || description,
-          price: Number(price),
+          title: title.trim(),
+          slug: slug.trim(),
+          destination: destination.trim(),
+          description: description.trim(),
+          overview: overview.trim() || description.trim(),
+          price: Number(price) || 0,
           currency,
-          duration,
+          duration: duration.trim(),
           startDate,
-          endDate,
-          maxSeats: Number(maxSeats),
-          bookedSeats: Number(bookedSeats),
-          mainImage,
+          endDate: endDate || startDate,
+          maxSeats: Number(maxSeats) || 40,
+          bookedSeats: Number(bookedSeats) || 0,
+          mainImage: mainImage.trim(),
           images: allImages,
-          departureInfo,
+          departureInfo: departureInfo.trim(),
           includedServices,
           excludedServices,
           dailyProgram,
@@ -173,13 +179,13 @@ export default function AdminEditTripPage() {
         })
       });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
         router.push('/admin/trips');
       } else {
-        setErrorMsg(data.error || 'فشل في تحديث بيانات الرحلة.');
+        setErrorMsg(data?.error || 'فشل في تحديث بيانات الرحلة. يرجى التأكد من البيانات والمحاولة مجدداً.');
       }
-    } catch (e) {
+    } catch {
       setErrorMsg('حدث خطأ أثناء الاتصال بالخادم.');
     } finally {
       setSubmitting(false);

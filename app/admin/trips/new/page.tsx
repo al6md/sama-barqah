@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { TripImageManager } from '@/components/admin/TripImageManager';
+import { getClientAdminHeaders } from '@/lib/clientAuth';
 import {
   Compass,
   Plus,
@@ -48,7 +49,7 @@ export default function AdminNewTripPage() {
     'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1000'
   ]);
   const [departureInfo, setDepartureInfo] = useState(
-    'التجمع في ساحة الفردوس - بغداد الساعة 6:00 صباحاً.'
+    'كربلاء - نهاية شارع الاسكان - محلات ملعب القديم'
   );
   const [includedServices, setIncludedServices] = useState<string[]>([
     'النقل بباصات سياحية VIP حديثة ومكيفة',
@@ -64,7 +65,7 @@ export default function AdminNewTripPage() {
     {
       day: 1,
       title: 'الانطلاق والوصول وتسجيل الدخول بالفندق',
-      description: 'الانطلاق صباحاً من بغداد إلى الوجهة، التوقف للاستراحة، والوصول إلى الفندق واستلام الغرف وجولة مسائية حرة.',
+      description: 'الانطلاق صباحاً من كربلاء إلى الوجهة، التوقف للاستراحة، والوصول إلى الفندق واستلام الغرف وجولة مسائية حرة.',
       activities: ['الانطلاق من نقطة التجمع', 'استراحة الغداء', 'استلام الغرف وجولة مسائية']
     },
     {
@@ -142,30 +143,42 @@ export default function AdminNewTripPage() {
     setErrorMsg(null);
     setSubmitting(true);
 
+    if (!title.trim()) {
+      setErrorMsg('يرجى إدخال عنوان الرحلة السياحية.');
+      setSubmitting(false);
+      return;
+    }
+
     try {
-      const allImages = [mainImage, ...galleryImages.filter((img) => img.trim().length > 0 && img !== mainImage)];
+      const allImages = [
+        mainImage.trim(),
+        ...galleryImages.map((img) => img.trim()).filter((img) => img.length > 0 && img !== mainImage.trim())
+      ];
+
+      const headers = getClientAdminHeaders();
 
       const res = await fetch('/api/trips', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
-          title,
+          title: title.trim(),
           slug: slug.trim() || `trip-${Date.now()}`,
-          destination,
-          description,
-          overview: overview || description,
-          price: Number(price),
+          destination: destination.trim(),
+          description: description.trim() || title.trim(),
+          overview: overview.trim() || description.trim() || title.trim(),
+          price: Number(price) || 0,
           currency,
-          duration,
-          startDate,
-          endDate,
-          maxSeats: Number(maxSeats),
-          mainImage,
+          duration: duration.trim() || '4 أيام / 3 ليالي',
+          startDate: startDate || '2026-09-01',
+          endDate: endDate || startDate || '2026-09-04',
+          maxSeats: Number(maxSeats) || 40,
+          mainImage: mainImage.trim(),
           images: allImages,
-          departureInfo,
+          departureInfo: departureInfo.trim(),
           includedServices,
           excludedServices,
           dailyProgram,
+          status: isActive ? 'active' : 'draft',
           isActive,
           isFeatured,
           isOffer,
@@ -173,13 +186,14 @@ export default function AdminNewTripPage() {
         })
       });
 
-      const data = await res.json();
-      if (res.ok && data.success) {
+      const data = await res.json().catch(() => null);
+
+      if (res.ok && data?.success) {
         router.push('/admin/trips');
       } else {
-        setErrorMsg(data.error || 'فشل في حفظ الرحلة الجديدة.');
+        setErrorMsg(data?.error || 'فشل في حفظ الرحلة الجديدة. يرجى التأكد من البيانات والمحاولة مجدداً.');
       }
-    } catch (e) {
+    } catch {
       setErrorMsg('حدث خطأ أثناء الاتصال بالخادم.');
     } finally {
       setSubmitting(false);

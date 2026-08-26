@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Booking, Trip, BookingStatus } from '@/lib/db';
+import { getClientAdminHeaders } from '@/lib/clientAuth';
 import {
   CalendarCheck,
   Users,
@@ -48,16 +49,17 @@ export default function AdminDashboardPage() {
     let ignore = false;
     async function loadAll() {
       try {
+        const headers = getClientAdminHeaders();
         const [anRes, bkRes, trRes] = await Promise.all([
-          fetch('/api/analytics'),
-          fetch('/api/bookings'),
-          fetch('/api/trips?all=true')
+          fetch('/api/analytics', { headers }).catch(() => null),
+          fetch('/api/bookings', { headers }).catch(() => null),
+          fetch('/api/trips?all=true', { headers }).catch(() => null)
         ]);
 
         const [anData, bkData, trData] = await Promise.all([
-          anRes.json(),
-          bkRes.json(),
-          trRes.json()
+          anRes ? anRes.json().catch(() => null) : null,
+          bkRes ? bkRes.json().catch(() => null) : null,
+          trRes ? trRes.json().catch(() => null) : null
         ]);
 
         if (!ignore) {
@@ -90,11 +92,13 @@ export default function AdminDashboardPage() {
 
   const handleStatusChange = async (bookingId: string, newStatus: BookingStatus) => {
     try {
+      const headers = getClientAdminHeaders();
       const res = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ status: newStatus })
-      });
+      }).catch(() => null);
+      if (!res || !res.ok) return;
       const data = await res.json().catch(() => null);
       if (data?.success) {
         setBookings((prev) =>
