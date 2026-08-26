@@ -2,14 +2,18 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { Compass, ShieldCheck, Award, HeartHandshake, Users, MapPin, Bus, CheckCircle2 } from 'lucide-react';
+import { SamaLogo } from '@/components/SamaLogo';
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFFF5] text-[#1D2D2E]">
       <Navbar />
 
-      <section className="bg-[#FFD95A] text-[#1D2D2E] border-b-3 border-[#1D2D2E] pt-28 pb-12 px-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+      <section className="bg-[#FFD95A] text-[#1D2D2E] border-b-3 border-[#1D2D2E] pt-24 pb-12 px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4 flex flex-col items-center">
+          <div className="p-3 bg-white rounded-3xl border-3 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E]">
+            <SamaLogo size="md" variant="emblem" />
+          </div>
           <span className="text-xs font-black bg-white text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] px-3.5 py-1 rounded-full uppercase inline-block">
             سما البارقة للسياحة والسفر 🌟
           </span>

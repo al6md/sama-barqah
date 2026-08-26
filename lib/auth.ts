@@ -4,8 +4,8 @@ import { NextRequest } from 'next/server';
 export const ADMIN_SESSION_COOKIE = 'sama_admin_token';
 export const SECRET_SALT = 'sama_al_barqah_jwt_secure_key_2026';
 
-export async function createAdminSession(): Promise<string> {
-  const token = `session_${Buffer.from(`admin:${Date.now()}:${SECRET_SALT}`).toString('base64')}`;
+export async function createAdminSession(username = 'admin'): Promise<string> {
+  const token = `session_${Buffer.from(`${username}:${Date.now()}:${SECRET_SALT}`).toString('base64')}`;
   try {
     const cookieStore = await cookies();
     cookieStore.set(ADMIN_SESSION_COOKIE, token, {
@@ -39,7 +39,7 @@ export function isValidToken(token?: string | null): boolean {
   try {
     const raw = Buffer.from(clean.replace('session_', ''), 'base64').toString('utf-8');
     const [user, timestamp, salt] = raw.split(':');
-    if ((user === 'admin' || user === 'superadmin' || user === 'sama') && (salt === SECRET_SALT || salt) && Number(timestamp) > 0) {
+    if (user && (salt === SECRET_SALT || salt) && Number(timestamp) > 0) {
       return true;
     }
   } catch (e) {

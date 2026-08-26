@@ -1,22 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { Compass, Phone, Mail, MapPin, MessageCircle, Shield, Award, Clock, Heart, Sparkles } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageCircle, Shield, Award, Clock, Heart } from 'lucide-react';
+import { SamaLogo } from '@/components/SamaLogo';
 
 export function Footer() {
   return (
     <footer id="main-footer" className="bg-white text-[#1D2D2E] border-t-3 border-[#1D2D2E] pt-16 pb-8 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12 border-b-2 border-dashed border-[#1D2D2E]/20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-12 border-b-2 border-dashed border-[#1D2D2E]/20">
           {/* Col 1: Brand & Bio */}
           <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">✈️</span>
-              <div>
-                <span className="text-2xl font-black text-[#FF7E47] block leading-none">شركة سما البارقة</span>
-                <span className="text-xs text-[#1D2D2E] font-extrabold tracking-wide">للسفر والسياحة</span>
-              </div>
-            </div>
+            <Link href="/" className="inline-block">
+              <SamaLogo size="md" variant="horizontal" />
+            </Link>
             <p className="text-xs sm:text-sm text-[#1D2D2E]/80 leading-relaxed font-bold">
               اكتشف جمال كردستان معنا، واستمتع برحلة مليئة بالطبيعة الخلابة، الأجواء الساحرة، والمعالم التي تستحق أن تُرى! 🌄✨
             </p>
@@ -75,35 +72,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Col 3: Popular Destinations */}
-          <div>
-            <h4 className="text-base font-black text-[#1D2D2E] mb-4 flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#4CC9FE] border border-[#1D2D2E]"></span>
-              وجهاتنا السياحية بأسعار مميزة
-            </h4>
-            <ul className="space-y-2.5 text-sm font-bold">
-              <li>
-                <Link href="/trips/sulaymaniyah" className="hover:text-[#FF7E47] transition-colors flex items-center justify-between text-[#1D2D2E]/90 bg-[#FDFFF5] p-2 rounded-xl border border-[#1D2D2E]/20">
-                  <span>📍 سليمانية</span>
-                  <span className="text-xs bg-[#FFD95A] text-[#1D2D2E] border border-[#1D2D2E] px-2 py-0.5 rounded-md font-black">100 ألف</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/trips/duhok" className="hover:text-[#FF7E47] transition-colors flex items-center justify-between text-[#1D2D2E]/90 bg-[#FDFFF5] p-2 rounded-xl border border-[#1D2D2E]/20">
-                  <span>📍 دهوك</span>
-                  <span className="text-xs bg-[#A5F3CF] text-[#1D2D2E] border border-[#1D2D2E] px-2 py-0.5 rounded-md font-black">70 ألف</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/trips/erbil" className="hover:text-[#FF7E47] transition-colors flex items-center justify-between text-[#1D2D2E]/90 bg-[#FDFFF5] p-2 rounded-xl border border-[#1D2D2E]/20">
-                  <span>📍 أربيل</span>
-                  <span className="text-xs bg-[#4CC9FE] text-[#1D2D2E] border border-[#1D2D2E] px-2 py-0.5 rounded-md font-black">75 ألف</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 4: Contact & Office Info */}
+          {/* Col 3: Contact & Office Info */}
           <div>
             <h4 className="text-base font-black text-[#1D2D2E] mb-4 flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#A5F3CF] border border-[#1D2D2E]"></span>

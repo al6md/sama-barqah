@@ -14,6 +14,7 @@ import {
   EyeOff,
   CheckCircle2
 } from 'lucide-react';
+import { SamaLogo } from '@/components/SamaLogo';
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -64,6 +65,9 @@ export default function AdminLoginPage() {
           if (data.token) {
             localStorage.setItem('sama_admin_token', data.token);
             sessionStorage.setItem('sama_admin_token', data.token);
+            if (data.user) {
+              localStorage.setItem('sama_admin_user', JSON.stringify(data.user));
+            }
             try {
               document.cookie = `sama_admin_token=${data.token}; path=/; max-age=604800; SameSite=None; Secure`;
             } catch (e) {}
@@ -108,9 +112,9 @@ export default function AdminLoginPage() {
         {/* Card Container */}
         <div className="bg-white border-[3px] border-[#1D2D2E] rounded-3xl p-8 sm:p-10 shadow-[6px_6px_0px_#1D2D2E] space-y-8 animate-in zoom-in-95 duration-200">
           {/* Header Brand */}
-          <div className="text-center space-y-3">
-            <div className="w-16 h-16 rounded-2xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] flex items-center justify-center mx-auto shadow-[3px_3px_0px_#1D2D2E]">
-              <Shield className="w-9 h-9" />
+          <div className="text-center space-y-4">
+            <div className="inline-block p-3 rounded-2xl bg-[#FDFFF5] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E]">
+              <SamaLogo size="md" variant="emblem" />
             </div>
             <div>
               <h1 className="text-2xl font-black text-[#1D2D2E] tracking-tight">بوابة إدارة سما البارقة</h1>

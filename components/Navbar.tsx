@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Compass, Phone, Menu, X, Calendar, Shield, Sparkles } from 'lucide-react';
+import { Phone, Menu, X } from 'lucide-react';
+import { SamaLogo } from '@/components/SamaLogo';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -30,16 +31,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" id="navbar-brand-logo" className="flex items-center gap-2.5 group">
-            <span className="text-2xl sm:text-3xl transition-transform group-hover:scale-110">✈️</span>
-            <div className="flex flex-col">
-              <span className="text-2xl font-black text-[#FF7E47] tracking-tight flex items-center gap-1.5 leading-none">
-                سما البارقة
-              </span>
-              <span className="text-[10px] text-[#1D2D2E]/70 font-extrabold tracking-wider mt-0.5">
-                سافر معنا… نحو تجربة لا تُنسى ✨
-              </span>
-            </div>
+          <Link href="/" id="navbar-brand-logo" className="flex items-center group">
+            <SamaLogo size="sm" variant="horizontal" />
           </Link>
 
           {/* Desktop Nav Links */}

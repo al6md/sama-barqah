@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { Booking, BookingStatus } from '@/lib/db';
+import { SamaLogo } from '@/components/SamaLogo';
+import { BookingVoucherModal } from '@/components/admin/BookingVoucherModal';
 import {
   CalendarCheck,
   Search,
@@ -309,91 +311,12 @@ export default function AdminBookingsPage() {
           </div>
         </div>
 
-        {/* Booking Details / Voucher Print Modal */}
+        {/* Booking Details / Official Voucher Print Modal */}
         {selectedBooking && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
-            onClick={() => setSelectedBooking(null)}
-          >
-            <div
-              className="relative max-w-lg w-full rounded-3xl bg-white border-[3px] border-[#1D2D2E] p-6 sm:p-8 space-y-6 shadow-[8px_8px_0px_#1D2D2E] animate-in zoom-in-95"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between border-b-2 border-[#1D2D2E]/15 pb-4">
-                <div>
-                  <span className="text-xs font-black text-[#FF7E47]">سند تأكيد الحجز</span>
-                  <h3 className="text-lg font-black text-[#1D2D2E]">
-                    حجز رقم #{selectedBooking.id}
-                  </h3>
-                </div>
-                <button
-                  onClick={() => setSelectedBooking(null)}
-                  className="p-2 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] text-[#1D2D2E] hover:bg-[#FFD95A] shadow-[2px_2px_0px_#1D2D2E] cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="space-y-3 text-xs">
-                <div className="flex justify-between p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
-                  <span className="text-gray-600 font-bold">اسم العميل:</span>
-                  <strong className="text-[#1D2D2E] font-black">{selectedBooking.customerName}</strong>
-                </div>
-
-                <div className="flex justify-between p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
-                  <span className="text-gray-600 font-bold">رقم الهاتف:</span>
-                  <strong className="text-[#1D2D2E] font-mono font-black" dir="ltr">
-                    {selectedBooking.customerPhone}
-                  </strong>
-                </div>
-
-                <div className="flex justify-between p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
-                  <span className="text-gray-600 font-bold">الرحلة السياحية:</span>
-                  <strong className="text-[#1D2D2E] text-left max-w-[250px] truncate font-black">
-                    {selectedBooking.tripTitle}
-                  </strong>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
-                    <span className="text-gray-600 block text-[10px] font-bold">عدد المسافرين:</span>
-                    <strong className="text-[#1D2D2E] text-base font-black font-mono">{selectedBooking.travelerCount} أشخاص</strong>
-                  </div>
-                  <div className="p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E]">
-                    <span className="text-gray-600 block text-[10px] font-bold">المبلغ الإجمالي:</span>
-                    <strong className="text-[#FF7E47] text-base font-black font-mono">
-                      {selectedBooking.totalPrice.toLocaleString()} {selectedBooking.currency}
-                    </strong>
-                  </div>
-                </div>
-
-                {selectedBooking.notes && (
-                  <div className="p-3 rounded-xl bg-[#FDFFF5] border-2 border-[#1D2D2E] space-y-1">
-                    <span className="text-gray-600 block text-[10px] font-bold">ملاحظات العميل:</span>
-                    <p className="text-[#1D2D2E] font-bold">{selectedBooking.notes}</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-end gap-2 pt-2 border-t-2 border-[#1D2D2E]/15">
-                <button
-                  type="button"
-                  onClick={() => window.print()}
-                  className="px-4 py-2 rounded-xl bg-white hover:bg-[#FDFFF5] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] font-black text-xs flex items-center gap-1.5 cursor-pointer"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>طباعة السند</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSelectedBooking(null)}
-                  className="px-5 py-2 rounded-xl bg-[#FFD95A] hover:bg-[#fcd34d] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs cursor-pointer"
-                >
-                  إغلاق
-                </button>
-              </div>
-            </div>
-          </div>
+          <BookingVoucherModal
+            booking={selectedBooking}
+            onClose={() => setSelectedBooking(null)}
+          />
         )}
       </div>
     </AdminLayout>
