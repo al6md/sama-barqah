@@ -36,7 +36,6 @@ export default function TripDetailPage() {
 
   const [trip, setTrip] = useState<Trip | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [activeDayAccordion, setActiveDayAccordion] = useState<number | null>(1);
 
@@ -98,7 +97,6 @@ export default function TripDetailPage() {
     );
   }
 
-  const images = trip.images && trip.images.length > 0 ? trip.images : [trip.mainImage];
   const remainingSeats = Math.max(0, trip.maxSeats - trip.bookedSeats);
   const isFull = remainingSeats <= 0;
 
@@ -170,36 +168,16 @@ export default function TripDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Column (2 Cols) */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Photo Gallery Component */}
-            <div className="bg-white p-4 rounded-[28px] border-3 border-[#1D2D2E] shadow-[6px_6px_0px_#1D2D2E] space-y-3">
+            {/* Trip Main Image (Determined by Admin) */}
+            <div className="bg-white p-4 rounded-[28px] border-3 border-[#1D2D2E] shadow-[6px_6px_0px_#1D2D2E]">
               <div className="relative aspect-[16/9] rounded-[20px] overflow-hidden bg-slate-100 border-2 border-[#1D2D2E]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={images[selectedImageIndex] || trip.mainImage}
+                  src={trip.mainImage || (trip.images && trip.images[0]) || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80'}
                   alt={trip.title}
-                  className="w-full h-full object-cover transition-all duration-300"
+                  className="w-full h-full object-cover"
                 />
               </div>
-
-              {/* Thumbnails */}
-              {images.length > 1 && (
-                <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                  {images.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedImageIndex(idx)}
-                      className={`relative w-20 h-14 rounded-xl overflow-hidden shrink-0 border-2 transition-all cursor-pointer ${
-                        selectedImageIndex === idx
-                          ? 'border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] scale-105'
-                          : 'border-transparent opacity-70 hover:opacity-100'
-                      }`}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img} alt="" className="w-full h-full object-cover" />
-                    </button>
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Overview & Quick Info */}
