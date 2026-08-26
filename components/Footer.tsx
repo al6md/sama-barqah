@@ -81,7 +81,15 @@ export function Footer() {
             <ul className="space-y-2.5 text-xs sm:text-sm text-[#1D2D2E]/90 font-bold">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-[#FF7E47] shrink-0 mt-0.5" />
-                <span>كربلاء — نهاية شارع الإسكان — محلات الملعب القديم</span>
+                <a
+                  href="https://maps.app.goo.gl/gphLRsyL9b4od3PW7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#FF7E47] hover:underline"
+                  title="عرض الموقع على خرائط Google"
+                >
+                  كربلاء - نهاية شارع الاسكان - محلات ملعب القديم 🗺️
+                </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#4CC9FE] shrink-0" />

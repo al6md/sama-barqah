@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       dailyProgram: body.dailyProgram || [],
       includedServices: body.includedServices || ['باصات VIP حديثة مكيفة', 'إقامة فندقية راقية', 'مرشد سياحي مرافق'],
       excludedServices: body.excludedServices || ['المصاريف الشخصية', 'الطلبات الإضافية في الفندق'],
-      departureInfo: body.departureInfo || 'كربلاء — نهاية شارع الإسكان — محلات الملعب القديم',
+      departureInfo: body.departureInfo || 'كربلاء - نهاية شارع الاسكان - محلات ملعب القديم',
       visitedSpots: body.visitedSpots || [],
       status: body.status || 'active',
       isFeatured: Boolean(body.isFeatured),

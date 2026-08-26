@@ -7,6 +7,9 @@ import { Footer } from '@/components/Footer';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { TripCard } from '@/components/TripCard';
 import { BookingModal } from '@/components/BookingModal';
+import { AuthCard } from '@/components/AuthCard';
+import { CompanyMap } from '@/components/CompanyMap';
+import { useUserAuth } from '@/contexts/UserAuthContext';
 import { Trip } from '@/lib/db';
 import {
   Compass,
@@ -21,12 +24,14 @@ import {
   Hotel,
   Clock,
   ArrowLeft,
-  Star,
   CheckCircle2,
-  PhoneCall
+  PhoneCall,
+  LogIn,
+  UserCheck
 } from 'lucide-react';
 
 export default function HomePage() {
+  const { isLoggedIn, isGuest, user, loading: authLoading } = useUserAuth();
   const [trips, setTrips] = useState<Trip[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedTripForBooking, setSelectedTripForBooking] = useState<Trip | null>(null);
@@ -59,6 +64,86 @@ export default function HomePage() {
     if (searchTravelers) query.set('travelers', searchTravelers);
     window.location.href = `/trips?${query.toString()}`;
   };
+
+  // If user is not logged in (neither registered customer nor guest), show the Login Gateway first!
+  if (!authLoading && !isLoggedIn) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#FDFFF5] text-[#1D2D2E] relative overflow-x-hidden">
+        <Navbar brandOnly />
+
+        {/* Organic Blobs Background */}
+        <div className="absolute top-20 left-6 pointer-events-none -z-10 opacity-35">
+          <svg width="280" height="280" viewBox="0 0 200 200">
+            <path
+              fill="#FFD95A"
+              d="M44.7,-76.4C58.3,-69.2,70.1,-58.5,78.2,-45.5C86.3,-32.5,90.8,-17.2,90.2,-2C89.5,13.2,83.7,28.3,75.1,41.9C66.5,55.5,55.1,67.6,41.4,75.6C27.7,83.5,11.8,87.4,-3.2,93C-18.2,98.6,-32.3,105.8,-45.1,101.9C-57.9,98.1,-69.5,83.1,-77.4,67.4C-85.3,51.8,-89.6,35.4,-91.1,19.2C-92.6,3,-91.3,-13,-85.4,-27.1C-79.5,-41.2,-69,-53.4,-56.3,-61.2C-43.5,-69,-28.6,-72.4,-14.2,-78.3C0.2,-84.2,14.7,-92.5,29.1,-91.8C43.5,-91.1,31.1,-83.6,44.7,-76.4Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        <div className="absolute bottom-20 right-[-40px] pointer-events-none -z-10 opacity-25">
+          <svg width="300" height="300" viewBox="0 0 200 200">
+            <path
+              fill="#A5F3CF"
+              d="M38.1,-63.9C50.5,-57.8,62.3,-49.4,70.2,-37.8C78.1,-26.2,82.1,-11.4,80.7,2.8C79.3,17,72.5,30.6,63.4,42.2C54.3,53.8,42.9,63.4,29.7,70.1C16.5,76.8,1.5,80.6,-13.9,79.5C-29.3,78.4,-45.1,72.4,-56.9,61.9C-68.7,51.4,-76.5,36.4,-80.7,20.4C-84.9,4.4,-85.5,-12.6,-79.8,-27.1C-74.1,-41.6,-62.1,-53.6,-48.5,-59.4C-34.9,-65.2,-19.7,-64.8,-4.7,-57.8C10.3,-50.8,25.7,-70,38.1,-63.9Z"
+              transform="translate(100 100)"
+            />
+          </svg>
+        </div>
+
+        <main className="flex-1 py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full flex flex-col items-center justify-center space-y-8 animate-in fade-in duration-300">
+          
+          {/* Welcome Banner */}
+          <div className="text-center space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 bg-[#FFD95A] text-[#1D2D2E] font-black text-xs sm:text-sm px-4 py-1.5 rounded-full border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E]">
+              <span>مرحباً بكم في بوابة سما البارقة للسياحة والسفر ✨</span>
+            </div>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#1D2D2E] leading-tight">
+              سجل دخولك أو اضغط تصفح الرحلات <br />
+              <span className="text-[#FF7E47]">لاستكشاف ومتابعة أروع الرحلات</span>
+            </h1>
+            <p className="text-xs sm:text-sm font-bold text-gray-600">
+              تابع حجوزاتك، واستخرج سندات السفر الرسمية، واستكشف أجمل وجهات كردستان العراق والعروض الحصرية
+            </p>
+          </div>
+
+          {/* Centered Auth Card */}
+          <AuthCard initialTab="login" showExploreOption={true} />
+
+          {/* Quick Agency Highlights */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl pt-4">
+            <div className="p-4 bg-white rounded-2xl border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] text-center space-y-1">
+              <div className="w-8 h-8 rounded-xl bg-[#A5F3CF] border border-[#1D2D2E] flex items-center justify-center mx-auto text-[#1D2D2E]">
+                <ShieldCheck className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-black text-[#1D2D2E]">شركة مجازة ورسمية</h4>
+              <p className="text-[10px] text-gray-500 font-bold">إجازة ممارسة المهنة رقم 648</p>
+            </div>
+
+            <div className="p-4 bg-white rounded-2xl border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] text-center space-y-1">
+              <div className="w-8 h-8 rounded-xl bg-[#FFD95A] border border-[#1D2D2E] flex items-center justify-center mx-auto text-[#1D2D2E]">
+                <MapPin className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-black text-[#1D2D2E]">مقر الشركة في كربلاء</h4>
+              <p className="text-[10px] text-gray-500 font-bold">كربلاء - نهاية شارع الاسكان - محلات ملعب القديم</p>
+            </div>
+
+            <div className="p-4 bg-white rounded-2xl border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] text-center space-y-1">
+              <div className="w-8 h-8 rounded-xl bg-[#FF7E47]/20 border border-[#1D2D2E] flex items-center justify-center mx-auto text-[#FF7E47]">
+                <PhoneCall className="w-4 h-4" />
+              </div>
+              <h4 className="text-xs font-black text-[#1D2D2E]">خدمة الزبائن المباشرة</h4>
+              <p className="text-[10px] text-gray-500 font-bold font-mono" dir="ltr">0778 252 8287</p>
+            </div>
+          </div>
+        </main>
+
+        <Footer />
+        <FloatingWhatsApp />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#FDFFF5] text-[#1D2D2E] relative overflow-x-hidden">
@@ -276,7 +361,7 @@ export default function HomePage() {
               {/* Trust Box */}
               <div className="bg-white/40 border-2 border-[#1D2D2E]/20 rounded-2xl p-3.5 text-xs font-bold text-[#1D2D2E] leading-relaxed">
                 <strong className="block text-sm font-black text-[#1D2D2E] mb-0.5">سما البارقة — كربلاء ✨</strong>
-                📍 كربلاء — نهاية شارع الإسكان — محلات الملعب القديم<br />
+                📍 كربلاء - نهاية شارع الاسكان - محلات ملعب القديم<br />
                 <span className="inline-block mt-1 text-[#1D2D2E]">📞 خط الحجز المباشر: <a href="tel:07782528287" className="font-black underline" dir="ltr">0778 252 8287</a></span>
               </div>
             </aside>
@@ -470,81 +555,23 @@ export default function HomePage() {
       </section>
 
       {/* =========================================================================
-          CUSTOMER TESTIMONIALS (آراء المسافرين)
+          COMPANY LOCATION MAP SECTION
       ========================================================================= */}
-      <section id="testimonials-section" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-          <span className="text-xs font-black bg-[#FFD95A] text-[#1D2D2E] border-2 border-[#1D2D2E] px-3 py-1 rounded-full shadow-[2px_2px_0px_#1D2D2E] uppercase inline-block">
-            شهادات نعتز بها ⭐
-          </span>
-          <h2 className="text-3xl font-black text-[#1D2D2E]">
-            تجارب المسافرين مع سما البارقة
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Testimonial 1 */}
-          <div className="bg-white p-6 rounded-[24px] border-3 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] space-y-4">
-            <div className="flex items-center gap-1 text-amber-500">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-amber-400" />
-              ))}
-            </div>
-            <p className="text-xs sm:text-sm text-[#1D2D2E]/80 font-bold leading-relaxed">
-              «من أجمل الرحلات التي قمت بها مع عائلتي إلى السليمانية ودوكان. الفندق كان راقياً جداً والباص مريح للغاية، والمرشد السياحي كان قمة في الذوق والتعاون.»
+      <section id="company-location-map" className="pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="space-y-4">
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-xs font-black text-[#FF7E47] bg-[#FFD95A]/40 px-3.5 py-1 rounded-full border border-[#1D2D2E]">
+              مقر ومكتب الشركة 📍
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-[#1D2D2E]">
+              تفضلوا بزيارتنا في مقر سما البارقة
+            </h2>
+            <p className="text-xs sm:text-sm font-bold text-gray-600">
+              يسعدنا استقبالكم في مكتبنا الرئيسي لتأكيد الحجوزات، استلام سندات السفر، والاستفسار عن كافة رحلاتنا
             </p>
-            <div className="flex items-center gap-3 pt-3 border-t-2 border-dashed border-[#1D2D2E]/20">
-              <div className="w-9 h-9 rounded-full bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] font-black flex items-center justify-center text-xs">
-                ع.ب
-              </div>
-              <div>
-                <h4 className="text-xs font-black text-[#1D2D2E]">د. علي البغدادي</h4>
-                <span className="text-[11px] text-[#1D2D2E]/60 font-bold">رحلة السليمانية العائلية</span>
-              </div>
-            </div>
           </div>
 
-          {/* Testimonial 2 */}
-          <div className="bg-white p-6 rounded-[24px] border-3 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] space-y-4">
-            <div className="flex items-center gap-1 text-amber-500">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-amber-400" />
-              ))}
-            </div>
-            <p className="text-xs sm:text-sm text-[#1D2D2E]/80 font-bold leading-relaxed">
-              «خدمة الحجز من الموقع كانت سريعة وتواصلوا معي على الواتساب خلال دقائق لتأكيد المقاعد. رحلة دهوك وزاخو كانت منظمة بأعلى مستوى، شكراً لفريق سما البارقة.»
-            </p>
-            <div className="flex items-center gap-3 pt-3 border-t-2 border-dashed border-[#1D2D2E]/20">
-              <div className="w-9 h-9 rounded-full bg-[#4CC9FE] border-2 border-[#1D2D2E] text-[#1D2D2E] font-black flex items-center justify-center text-xs">
-                م.ك
-              </div>
-              <div>
-                <h4 className="text-xs font-black text-[#1D2D2E]">المهندسة مروة الكرخي</h4>
-                <span className="text-[11px] text-[#1D2D2E]/60 font-bold">رحلة دهوك وزاخو</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Testimonial 3 */}
-          <div className="bg-white p-6 rounded-[24px] border-3 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] space-y-4">
-            <div className="flex items-center gap-1 text-amber-500">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-amber-400" />
-              ))}
-            </div>
-            <p className="text-xs sm:text-sm text-[#1D2D2E]/80 font-bold leading-relaxed">
-              «الالتزام بالمواعيد والبرنامج السياحي الدقيق أكثر ما يميز هذه الشركة. كانت تجربة تلفريك جبل كورك والأهوار ممتازة وممتعة للغاية.»
-            </p>
-            <div className="flex items-center gap-3 pt-3 border-t-2 border-dashed border-[#1D2D2E]/20">
-              <div className="w-9 h-9 rounded-full bg-[#A5F3CF] border-2 border-[#1D2D2E] text-[#1D2D2E] font-black flex items-center justify-center text-xs">
-                ح.س
-              </div>
-              <div>
-                <h4 className="text-xs font-black text-[#1D2D2E]">أ. حسام السعدي</h4>
-                <span className="text-[11px] text-[#1D2D2E]/60 font-bold">رحلة أربيل وراوندوز</span>
-              </div>
-            </div>
-          </div>
+          <CompanyMap />
         </div>
       </section>
 

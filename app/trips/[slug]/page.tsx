@@ -7,6 +7,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { BookingModal } from '@/components/BookingModal';
+import { useUserAuth } from '@/contexts/UserAuthContext';
 import { Trip } from '@/lib/db';
 import {
   Calendar,
@@ -23,13 +24,15 @@ import {
   Sparkles,
   ArrowRight,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Lock
 } from 'lucide-react';
 
 export default function TripDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const router = useRouter();
+  const { isGuest, isLoggedIn } = useUserAuth();
 
   const [trip, setTrip] = useState<Trip | null>(null);
   const [loading, setLoading] = useState(true);
@@ -388,10 +391,29 @@ export default function TripDetailPage() {
                 id="sidebar-book-now-btn"
                 disabled={isFull}
                 onClick={() => setIsBookingModalOpen(true)}
-                className="w-full py-4 px-6 rounded-2xl text-sm font-black text-white bg-[#FF7E47] hover:bg-[#e66a35] border-2 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className={`w-full py-4 px-6 rounded-2xl text-xs sm:text-sm font-black border-2 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] active:scale-98 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2 ${
+                  isGuest || !isLoggedIn
+                    ? 'bg-[#FFD95A] text-[#1D2D2E] hover:bg-[#fbd34c]'
+                    : 'bg-[#FF7E47] text-white hover:bg-[#e66a35]'
+                }`}
               >
-                {isFull ? 'عذراً، المقاعد مكتملة' : 'احجز مقعدك الآن مباشرة 🎟️'}
+                {isFull ? (
+                  'عذراً، المقاعد مكتملة'
+                ) : isGuest || !isLoggedIn ? (
+                  <>
+                    <Lock className="w-4 h-4 text-[#FF7E47]" />
+                    <span>طلب حجز المقعد (يتطلب حساب) 🔒</span>
+                  </>
+                ) : (
+                  <span>احجز مقعدك الآن مباشرة 🎟️</span>
+                )}
               </button>
+
+              {isGuest && (
+                <div className="p-3 rounded-xl bg-[#FDFFF5] border border-[#1D2D2E]/30 text-[11px] font-bold text-gray-700 text-center">
+                  👁️ أنت في وضع تصفح الرحلات كزائر. لإتمام الحجز وتثبيت التذاكر اضغط على الزر لإنشاء حسابك.
+                </div>
+              )}
 
               <div className="pt-4 border-t-2 border-dashed border-[#1D2D2E]/20 space-y-3">
                 <a

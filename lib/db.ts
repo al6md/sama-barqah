@@ -138,6 +138,17 @@ export interface VisitorAnalytics {
   }>;
 }
 
+export interface UserAccount {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  password?: string;
+  role: 'customer' | 'guest';
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface DatabaseSchema {
   trips: Trip[];
   bookings: Booking[];
@@ -145,6 +156,7 @@ export interface DatabaseSchema {
   notifications: NotificationItem[];
   siteSettings: SiteSettings;
   analytics: VisitorAnalytics;
+  users?: UserAccount[];
   adminCredentials: {
     username: string;
     email: string;
@@ -501,6 +513,29 @@ const INITIAL_ADMIN = {
   name: 'مدير النظام - سما البارقة'
 };
 
+const INITIAL_USERS: UserAccount[] = [
+  {
+    id: 'user-ali-1',
+    name: 'علي ماجد',
+    phone: '07782528287',
+    email: 'ali@example.com',
+    password: '123456',
+    role: 'customer',
+    createdAt: '2026-08-15T10:00:00Z',
+    updatedAt: '2026-08-15T10:00:00Z'
+  },
+  {
+    id: 'user-zainab-2',
+    name: 'زينب الموسوي',
+    phone: '07801234567',
+    email: 'zainab@example.com',
+    password: '123456',
+    role: 'customer',
+    createdAt: '2026-08-20T12:00:00Z',
+    updatedAt: '2026-08-20T12:00:00Z'
+  }
+];
+
 function getInitialData(): DatabaseSchema {
   return {
     trips: INITIAL_TRIPS,
@@ -524,6 +559,7 @@ function getInitialData(): DatabaseSchema {
     ],
     siteSettings: INITIAL_SETTINGS,
     analytics: INITIAL_ANALYTICS,
+    users: INITIAL_USERS,
     adminCredentials: INITIAL_ADMIN
   };
 }
@@ -533,6 +569,7 @@ let inMemoryDb: DatabaseSchema | null = null;
 export function getDatabase(): DatabaseSchema {
   if (inMemoryDb) {
     if (!inMemoryDb.notifications) inMemoryDb.notifications = [];
+    if (!inMemoryDb.users) inMemoryDb.users = [...INITIAL_USERS];
     return inMemoryDb;
   }
 
@@ -540,8 +577,9 @@ export function getDatabase(): DatabaseSchema {
     if (fs.existsSync(DB_FILE_PATH)) {
       const raw = fs.readFileSync(DB_FILE_PATH, 'utf-8');
       inMemoryDb = JSON.parse(raw);
-      if (inMemoryDb && !inMemoryDb.notifications) {
-        inMemoryDb.notifications = [];
+      if (inMemoryDb) {
+        if (!inMemoryDb.notifications) inMemoryDb.notifications = [];
+        if (!inMemoryDb.users || inMemoryDb.users.length === 0) inMemoryDb.users = [...INITIAL_USERS];
       }
       return inMemoryDb!;
     }
@@ -1026,5 +1064,143 @@ export const db = {
     data.adminCredentials.passwordHash = newPass.trim();
     saveDatabase(data);
     return true;
+  },
+
+  // Customer User Management & Guest Sessions
+  getUsers: (): UserAccount[] => {
+    const data = getDatabase();
+    if (!data.users) data.users = [...INITIAL_USERS];
+    return data.users;
+  },
+
+  getUserById: (id: string): UserAccount | undefined => {
+    const data = getDatabase();
+    if (!data.users) data.users = [...INITIAL_USERS];
+    return data.users.find(u => u.id === id);
+  },
+
+  getUserByPhone: (phone: string): UserAccount | undefined => {
+    const data = getDatabase();
+    if (!data.users) data.users = [...INITIAL_USERS];
+    const clean = phone.replace(/\D/g, '');
+    return data.users.find(u => {
+      const uPhone = u.phone.replace(/\D/g, '');
+      return uPhone === clean || (uPhone.endsWith(clean) && clean.length >= 7) || (clean.endsWith(uPhone) && uPhone.length >= 7);
+    });
+  },
+
+  getUserByEmail: (email: string): UserAccount | undefined => {
+    const data = getDatabase();
+    if (!data.users) data.users = [...INITIAL_USERS];
+    const clean = email.trim().toLowerCase();
+    return data.users.find(u => u.email && u.email.trim().toLowerCase() === clean);
+  },
+
+  createUser: (userData: {
+    name: string;
+    phone: string;
+    email?: string;
+    password?: string;
+    role?: 'customer' | 'guest';
+  }): { success: boolean; user?: UserAccount; error?: string } => {
+    const data = getDatabase();
+    if (!data.users) data.users = [...INITIAL_USERS];
+
+    const cleanPhone = userData.phone.replace(/\D/g, '');
+    if (!userData.name || userData.name.trim().length < 2) {
+      return { success: false, error: 'يرجى إدخال اسم صحيح' };
+    }
+
+    if (userData.role !== 'guest' && cleanPhone.length < 8) {
+      return { success: false, error: 'يرجى إدخال رقم هاتف صحيح' };
+    }
+
+    // If customer registration, check if phone already registered
+    if (userData.role !== 'guest') {
+      const existing = data.users.find(u => u.role !== 'guest' && u.phone.replace(/\D/g, '') === cleanPhone);
+      if (existing) {
+        return { success: false, error: 'رقم الهاتف هذا مسجل بالفعل. يرجى تسجيل الدخول بدلاً من ذلك.' };
+      }
+    }
+
+    const id = userData.role === 'guest'
+      ? `guest-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`
+      : `user-${Date.now()}`;
+
+    const newUser: UserAccount = {
+      id,
+      name: userData.name.trim(),
+      phone: userData.phone.trim(),
+      email: userData.email?.trim() || undefined,
+      password: userData.password?.trim() || undefined,
+      role: userData.role || 'customer',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    data.users.push(newUser);
+    saveDatabase(data);
+    return { success: true, user: newUser };
+  },
+
+  updateUserProfile: (id: string, updates: Partial<UserAccount>): UserAccount | null => {
+    const data = getDatabase();
+    if (!data.users) data.users = [...INITIAL_USERS];
+    const index = data.users.findIndex(u => u.id === id);
+    if (index === -1) return null;
+
+    data.users[index] = {
+      ...data.users[index],
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    saveDatabase(data);
+    return data.users[index];
+  },
+
+  getBookingsByPhone: (phone: string): Booking[] => {
+    const data = getDatabase();
+    const clean = phone.replace(/\D/g, '');
+    if (!clean) return [];
+
+    return data.bookings
+      .filter(b => {
+        const bPhone = b.customerPhone.replace(/\D/g, '');
+        return bPhone === clean || (bPhone.endsWith(clean) && clean.length >= 7) || (clean.endsWith(bPhone) && bPhone.length >= 7);
+      })
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  },
+
+  searchBookingsForTracking: (query: string): Booking[] => {
+    const data = getDatabase();
+    const cleanQuery = query.trim().toLowerCase();
+    if (!cleanQuery) return [];
+
+    const cleanNumeric = query.replace(/\D/g, '');
+
+    return data.bookings.filter(b => {
+      // 1. Exact or partial Booking ID match
+      const bId = b.id.toLowerCase();
+      if (bId === cleanQuery || bId.includes(cleanQuery) || cleanQuery.includes(bId)) {
+        return true;
+      }
+      // If user typed only numbers (e.g. "0002" or "2" or "2026")
+      if (cleanNumeric.length >= 2 && bId.replace(/\D/g, '').includes(cleanNumeric)) {
+        return true;
+      }
+
+      // 2. Phone number match
+      const bPhone = b.customerPhone.replace(/\D/g, '');
+      if (cleanNumeric.length >= 6 && (bPhone.includes(cleanNumeric) || cleanNumeric.includes(bPhone))) {
+        return true;
+      }
+
+      // 3. Customer name match
+      if (cleanQuery.length >= 3 && b.customerName.toLowerCase().includes(cleanQuery)) {
+        return true;
+      }
+
+      return false;
+    }).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 };

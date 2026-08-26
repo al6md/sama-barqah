@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
-import { CheckCircle2, MessageSquare, Printer, ArrowRight, ShieldCheck, Calendar, Users, Phone, MapPin, Compass } from 'lucide-react';
+import { BookingVoucherModal } from '@/components/BookingVoucherModal';
+import { Booking } from '@/lib/db';
+import { CheckCircle2, MessageSquare, Printer, ArrowRight, ShieldCheck, Calendar, Users, Phone, MapPin, Compass, Search } from 'lucide-react';
 
 function BookingSuccessContent() {
   const searchParams = useSearchParams();
@@ -18,8 +20,35 @@ function BookingSuccessContent() {
   const tripDate = searchParams.get('date') || '';
   const waUrl = searchParams.get('waUrl') || '';
 
-  const handlePrint = () => {
-    window.print();
+  const [showVoucherModal, setShowVoucherModal] = useState(false);
+
+  const travelers = Math.max(1, Number(travelerCount) || 1);
+  const total = Number(totalPrice) || 0;
+  const unitPrice = travelers > 0 ? Math.round(total / travelers) : total;
+
+  const mockBookingForVoucher: Booking = {
+    id,
+    tripId: 'trip-1',
+    tripTitle,
+    destination: 'كردستان العراق / الشمال',
+    tripDate: tripDate || 'حسب الجدول المعلن',
+    customerName,
+    customerPhone,
+    travelerCount: travelers,
+    pricePerPerson: unitPrice,
+    totalPrice: total,
+    currency: 'د.ع',
+    preferredContactMethod: 'whatsapp',
+    status: 'جديد',
+    statusHistory: [
+      {
+        status: 'جديد',
+        changedAt: new Date().toISOString(),
+        note: 'تم تسجيل طلب الحجز بنجاح عبر الموقع'
+      }
+    ],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   };
 
   return (
@@ -28,7 +57,7 @@ function BookingSuccessContent() {
         <Navbar />
       </div>
 
-      <main className="flex-1 py-32 max-w-3xl mx-auto px-4 sm:px-6 w-full">
+      <main className="flex-1 py-16 sm:py-24 max-w-3xl mx-auto px-4 sm:px-6 w-full">
         <div className="bg-white rounded-[28px] border-3 border-[#1D2D2E] shadow-[8px_8px_0px_#1D2D2E] p-6 sm:p-10 space-y-8 animate-in zoom-in-95 duration-300">
           {/* Header Success State */}
           <div className="text-center space-y-3">
@@ -52,13 +81,13 @@ function BookingSuccessContent() {
           {/* Reference ID Card */}
           <div className="p-6 rounded-[24px] bg-[#FF7E47] text-white border-3 border-[#1D2D2E] shadow-[4px_4px_0px_#1D2D2E] text-center space-y-1">
             <span className="text-xs text-white font-black uppercase tracking-widest block">
-              رقم الحجز المرجعي (Booking Reference)
+              الرقم المرجعي للحجز (Booking Reference)
             </span>
             <div className="text-3xl sm:text-4xl font-mono font-black text-white tracking-wider py-1">
-              {id}
+              #{id}
             </div>
             <span className="text-[11px] text-white/90 font-bold">
-              يرجى الاحتفاظ بهذا الرقم لمتابعة حالة الحجز مع الشركة
+              يرجى الاحتفاظ بهذا الرقم لمتابعة حالة الحجز وسند السفر في أي وقت
             </span>
           </div>
 
@@ -108,14 +137,14 @@ function BookingSuccessContent() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3 pt-2 no-print">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 pt-2 no-print">
             {waUrl && (
               <a
                 id="btn-success-whatsapp"
                 href={waUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 py-3.5 px-6 rounded-2xl bg-[#A5F3CF] hover:bg-[#92efc1] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="flex-1 min-w-[200px] py-3.5 px-5 rounded-2xl bg-[#A5F3CF] hover:bg-[#92efc1] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
               >
                 <MessageSquare className="w-4 h-4 text-[#1D2D2E]" />
                 <span>إرسال تأكيد الحجز فورا عبر واتساب 💬</span>
@@ -124,17 +153,26 @@ function BookingSuccessContent() {
 
             <button
               id="btn-print-voucher"
-              onClick={handlePrint}
-              className="py-3.5 px-6 rounded-2xl bg-[#FFD95A] hover:bg-[#ffe07b] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+              onClick={() => setShowVoucherModal(true)}
+              className="py-3.5 px-5 rounded-2xl bg-[#FFD95A] hover:bg-[#ffe07b] text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <Printer className="w-4 h-4 text-[#1D2D2E]" />
-              <span>طباعة سند الحجز 🖨️</span>
+              <span>معاينة وطباعة السند الرسمي 📄🖨️</span>
             </button>
+
+            <Link
+              id="btn-track-booking"
+              href={`/track-booking?query=${encodeURIComponent(id)}`}
+              className="py-3.5 px-5 rounded-2xl bg-white hover:bg-slate-100 text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+            >
+              <Search className="w-4 h-4 text-[#FF7E47]" />
+              <span>متابعة حالة الحجز 🔍</span>
+            </Link>
 
             <Link
               id="btn-return-home"
               href="/"
-              className="py-3.5 px-6 rounded-2xl bg-white hover:bg-slate-100 text-[#1D2D2E] border-2 border-[#1D2D2E] shadow-[3px_3px_0px_#1D2D2E] font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
+              className="py-3.5 px-4 rounded-2xl bg-gray-100 hover:bg-gray-200 text-[#1D2D2E] border-2 border-[#1D2D2E] font-black text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
             >
               <span>الرئيسية</span>
               <ArrowRight className="w-4 h-4" />
@@ -142,6 +180,13 @@ function BookingSuccessContent() {
           </div>
         </div>
       </main>
+
+      {showVoucherModal && (
+        <BookingVoucherModal
+          booking={mockBookingForVoucher}
+          onClose={() => setShowVoucherModal(false)}
+        />
+      )}
 
       <div className="no-print">
         <Footer />
@@ -157,3 +202,4 @@ export default function BookingSuccessPage() {
     </Suspense>
   );
 }
+

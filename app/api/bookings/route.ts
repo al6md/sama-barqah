@@ -48,6 +48,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'يرجى إدخال رقم هاتف صحيح للتواصل (مثل 0770xxxxxxx).' }, { status: 400 });
     }
 
+    if (body.customerPhone.startsWith('guest-')) {
+      return NextResponse.json({
+        success: false,
+        error: 'وضع التصفح كزائر مخصص للاستعراض فقط. يرجى تسجيل حساب برقم هاتف حقيقي لإتمام الحجز وتثبيت المقاعد.'
+      }, { status: 400 });
+    }
+
     const travelerCount = Number(body.travelerCount);
     if (isNaN(travelerCount) || travelerCount < 1 || travelerCount > 50) {
       return NextResponse.json({ success: false, error: 'يرجى تحديد عدد مسافرين صحيح (بين 1 و 50 شخص).' }, { status: 400 });

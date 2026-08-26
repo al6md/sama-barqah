@@ -5,6 +5,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { Phone, Mail, MapPin, MessageSquare, Send, CheckCircle2, AlertCircle, Clock, Loader2 } from 'lucide-react';
+import { CompanyMap } from '@/components/CompanyMap';
 
 export default function ContactPage() {
   const [name, setName] = useState('');
@@ -95,7 +96,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <span className="font-black text-[#1D2D2E] block mb-0.5">موقع الشركة والمكتب:</span>
-                  <span>كربلاء — نهاية شارع الإسكان — محلات الملعب القديم</span>
+                  <span>كربلاء - نهاية شارع الاسكان - محلات ملعب القديم</span>
                 </div>
               </div>
 
@@ -279,6 +280,11 @@ export default function ContactPage() {
             )}
           </div>
         </div>
+
+        {/* Google Maps Location Section */}
+        <section className="mt-12 space-y-4">
+          <CompanyMap />
+        </section>
       </main>
 
       <Footer />
