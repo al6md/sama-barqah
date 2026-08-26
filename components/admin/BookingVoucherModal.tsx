@@ -386,7 +386,7 @@ export function BookingVoucherModal({ booking, onClose }: BookingVoucherModalPro
   return (
     <div
       id="sama-voucher-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/75 backdrop-blur-xs overflow-y-auto modal-backdrop"
+      className="fixed inset-0 z-50 overflow-y-auto p-2 sm:p-4 bg-black/75 backdrop-blur-xs flex justify-center items-start sm:items-center min-h-screen modal-backdrop"
       onClick={onClose}
     >
       <div
