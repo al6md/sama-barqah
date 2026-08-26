@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { compressImageFile } from '@/lib/imageUtils';
 import {
   Image as ImageIcon,
   Upload,
@@ -13,7 +14,8 @@ import {
   AlertCircle,
   Eye,
   Layers,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 
 interface TripImageManagerProps {
@@ -84,56 +86,82 @@ export function TripImageManager({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [previewModalImg, setPreviewModalImg] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Handle local file conversion to base64 data URL
-  const processFile = (file: File, setAsMain: boolean = false) => {
+  // Handle local file conversion & optimization via Canvas compression
+  const processFiles = async (files: FileList | File[]) => {
     setErrorMsg(null);
-    if (!file.type.startsWith('image/')) {
-      setErrorMsg('يرجى اختيار ملف صورة صالح (JPG, PNG, WebP).');
-      return;
-    }
+    if (!files || files.length === 0) return;
 
-    if (file.size > 8 * 1024 * 1024) {
-      setErrorMsg('حجم الصورة كبير جداً، الحد الأقصى المسموح به هو 8 ميغابايت.');
-      return;
-    }
+    setIsProcessing(true);
+    try {
+      const validFiles = Array.from(files).filter((file) => {
+        if (!file.type.startsWith('image/')) {
+          setErrorMsg('يرجى اختيار ملفات صور فقط (JPG, PNG, WebP).');
+          return false;
+        }
+        if (file.size > 25 * 1024 * 1024) {
+          setErrorMsg('حجم الملف كبير جداً، يرجى اختيار صور أقل من 25 ميغابايت.');
+          return false;
+        }
+        return true;
+      });
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      if (result) {
-        if (setAsMain || !mainImage) {
-          onMainImageChange(result);
-        } else {
-          onGalleryImagesChange([...galleryImages, result]);
+      if (validFiles.length === 0) {
+        setIsProcessing(false);
+        return;
+      }
+
+      const compressedResults: string[] = [];
+      for (const file of validFiles) {
+        try {
+          const compressed = await compressImageFile(file, 1400, 1400, 0.82);
+          if (compressed) {
+            compressedResults.push(compressed);
+          }
+        } catch {
+          // Fallback to direct read
+          const reader = new FileReader();
+          const readPromise = new Promise<string>((res) => {
+            reader.onload = (e) => res((e.target?.result as string) || '');
+            reader.onerror = () => res('');
+            reader.readAsDataURL(file);
+          });
+          const raw = await readPromise;
+          if (raw) compressedResults.push(raw);
         }
       }
-    };
-    reader.onerror = () => {
-      setErrorMsg('حدث خطأ أثناء قراءة ملف الصورة.');
-    };
-    reader.readAsDataURL(file);
+
+      if (compressedResults.length > 0) {
+        if (!mainImage) {
+          onMainImageChange(compressedResults[0]);
+          if (compressedResults.length > 1) {
+            onGalleryImagesChange([...galleryImages, ...compressedResults.slice(1)]);
+          }
+        } else {
+          onGalleryImagesChange([...galleryImages, ...compressedResults]);
+        }
+      }
+    } catch {
+      setErrorMsg('حدث خطأ أثناء معالجة الصور، يرجى المحاولة مجدداً.');
+    } finally {
+      setIsProcessing(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
   };
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
-
-    for (let i = 0; i < files.length; i++) {
-      processFile(files[i], i === 0 && !mainImage);
+    if (e.target.files) {
+      processFiles(e.target.files);
     }
-    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragging(false);
-    const files = e.dataTransfer.files;
-    if (!files || files.length === 0) return;
-
-    for (let i = 0; i < files.length; i++) {
-      processFile(files[i], i === 0 && !mainImage);
+    if (e.dataTransfer.files) {
+      processFiles(e.dataTransfer.files);
     }
   };
 
@@ -260,13 +288,17 @@ export function TripImageManager({
         <div
           onDragOver={(e) => {
             e.preventDefault();
-            setIsDragging(true);
+            if (!isProcessing) setIsDragging(true);
           }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => {
+            if (!isProcessing) fileInputRef.current?.click();
+          }}
           className={`border-[3px] border-dashed rounded-3xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
-            isDragging
+            isProcessing
+              ? 'border-[#FF7E47] bg-[#FFD95A]/20 cursor-wait'
+              : isDragging
               ? 'border-[#FF7E47] bg-[#FFD95A]/30 scale-[0.99]'
               : 'border-[#1D2D2E] bg-[#FDFFF5] hover:bg-[#FFD95A]/20 shadow-[3px_3px_0px_#1D2D2E]'
           }`}
@@ -276,18 +308,35 @@ export function TripImageManager({
             type="file"
             accept="image/*"
             multiple
+            disabled={isProcessing}
             onChange={handleFileInputChange}
             className="hidden"
           />
-          <div className="w-12 h-12 rounded-2xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] flex items-center justify-center mx-auto mb-3">
-            <Upload className="w-6 h-6" />
-          </div>
-          <div className="font-black text-[#1D2D2E] text-xs sm:text-sm">
-            انقر لاختيار ملف صورة من جهازك، أو اسحب الصورة وأفلتها هنا
-          </div>
-          <p className="text-xs font-bold text-[#1D2D2E]/70 mt-1">
-            يدعم صيغ JPG, PNG, WEBP بدقة عالية (يمكنك اختيار أكثر من صورة معاً)
-          </p>
+          {isProcessing ? (
+            <div className="flex flex-col items-center justify-center py-2">
+              <div className="w-12 h-12 rounded-2xl bg-[#FF7E47] text-white border-2 border-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] flex items-center justify-center mx-auto mb-3 animate-spin">
+                <Loader2 className="w-6 h-6" />
+              </div>
+              <div className="font-black text-[#1D2D2E] text-sm">
+                جاري معالجة وضغط الصور وتحسين الجودة...
+              </div>
+              <p className="text-xs font-bold text-[#1D2D2E]/70 mt-1">
+                يتم ضغط الصورة تلقائياً لسرعة فائقة وضمان الحفظ الفوري
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="w-12 h-12 rounded-2xl bg-[#FFD95A] border-2 border-[#1D2D2E] text-[#1D2D2E] shadow-[2px_2px_0px_#1D2D2E] flex items-center justify-center mx-auto mb-3">
+                <Upload className="w-6 h-6" />
+              </div>
+              <div className="font-black text-[#1D2D2E] text-xs sm:text-sm">
+                انقر لاختيار ملف صورة من جهازك، أو اسحب الصورة وأفلتها هنا
+              </div>
+              <p className="text-xs font-bold text-[#1D2D2E]/70 mt-1">
+                يدعم صيغ JPG, PNG, WEBP بدقة عالية وسرعة فائقة (يمكنك اختيار أكثر من صورة معاً)
+              </p>
+            </>
+          )}
         </div>
       )}
 

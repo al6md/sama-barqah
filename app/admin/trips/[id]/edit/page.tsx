@@ -143,9 +143,16 @@ export default function AdminEditTripPage() {
     setSubmitting(true);
 
     try {
+      const effectiveMainImage =
+        mainImage.trim() ||
+        galleryImages[0]?.trim() ||
+        'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80';
+
       const allImages = [
-        mainImage.trim(),
-        ...galleryImages.map((img) => img.trim()).filter((img) => img.length > 0 && img !== mainImage.trim())
+        effectiveMainImage,
+        ...galleryImages
+          .map((img) => img.trim())
+          .filter((img) => img.length > 0 && img !== effectiveMainImage)
       ];
 
       const headers = getClientAdminHeaders();
@@ -166,7 +173,7 @@ export default function AdminEditTripPage() {
           endDate: endDate || startDate,
           maxSeats: Number(maxSeats) || 40,
           bookedSeats: Number(bookedSeats) || 0,
-          mainImage: mainImage.trim(),
+          mainImage: effectiveMainImage,
           images: allImages,
           departureInfo: departureInfo.trim(),
           includedServices,
